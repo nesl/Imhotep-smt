@@ -1,99 +1,134 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset='utf-8'>
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="viewport" content="width=640">
-
-    <link rel="stylesheet" href="stylesheets/core.css" media="screen">
-    <link rel="stylesheet" href="stylesheets/mobile.css" media="handheld, only screen and (max-device-width:640px)">
-    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-
-    <script type="text/javascript" src="javascripts/modernizr.js"></script>
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-    <script type="text/javascript" src="javascripts/headsmart.min.js"></script>
-    <script type="text/javascript">
-      $(document).ready(function () {
-        $('#main_content').headsmart()
-      })
-    </script>
-    <title>Imhotep-smt by nesl</title>
-  </head>
-
-  <body>
-    <a id="forkme_banner" href="https://github.com/nesl/Imhotep-smt">View on GitHub</a>
-    <div class="shell">
-
-      <header>
-        <span class="ribbon-outer">
-          <span class="ribbon-inner">
-            <h1>Imhotep-smt</h1>
-            <h2>A Satisfiability-Modulo-Theory (SMT) based estimator for secure estimation under adversarial sensor attacks. </h2>
-          </span>
-          <span class="left-tail"></span>
-          <span class="right-tail"></span>
-        </span>
-      </header>
-
-      <section id="downloads">
-        <span class="inner">
-          <a href="https://github.com/nesl/Imhotep-smt/zipball/master" class="zip"><em>download</em> .ZIP</a><a href="https://github.com/nesl/Imhotep-smt/tarball/master" class="tgz"><em>download</em> .TGZ</a>
-        </span>
-      </section>
-
-
-      <span class="banner-fix"></span>
-
-
-      <section id="main_content">
-        <h3>
-<a id="what-is-estimation-problem" class="anchor" href="#what-is-estimation-problem" aria-hidden="true"><span class="octicon octicon-link"></span></a>What is Estimation Problem?</h3>
-
-<hr>
-
-<p>Estimation is a classical problem that arises naturally in statistics, signal processing and control of dynamical systems. In  this problem, a hidden state of a particular system is observed through a set of noisy measurements. Each noisy measurements observes part of the state. The objective of the estimation problem is to retrieve/reconstruct the hidden state out from these noisy measurements. </p>
-
-<h3>
-<a id="what-is-secure-estimation-problem" class="anchor" href="#what-is-secure-estimation-problem" aria-hidden="true"><span class="octicon octicon-link"></span></a>What is Secure Estimation Problem?</h3>
-
-<hr>
-
-<p>With the current coupling between cyber components (e.g. microcontrollers) and physical systems, many attacking vectors is created that never existed before. In particular, an adversarial attacker can spoof/manipulate sensor readings such that the state of the system is incorrectly estimated. Incorrect estimation of the state can lead to catastrophic sequences. For example, in the following video, we show how incorrect estimation of the vehicle state can lead to loosing control of a vehicle.</p>
-
-<h3>
-<a id="imhotep-smt-estimator" class="anchor" href="#imhotep-smt-estimator" aria-hidden="true"><span class="octicon octicon-link"></span></a>Imhotep-SMT Estimator:</h3>
-
-<hr>
-
-<p>The secure estimation problem is NP-hard problem. Imhotep-SMT is a tool that can perform estimation of system's state from noisy measurements which is corrupted by an adversarial attack. The tool leverages ideas from literature of formal verification to the estimation world. </p>
-
-<h3>
-<a id="who-is-imhotep" class="anchor" href="#who-is-imhotep" aria-hidden="true"><span class="octicon octicon-link"></span></a>Who is Imhotep:</h3>
-
-<hr>
-
-<p>Imhotep is an Egyptian poly mathematician, engineer and architect. He engineered the oldest pyramid that is know in history (named Sakara pyramid). He is considered the first author in history to write a manuscript on Mathematics.</p>
-
-<h3>
-<a id="authors-and-contributors" class="anchor" href="#authors-and-contributors" aria-hidden="true"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
-
-<p>This SMT solver is developed by Yasser Shoukry <a href="https://github.com/yshoukry" class="user-mention">@yshoukry</a>.</p>
-      </section>
-
-      <footer>
-        <span class="ribbon-outer">
-          <span class="ribbon-inner">
-            <p>this project by <a href="https://github.com/nesl">nesl</a> can be found on <a href="https://github.com/nesl/Imhotep-smt">GitHub</a></p>
-          </span>
-          <span class="left-tail"></span>
-          <span class="right-tail"></span>
-        </span>
-        <p>Generated with <a href="http://pages.github.com">GitHub Pages</a> using Merlot</p>
-        <span class="octocat"></span>
-      </footer>
-
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Imhotep-SMT</title>
+<link href="css/style.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="wrapper">
+  <div id="content">
+    <div id="header">
+      <div id="logo">
+        <h1> <img src="./images/Imhotep.png" alt="University of California, Berkeley" style="width:150px;height:230px"> </h1>
+        <!--
+        <h4>have your punchline here</h4>
+        -->
+      </div>
+      <div id="links">
+        <ul> 
+          <li><a href="#">Home</a></li>
+          <li><a href="#">Tutorial</a></li>
+          <li><a href="#">Downloads</a></li>
+          <li><a href="#">Examples</a></li>
+        </ul>
+      </div>
     </div>
+    <div id="mainimg">
+      <h3>Imhotep-SMT</h3>
+      <h4>Novel SMT solver for secure state estimation</h4>
+    </div>
+    <div id="contentarea">
+      <div id="leftbar">
+        <h2>Secure Cyber-Physical Systems!</h2>
+        <p>
+        Increased coupling between embedded computing technologies and modern control 
+        systems has opened the door for developing many engineering systems with increasing 
+        complexity. In such systems, commonly termed <i>cyber-physical systems</i> or CPS,
+        information from the physical world is quantized and processed using digital electronic
+    	components, and decisions taken by these "cyber components" are then applied 
+    	to the physical world. 
+    	</p>
+    	
+        <br />
+        
+        <p>
+		Unfortunately, this tight coupling between cyber components 
+    	and the physical world oftentimes leads to systems where increased sophistication 
+    	comes at the expense of increased vulnerability and security weaknesses. 
+    	 An important scenario is posed by a malicious adversary that can arbitrarily 
+    	 corrupt the measurements of a subset of sensors in the system. These 
+    	 sensor-related attacks can be deployed in any of the following components of a 
+    	 real-life CPS:
+        <ul> 
+          <li><b>Software:</b>
+          Malicious software running on the processor executing the sensor processing 
+          routine can access the sensor information before it is processed by the controller
+          itself. The Stuxnet malware is an infamous example of this category of attacks. 
+          It exploits vulnerabilities in the operating system running over SCADA devices and
+          once it obtains enough operating system privileges, it can corrupt the sensor 
+          measurements collected via the attacked SCADA device
+		  </li>
+		  <br />
+          <li><b>Network:</b>
+          Modern control systems rely on a networked infrastructure to exchange sensor 
+          information. Therefore, an adversarial attacker can corrupt sensor measurements
+          by manipulating the data packets exchanged between various components, as has been 
+          investigated, for instance, in smart grids.
+          </li>
+          <br />
+          <li><b>Sensors Spoofing:</b>
+          By tampering with the sensor hardware and/or environment, an adversary can mislead 
+          the sensor about the value of the physical signal it is attempting to measure. 
+          As previously shown by some researchers, it is possible to make drivers lose 
+          control of their cars by directly spoofing the velocity sensors of anti-lock braking 
+          systems in a non-invasive manner.
+          </li>
+        </ul>
+        
+        </p>
+        <br />
+        <h2>Imhotep-SMT: Secure State Estimator!</h2>
+        <p>
+        Imhotep-SMT is a novel Satisfiability-Modul-Theory solver that leverages results
+        from formal methods and convex optimization techniques in order to detect, on 
+        the real-time, if the sensor measurements collected from a dynamical system (e.g.
+        robotic/automotive/aerospace vehicle, smart grid, industrial refinery, ...) is
+        corrupted by an adversarial attack. So far, it can handle systems that can be 
+        described by a linear dynamical model, and in a near future will also support
+        some classes of nonlinear systems.
+        </p>
+        <br />
+        
+        <p>
+        Imhotep-SMT is developed by a group of researchers at University of California at 
+        Los Angeles and University of California at Berkeley.
+        </p>
+        <br />
+        
+        
+         <img src="./images/Imhotep_SMT.png" alt="Imhotep-SMT" style="width:504px;height:328px">
+         <br /><br /><br />
+        <p>
+        Note: Imhotep: (pronounced as "emmo-tepp") was an ancient Egyptian polymath
+who is considered to be the earliest known architect, engineer and physician
+in the early history. He is famous of the design of the oldest pyramid in Egypt;
+Pyramid of Djoser (the Step Pyramid) at Saqqara, Egypt, 2630 - 2611 BC.
+        </p>
+        
 
-    
-  </body>
+        <br />
+      </div>
+      <div id="rightbar">
+        <h2>latest news</h2>
+        <p><span class="orangetext">24 Jan. 2015</span><br />
+          New features added to Imhotep-SMT. <br />
+          <br />
+          <span class="orangetext">15 Dec. 2014</span><br />
+          New journal paper describing the theory behind "Imhotep-SMT" is submitted. A preprint version can be accessed through arXiv.<br />
+          <br />
+          <span class="orangetext">28 Oct. 2014</span><br />
+          First version of Imohtep-SMT is released.
+        </p>
+      </div>
+    </div>
+    <div id="bottom">
+      <div id="email"><a href="mailto:info@yourcompany.com">info@yourcompany.com</a></div>
+      <div id="validtext">
+        <p>Valid <a href="http://validator.w3.org/check?uri=referer">XHTML</a> | <a href="http://jigsaw.w3.org/css-validator/check/referer">CSS</a></p>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
 </html>
