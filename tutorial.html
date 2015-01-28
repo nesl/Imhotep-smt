@@ -208,7 +208,7 @@ Maximum number of attacked sensors must be less than 0</pre>
  
 Disclaimer: Correction of the solver outputs is guaranteed if and only if
 the specified system is observable after removing all combinations of 2 unsafe sensors.
-To run this combinatorial test, call the checkObservabilityCondition()
+To run this combinatorial test, call the checkObservabilityCondition()</pre>
 		</div>
     	</p>
     	
@@ -221,12 +221,15 @@ To run this combinatorial test, call the checkObservabilityCondition()
     	<div class="content">
         <pre class="codeinput">smt.checkObservabilityCondition(1E-20);</pre>
         <pre class="codeoutput">Calculating lower bound on the number of sensors that can be attacked...
+lower bound is euqal to 0
  
-The specified "number of sensors under attack" is between the theortical upper and lower bounds
+ 
+The specified "number of sensors under attack" lies between the theortical
+upper and lower bounds ...
 Checking the observability of 1 combinations ... This may take some time
  
 Iteration number 1 out of 1 combinations ... PASS!
-Sparse observability condition passed! Solver is ready to run!
+Sparse observability condition passed! Solver is ready to run!</pre>
 		</div>
     	
     	</p>
