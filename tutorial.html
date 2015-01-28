@@ -1,0 +1,271 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Imhotep-SMT</title>
+<link href="css/style2.css" rel="stylesheet" type="text/css" />
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]}
+  });
+</script>
+<script type="text/javascript"
+   src="./MathJax-2.4-latest/MathJax.js?config=TeX-AMS_HTML-full">
+</script>
+</head>
+<body>
+<div id="wrapper">
+  <div id="content">
+    <div id="header">
+      <div id="logo">
+        <h1> <img src="./images/Imhotep.png" alt="University of California, Berkeley" style="width:150px;height:230px"> </h1>
+        <!--
+        <h4>have your punchline here</h4>
+        -->
+      </div>
+      <div id="links">
+        <ul> 
+          <li><a href="index.html">Home</a></li>
+          <li><a href="tutorial.html">Tutorial</a></li>
+          <li><a href="downloads.html">Downloads</a></li>
+          <li><a href="examples.html">Examples</a></li>
+        </ul>
+      </div>
+    </div>
+    <div id="mainimg">
+      <h3>Imhotep-SMT</h3>
+      <h4>Novel SMT solver for secure state estimation</h4>
+    </div>
+    <div id="contentarea">
+      <div id="leftbar">
+      	<h2>Tutorial: Securing an Unmanned Ground Vehicle</h2>
+      	<p>
+      	In this tutorial, we are going to use Imhotep-SMT in order to secure the operation
+      	of controlling an unmanned ground vehicle (UGV) against sensor attacks. The UGV
+      	has two states: position $x(t)$ and velocity $v(t)$. A model for the time evolution 
+      	of these states can be derived using conservation of energy laws as follows:
+      	\begin{equation*}
+      		\begin{bmatrix} \dot{x} \\ \dot{v} \end{bmatrix}
+      			= \begin{bmatrix}0    & 1\\0   & \frac{-B}{M} \end{bmatrix} 
+      			\begin{bmatrix} x(t) \\ v(t) \end{bmatrix} + 
+      			\begin{bmatrix} 0 \\ \frac{1}{M}\end{bmatrix} F(t),
+      	\end{equation*}
+      	where $M$ and $B$ denote the mechanical mass and the translational friction
+		coefficient while $F(t)$ is the force input to the UGV at time $t$. The UGV is
+		equipped with a GPS sensor which measures its position and
+		two motor encoders which measure the translational velocity.
+		The resulting output equation is:
+		\begin{equation*}
+			\begin{bmatrix} y_{\text{GPS}}(t) \\ y_{\text{right encoder}}(t) \\ y_{\text{left encoder}}(t) \end{bmatrix} = 
+			\begin{bmatrix} 1 & 0 \\ 0 & 1 \\ 0 & 1 \end{bmatrix} \begin{bmatrix} x(t) \\ v(t) \end{bmatrix}
+			+
+			\begin{bmatrix}\psi_{\text{GPS}}(t) \\ \psi_{\text{right encoder}}(t) \\ \psi_{\text{left encoder}}(t)\end{bmatrix},
+		\end{equation*}
+		where $\psi$ is the measurement noise on each sensor. A feedback controller uses
+		the measurements from those sensors in order to control the UGV. However, an 
+		adversarial attacker is manipulating one of the UGV sensors in order to prevent
+		the feedback controller from achieving its objective. In the remaining of this
+		tutorial, we will show how Imhotep-SMT can be used to detect the existence of 
+		such an attacker while estimating the states of the UGV.
+		</p>
+		
+		<br />
+		
+
+
+      	
+      	
+        <h2>Step 0-Download Imhotep-SMT</h2>
+        <p>
+        <ul>
+        	<li> Download the latest version of Imhotep-SMT from 
+        <a href="https://github.com/nesl/Imhotep-smt/releases"> github </a>.  </li>
+        	<li> After downloading the zip file, extract its contents to "folder_path/ImhotepSMT".</li>
+        	<li> Open your Matlab, add "folder_path/ImhotepSMT/" to the Matlab path
+        	 (File->Set path->Add folder).</li>
+        </ul>
+        
+        
+    	</p>
+    	
+        <br />
+        
+        <h2>Step 1-Initialize the SMT solver</h2>
+        <p>
+        	On the Matlab terminal, create a new instance of the Imhotep-SMT solver as follows:
+        </p>
+        
+        <div class="content">
+        <pre class="codeinput">smt = ImhotepSMT();</pre>
+		</div>
+		
+		
+		
+        <br />
+        
+        <h2>Step 2-[Offline] Configure the SMT solver</h2>
+		<p>
+			The second step is to, offline, configure the SMT solver. This is done by specifying:
+			<ol>
+        		<li> A discrete-time mathematical model specifying how the states evolves over time as well as how 
+        		the sensors measurements are related to the system states.</li>
+        		<li> The maximum number of sensors that can be under attack.</li>
+        		<li> [optional] A set of sensors which is known to be attack-free.</li>        		
+        		<li> The upper bound on the measurement noise.</li>
+        	</ol>
+        </p>
+        <p>	
+        <b> 1- Discrete-time mathematical model:</b>
+		Since our solver
+		accepts only models in discrete-time, we start by discretizing the UGV model. 
+		For $M = 0.8$ and $B = 1$ and sampling time $T_s = 100 ms$, we get the following model:
+      	
+      	\begin{equation*}
+      		\begin{bmatrix} x(t+1) \\ v(t+1) \end{bmatrix}
+      			= \begin{bmatrix}1.0000    & 0.0099\\0   & 0.9876 \end{bmatrix} 
+      			\begin{bmatrix} x(t) \\ v(t) \end{bmatrix} + 
+      			\begin{bmatrix} 0.0001 \\ 0.0124\end{bmatrix} F(t)
+      	\end{equation*}
+		 which can be declared inside the Matlab as:
+        <div class="content">
+        <pre class="codeinput">A = [1 0.0099; 0 0.9876];
+B = [0.0001; 0.0124];
+C = [1 1; 0 1; 0 1];
+ugv = ss(A,B,C,0,0.001);</pre>
+		</div>
+		</p>
+		
+		<p>
+		<b> 2- Maximum number of sensors that can be under attack:</b>
+		As discussed in the introduction, we know that the attacker can attack only one sensor.
+		This can be specified as follows:
+		<div class="content">
+        <pre class="codeinput">max_sensors_under_attack = 1;</pre>
+		</div>
+		</p>
+		
+		<p>
+		<b> 3- [optional] A set of safe sensors:</b>
+		We initially assume that the attacker can attack any of the three sensors. We will 
+		discuss later how Imhotep-SMT identify which sensors MUST be secured for such that
+		the UGV can operate safely.
+		
+		<div class="content">
+        <pre class="codeinput">safe_sensors = [];</pre>
+		</div>
+		</p>
+		
+		
+		
+        
+        <p>
+		<b> 4- The upper bound on the measurement noise:</b>
+		Each sensor always suffers from measurement noise. The bound on the sensor measurement 
+		noise is an important parameter which affects the security of the system. For this
+		example, we assume all sensors suffers from the same amount of noise as follows:
+		<div class="content">
+        <pre class="codeinput">noise_bound = [0.1 0.1 0.1];</pre>
+		</div>
+		</p>
+        
+        <p>
+        Finally, we can now initialize the SMT solver using the init() method as:
+        <div class="content">
+        <pre class="codeinput">smt.init(sys, max_sensors_under_attack, safe_sensors, noise_bound);</pre>
+		</div>
+        </p>
+        <p>
+        The Imhotep-SMT creates a report for which it checks the security index of the
+        given system and checks if it matches the specified number of sensors under attack.
+        In this case, the following report is generated:
+        <div class="content">
+        <pre class="codeoutput">Theoretical upper bound on maximum number of attacks is: 0
+Sensors that can improve system security are: Sensor#1 
+ 
+ERROR: System structure does not match the specified maximum number of attacked sensors
+Maximum number of attacked sensors must be less than 0</pre>
+		</div>
+        </p>
+        
+        <p>
+        	The generated report insures that the specified system can not tolerate any attacks
+        	on its sensors. In other words, the internal structure of the system gives the
+        	opportunity for the attaker to corruption the sensor measurements that preclude
+        	ANY security algorithm from detecting which sensor is under attack. Moreover,
+        	the analysis done by the Imhotep-SMT shows a potential increase in the 
+        	security level of the system if the operator can insure that the GPS signal
+        	is not attacked. In which case, we can re-define the set of safe sensors as:
+        	<div class="content">
+        	<pre class="codeinput">safe_sensors = [1];</pre>
+			</div>
+        </p>
+        
+        <p>
+        And then re-initialize the solver again.
+        <div class="content">
+        <pre class="codeinput">smt.init(sys, max_sensors_under_attack, safe_sensors, noise_bound);</pre>
+        <pre class="codeoutput">Theoretical upper bound on maximum number of attacks is: 2
+ 
+Disclaimer: Correction of the solver outputs is guaranteed if and only if
+the specified system is observable after removing all combinations of 2 unsafe sensors.
+To run this combinatorial test, call the checkObservabilityCondition()
+		</div>
+    	</p>
+    	
+    	<p>
+    	The final step is check the sparse observability condition. This is the necessary
+    	and sufficient condition to guarantee the correctness of the results. Depending
+    	on the structure of the system, the test may take some time. Therefore, this test
+    	runs through a separate API. This step can be skipped if the user knows that 
+    	the sparse observability condition holds for the specified system.
+    	<div class="content">
+        <pre class="codeinput">smt.checkObservabilityCondition(1E-20);</pre>
+        <pre class="codeoutput">Calculating lower bound on the number of sensors that can be attacked...
+ 
+The specified "number of sensors under attack" is between the theortical upper and lower bounds
+Checking the observability of 1 combinations ... This may take some time
+ 
+Iteration number 1 out of 1 combinations ... PASS!
+Sparse observability condition passed! Solver is ready to run!
+		</div>
+    	
+    	</p>
+    <br />
+        
+        
+        
+
+        <h2>Step 2-[Online] Feed inputs, measure outputs, pass them to the solver</h2>
+        <p>
+        
+        </p>
+        <br />
+
+
+        <br />
+      </div>
+      <!--
+      <div id="rightbar">
+        <h2>latest news</h2>
+        <p><span class="orangetext">24 Jan. 2015</span><br />
+          New features added to Imhotep-SMT. <br />
+          <br />
+          <span class="orangetext">15 Dec. 2014</span><br />
+          New journal paper describing the theory behind "Imhotep-SMT" is submitted. A preprint version can be accessed through arXiv.<br />
+          <br />
+          <span class="orangetext">28 Oct. 2014</span><br />
+          First version of Imohtep-SMT is released.
+        </p>
+      </div>
+    </div>
+    -->
+    <div id="bottom">
+      <div id="email"><a href="mailto:info@yourcompany.com">info@yourcompany.com</a></div>
+      <div id="validtext">
+        <p>Valid <a href="http://validator.w3.org/check?uri=referer">XHTML</a> | <a href="http://jigsaw.w3.org/css-validator/check/referer">CSS</a></p>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
