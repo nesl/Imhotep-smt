@@ -162,9 +162,9 @@ ugv = ss(A,B,C,0,0.001);</pre>
 		<b> 4- The upper bound on the measurement noise:</b>
 		Each sensor always suffers from measurement noise. The bound on the sensor measurement 
 		noise is an important parameter which affects the security of the system. For this
-		example, we assume all sensors suffers from the same amount of noise as follows:
+		example, we assume all sensors are ideal and does not suffer from noise as follows:
 		<div class="content">
-        <pre class="codeinput">noise_bound = [0.1 0.1 0.1];</pre>
+        <pre class="codeinput">noise_bound = [0; 0; 0];</pre>
 		</div>
 		</p>
         
@@ -240,7 +240,47 @@ Sparse observability condition passed! Solver is ready to run!</pre>
 
         <h2>Step 2-[Online] Feed inputs, measure outputs, pass them to the solver</h2>
         <p>
-        
+        	Now with the solver is ready to run, we start feeding it the inputs and output signals
+        	coming from the real system as shown in the figure below.
+        	<br /><br /><br />
+        	<img src="./images/Imhotep_SMT.png" alt="Imhotep-SMT" style="width:504px;height:328px">
+        	<br />
+        	Since the solver runs over Matlab, one needs to use Matlab capabilities embedded in
+        	the "Real-time toolbox". For the purpose of this tutorial we are going
+        	to use Matlab to simulate the dynamical system as follows.
+        	<div class="content">
+        	<pre class="codeinput">x0 = randn(2,1); %unknown initial condition
+attacked_sensor_index = 2; % the attacker chooses to attack the second sensor.
+for t = 1 : 1000	% simulate the system for 1000 time instances
+    y   = C*x;		% the system measurements 
+    % the attacker corrupts the second sensor with random data
+    y(attacked_sensor_index) = y(attacked_sensor_index) + 50*randn(1); 
+    
+    F   = 1;		% the force supplied to the UGV
+    x   = A*x + B*F;	% simulate the system
+    
+    [xhat, sensor_under_attack] = smt.addInputsOutputs(F, y);
+    error = norm(xhat - x)
+    sensor_under_attack
+end</pre>
+        	</div>
+        </p>
+        <p>
+        Except for the iteration, the code above will result into the following output 
+        at each iteration of the simulation:
+        <div class="content">
+        <pre class="codeoutput">error =
+     0
+sensor_under_attack =
+     2
+     </pre>
+		</div>
+        </p>
+        <p>
+        In general, the first $n-1$ iterations (where $n$ is the number of states of the
+        system), the output of the solver may be incorrect since the solver buffers does
+        not have enough information to correctly compute the state and determine which sensors
+        are under attack.
         </p>
         <br />
 
