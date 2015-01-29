@@ -129,6 +129,16 @@ h1, h2, h3, h4, h5, h6, p, form {
 	padding-bottom:5px;
 }
 
+#leftbar h3{
+	font-family:"Trebuchet MS";
+	font-size:18px;
+	color:#EE8907;
+	font-weight:normal;
+	text-decoration:none;
+	padding-left:40px;
+	padding-bottom:5px;
+}
+
 #leftbar p{
 	font-family:"Trebuchet MS";
 	font-size:12px;
@@ -151,23 +161,7 @@ h1, h2, h3, h4, h5, h6, p, form {
 	text-decoration:none;
 } 
 
-#leftbar a {
-	font-family:"Trebuchet MS";
-	font-size:11px;
-	color:#EE8907;
-	font-weight:bold;
-	text-decoration:none;
-	padding:0px 40px;
-}
 
-#leftbar a:hover {
-	font-family:"Trebuchet MS";
-	font-size:11px;
-	color:#000;
-	font-weight:bold;
-	text-decoration:none;
-	padding:0px 40px;
-}
 
 #rightbar {
 	float:left;

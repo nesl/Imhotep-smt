@@ -61,12 +61,11 @@
 			+
 			\begin{bmatrix}\psi_{\text{GPS}}(t) \\ \psi_{\text{right encoder}}(t) \\ \psi_{\text{left encoder}}(t)\end{bmatrix},
 		\end{equation*}
-		where $\psi$ is the measurement noise on each sensor. A feedback controller uses
-		the measurements from those sensors in order to control the UGV. However, an 
-		adversarial attacker is manipulating one of the UGV sensors in order to prevent
-		the feedback controller from achieving its objective. In the remaining of this
-		tutorial, we will show how Imhotep-SMT can be used to detect the existence of 
-		such an attacker while estimating the states of the UGV.
+		where $\psi$ is the measurement noise on each sensor. These sensor measurements are used
+		to estimate the states of the UGV. However, an adversarial attacker is 
+		manipulating one of the UGV sensors in order to deceive the state estimator. In 
+		the remaining of this tutorial, we will show how Imhotep-SMT can be used to detect 
+		the existence of such an attacker while estimating the states of the UGV.
 		</p>
 		
 		<br />
@@ -266,14 +265,13 @@ end</pre>
         	</div>
         </p>
         <p>
-        Except for the iteration, the code above will result into the following output 
+        Except for the first iteration, the code above will result into the following output 
         at each iteration of the simulation:
         <div class="content">
         <pre class="codeoutput">error =
      0
 sensor_under_attack =
-     2
-     </pre>
+     2</pre>
 		</div>
         </p>
         <p>
