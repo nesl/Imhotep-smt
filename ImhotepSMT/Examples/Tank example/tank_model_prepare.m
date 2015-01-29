@@ -196,44 +196,44 @@ sys_bar                 = ss(A_bar, B_bar, C_bar, 0, Ts);
 
 max_qs                  = 1;
 % sys = ss(A,zeros(n,1),C,0, 0.1);
-check = [];
-min_eval = [];
-min_eval_P = [];
-[symbols, permutations, number_of_permutations] = generateExhaustivePermutation (1:p, 2*max_qs);
-permutations = permutations(:,1:2*max_qs);
- 
-T = n;
-P = C_bar'*C_bar;
-
-for k = 1 : length(permutations)
-    per = permutations(k,:);
-    all_indecies = 1:n*p;
-    indecies_to_be_kept = reshape(kron(([1:T]-1)*p, ones(2*max_qs,1))+per'*ones(1,T),1,2*max_qs*n);
-    indecies_to_be_removed = n + setdiff(all_indecies,indecies_to_be_kept);
-
-
-    P_rest = P;
-    P_rest(indecies_to_be_removed,:) = [];
-    P_rest(:,indecies_to_be_removed) = [];
-    
-%     P = [O'*O, O_gamma'; O_gamma, eye(r)];
-    
-    min_eval_P(k) = min(eig(P_rest));
-    max_eval_P(k) = max(eig(P_rest));
-end
-index = find(min_eval_P > 1E-3);
-delta = min(min_eval_P(index))
-delta2 = max(eig(C_bar'*C_bar))
-sigma = max(svd(A_bar))
-alpha = 0.5*(1/delta2 + 1/delta2*(1 - 1/sigma));
-
-raho = (2*sigma + 1)/(2*sigma - 1)
-
-ratio = delta2/delta
-
-
-pp = size(C_bar',2); 
-alpha_I = alpha*eye(pp);
+% check = [];
+% min_eval = [];
+% min_eval_P = [];
+% [symbols, permutations, number_of_permutations] = generateExhaustivePermutation (1:p, 2*max_qs);
+% permutations = permutations(:,1:2*max_qs);
+%  
+% T = n;
+% P = C_bar'*C_bar;
+% 
+% for k = 1 : length(permutations)
+%     per = permutations(k,:);
+%     all_indecies = 1:n*p;
+%     indecies_to_be_kept = reshape(kron(([1:T]-1)*p, ones(2*max_qs,1))+per'*ones(1,T),1,2*max_qs*n);
+%     indecies_to_be_removed = n + setdiff(all_indecies,indecies_to_be_kept);
+% 
+% 
+%     P_rest = P;
+%     P_rest(indecies_to_be_removed,:) = [];
+%     P_rest(:,indecies_to_be_removed) = [];
+%     
+% %     P = [O'*O, O_gamma'; O_gamma, eye(r)];
+%     
+%     min_eval_P(k) = min(eig(P_rest));
+%     max_eval_P(k) = max(eig(P_rest));
+% end
+% index = find(min_eval_P > 1E-3);
+% delta = min(min_eval_P(index))
+% delta2 = max(eig(C_bar'*C_bar))
+% sigma = max(svd(A_bar))
+% alpha = 0.5*(1/delta2 + 1/delta2*(1 - 1/sigma));
+% 
+% raho = (2*sigma + 1)/(2*sigma - 1)
+% 
+% ratio = delta2/delta
+% 
+% 
+% pp = size(C_bar',2); 
+% alpha_I = alpha*eye(pp);
         
 
 %%

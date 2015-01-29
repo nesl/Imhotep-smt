@@ -34,7 +34,7 @@ classdef SMT  < handle
         function smt = SMT()
             javapath = javaclasspath;
              if(isempty(javapath))
-                SAT4J_PATH = '.\SAT4J';
+                SAT4J_PATH = 'SAT4J';
                 javaaddpath(fullfile(SAT4J_PATH,'org.sat4j.core.jar'));
                 javaaddpath(fullfile(SAT4J_PATH,'org.sat4j.pb.jar'));
                 javaaddpath(fullfile(SAT4J_PATH,'org.sat4j.maxsat.jar'));
