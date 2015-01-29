@@ -55,7 +55,7 @@ classdef ImhotepSMT  < handle
             end
         end
         %------------------------
-        function status = init(obj, sys, noiseBound, safeSensors, maxNumberOfAttackedSensors)
+        function status = init(obj, sys, maxNumberOfAttackedSensors, safeSensors, noiseBound)
             if(obj.initialized == 1)
                 disp('WARNING: Solver is already initialized. Ignoring this method call!')
                 status = 1;
@@ -71,7 +71,7 @@ classdef ImhotepSMT  < handle
                 return; 
             end
             if(isinteger(maxNumberOfAttackedSensors) == 0)
-                disp('ERROR: Fourth arguments of init() must be of integer type')
+                disp('ERROR: Second argument of init() must be of integer type')
                 status = -1;
                 obj.initialized = -1;
                 return; 
@@ -82,7 +82,7 @@ classdef ImhotepSMT  < handle
             obj.n                       = size(sys.A,1); 
             obj.p                       = size(sys.C,1); 
             obj.m                       = size(sys.B,2);
-            obj.s                       = maxNumberOfAttackedSensors; 
+            obj.s                       = double(maxNumberOfAttackedSensors); 
             obj.tau                     = obj.n;
             obj.bufferCounter           = 0;
             obj.U                       = zeros(obj.tau*obj.m,1);
@@ -177,6 +177,15 @@ classdef ImhotepSMT  < handle
 %             obj.Y{sensorIndex}          = measurments;
 %             obj.dimNull(sensorIndex)    = obj.n - rank(obj.O{sensorIndex});
 %         end
+        %------------------------
+        function flushBuffers(obj)
+            obj.U                           = zeros(obj.tau*obj.m,1);
+            for sensorIndex = 1 : obj.p
+                obj.Y{sensorIndex}          = zeros(obj.tau,1);
+                obj.Y_tilde{sensorIndex}    = zeros(obj.tau,1);
+            end
+            obj.bufferCounter               = 0;
+        end
         %------------------------
         function [xhat, sensorsUnderAttack ]= addInputsOutputs(obj, inputs, measurments)
             xhat = zeros(obj.n,1);
@@ -320,17 +329,20 @@ classdef ImhotepSMT  < handle
             sensorIndex     = find(OO_upper(:,index) == 1);
             reportStr2      = 'Sensors that can improve system security are: ';
             
-            if(isempty(sensorIndex) == 0)
-                for counter = 1 : length(sensorIndex)
-                    reportStr2 = [reportStr2 'Sensor#' num2str(sensorIndex(counter)) ' '];
-                end
-                disp(reportStr2);
-            end
             
             disp(' ');
             if(s_upper_bound < obj.s)
                 disp('ERROR: System structure does not match the specified maximum number of attacked sensors');
                 disp(['Maximum number of attacked sensors must be less than ' num2str(s_upper_bound)]);
+            
+                if(isempty(sensorIndex) == 0)
+                for counter = 1 : length(sensorIndex)
+                    reportStr2 = [reportStr2 'Sensor#' num2str(sensorIndex(counter)) ' '];
+                end
+                disp(' ');
+                disp(reportStr2);
+                end
+            
                 status      = -1;
                 return;
             elseif(obj.s > 0)
