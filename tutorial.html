@@ -139,7 +139,7 @@ ugv = ss(A,B,C,0,0.001);</pre>
 		As discussed in the introduction, we know that the attacker can attack only one sensor.
 		This can be specified as follows:
 		<div class="content">
-        <pre class="codeinput">max_sensors_under_attack = 1;</pre>
+        <pre class="codeinput">max_sensors_under_attack = int8(1);</pre>
 		</div>
 		</p>
 		
@@ -170,7 +170,7 @@ ugv = ss(A,B,C,0,0.001);</pre>
         <p>
         Finally, we can now initialize the SMT solver using the init() method as:
         <div class="content">
-        <pre class="codeinput">smt.init(sys, max_sensors_under_attack, safe_sensors, noise_bound);</pre>
+        <pre class="codeinput">smt.init(ugv, max_sensors_under_attack, safe_sensors, noise_bound);</pre>
 		</div>
         </p>
         <p>
@@ -179,10 +179,11 @@ ugv = ss(A,B,C,0,0.001);</pre>
         In this case, the following report is generated:
         <div class="content">
         <pre class="codeoutput">Theoretical upper bound on maximum number of attacks is: 0
-Sensors that can improve system security are: Sensor#1 
  
 ERROR: System structure does not match the specified maximum number of attacked sensors
-Maximum number of attacked sensors must be less than 0</pre>
+Maximum number of attacked sensors must be less than 0
+ 
+Sensors that can improve system security are: Sensor#1</pre>
 		</div>
         </p>
         
@@ -248,7 +249,7 @@ Sparse observability condition passed! Solver is ready to run!</pre>
         	the "Real-time toolbox". For the purpose of this tutorial we are going
         	to use Matlab to simulate the dynamical system as follows.
         	<div class="content">
-        	<pre class="codeinput">x0 = randn(2,1); %unknown initial condition
+        	<pre class="codeinput">x = randn(2,1); %unknown initial condition
 attacked_sensor_index = 2; % the attacker chooses to attack the second sensor.
 for t = 1 : 1000	% simulate the system for 1000 time instances
     y   = C*x;		% the system measurements 
@@ -269,7 +270,7 @@ end</pre>
         at each iteration of the simulation:
         <div class="content">
         <pre class="codeoutput">error =
-     0
+     8.8818e-16
 sensor_under_attack =
      2</pre>
 		</div>
