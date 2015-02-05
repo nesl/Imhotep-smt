@@ -45,13 +45,14 @@ classdef ImhotepSMT  < handle
         function smt = ImhotepSMT()
             javapath = javaclasspath;
              if(isempty(javapath))
+                ImhotepFilepath=fileparts(which('ImhotepSMT.m')); 
                 SAT4J_PATH = 'SAT4J';
-                javaaddpath(fullfile(SAT4J_PATH,'org.sat4j.core.jar'));
-                javaaddpath(fullfile(SAT4J_PATH,'org.sat4j.pb.jar'));
-                javaaddpath(fullfile(SAT4J_PATH,'org.sat4j.maxsat.jar'));
-                javaaddpath(fullfile(SAT4J_PATH,'sat4j-sat.jar'));
-                javaaddpath(fullfile(SAT4J_PATH,'sat4j-pb.jar'));
-                javaaddpath(fullfile(SAT4J_PATH,'sat4j-maxsat.jar'));
+                javaaddpath(fullfile(ImhotepFilepath, SAT4J_PATH,'org.sat4j.core.jar'));
+                javaaddpath(fullfile(ImhotepFilepath, SAT4J_PATH,'org.sat4j.pb.jar'));
+                javaaddpath(fullfile(ImhotepFilepath, SAT4J_PATH,'org.sat4j.maxsat.jar'));
+                javaaddpath(fullfile(ImhotepFilepath, SAT4J_PATH,'sat4j-sat.jar'));
+                javaaddpath(fullfile(ImhotepFilepath, SAT4J_PATH,'sat4j-pb.jar'));
+                javaaddpath(fullfile(ImhotepFilepath, SAT4J_PATH,'sat4j-maxsat.jar'));
             end
         end
         %------------------------
@@ -156,7 +157,7 @@ classdef ImhotepSMT  < handle
             numberOfVariables               = numberOfBooleanVariables + numberOfConvexConstraints;
             numberOfConstraints             = numberOfConvexConstraints + 1 + length(obj.conflictClauses);
 
-            obj.SATsolver = org.sat4j.pb.SolverFactory.newLight();
+            obj.SATsolver                   = org.sat4j.pb.SolverFactory.newLight();
             obj.SATsolver.newVar(numberOfVariables);
             obj.SATsolver.setExpectedNumberOfClauses(numberOfConstraints);
             
@@ -383,8 +384,8 @@ classdef ImhotepSMT  < handle
                 diagr = R(1); 
             end
             %Rank estimation
-            r = find(diagr >= tol*diagr(1), 1, 'last'); %rank estimation
-%            r = rank(X);
+%            r = find(diagr >= tol*diagr(1), 1, 'last'); %rank estimation
+            r = rank(X);
 
             idx=sort(E(1:r));
             Xsub=X(:,idx);
