@@ -28,51 +28,51 @@
     </div>
     <div id="mainimg">
       <h3>Imhotep-SMT</h3>
-      <h4>Novel SMT solver for secure state estimation</h4>
+      <h4>A novel SMT-based solver for secure state estimation</h4>
     </div>
     <div id="contentarea">
       <div id="leftbar">
-        <h2>Secure Cyber-Physical Systems:</h2>
+        <h2>Secure Cyber-Physical Systems</h2>
         <p>
-        Increased coupling between embedded computing technologies and modern control 
-        systems has opened the door for developing many engineering systems with increasing 
-        complexity. In such systems, commonly termed <i>cyber-physical systems</i> or CPS,
-        information from the physical world is quantized and processed using digital electronic
-    	components, and decisions taken by these "cyber components" are then applied 
-    	to the physical world. 
+        The tight coupling between embedded computing and control 
+        has opened the door to a variety of engineering systems of increasing 
+        complexity. In such systems, often denoted as <i>Cyber-Physical Systems</i> (CPS),
+        information from the "physical world" is quantized and processed by electronic
+    	components, and decisions taken by these "cyber" components are applied back to 
+    	the physical world. 
     	</p>
     	
         <br />
         
         <p>
-		Unfortunately, this tight coupling between cyber components 
-    	and the physical world oftentimes leads to systems where increased sophistication 
+		Unfortunately, this coupling between cyber and 
+		physical components is leading to systems where increased sophistication 
     	comes at the expense of increased vulnerability and security weaknesses. 
     	 An important scenario is posed by a malicious adversary that can arbitrarily 
-    	 corrupt the measurements of a subset of sensors in the system. These 
+    	 corrupt the measurements of a subset of sensors in a system. These 
     	 sensor-related attacks can be deployed in any of the following components of a 
     	 real-life CPS:
         <ul> 
-          <li><b>Software:</b>
+          <li><b>Software.</b>
           Malicious software running on the processor executing the sensor processing 
           routine can access the sensor information before it is processed by the controller
           itself. The Stuxnet malware is an infamous example of this category of attacks. 
           It exploits vulnerabilities in the operating system running over SCADA devices and
           once it obtains enough operating system privileges, it can corrupt the sensor 
-          measurements collected via the attacked SCADA device
+          measurements collected via the attacked SCADA device.
 		  </li>
 		  <br />
-          <li><b>Network:</b>
+          <li><b>Network.</b>
           Modern control systems rely on a networked infrastructure to exchange sensor 
           information. Therefore, an adversarial attacker can corrupt sensor measurements
           by manipulating the data packets exchanged between various components, as has been 
-          investigated, for instance, in smart grids.
+          investigated, for instance, in the context of smart electric power grids.
           </li>
           <br />
-          <li><b>Sensors Spoofing:</b>
-          By tampering with the sensor hardware and/or environment, an adversary can mislead 
+          <li><b>Sensors Spoofing.</b>
+          By tampering with the sensor hardware or environment, an adversary can mislead 
           the sensor about the value of the physical signal it is attempting to measure. 
-          As previously shown by some researchers, it is possible to make drivers lose 
+          It has been shown to be possible for drivers to lose 
           control of their cars by directly spoofing the velocity sensors of anti-lock braking 
           systems in a non-invasive manner.
           </li>
@@ -80,21 +80,24 @@
         
         </p>
         <br />
-        <h2>Imhotep-SMT: Secure State Estimator:</h2>
+        <h2>Imhotep-SMT Secure State Estimator</h2>
         <p>
-        Imhotep-SMT is a novel Satisfiability-Modul-Theory solver that leverages results
-        from formal methods and convex optimization techniques in order to detect, on 
-        the real-time, if the sensor measurements collected from a dynamical system (e.g.
-        robotic/automotive/aerospace vehicle, smart grid, industrial refinery, ...) is
-        corrupted by an adversarial attack. So far, it can handle systems that can be 
-        described by a linear dynamical model, and in a near future will also support
+        Imhotep-SMT is a novel solver  that combines results
+        from formal methods (Satisfiability Modulo Theories) and convex optimization to detect, in  
+        real time, if a set of sensor measurements collected from a dynamical system is
+        corrupted by an adversarial attack. Imhotep-SMT is being applied to secure state estimation 
+        for several applications, e.g. robotic, automotive, and aerospace vehicles, smart grids, industrial refinery. 
+        </p>
+        <p>
+        Imhotep-SMT currently supports systems that can be 
+        described by a linear dynamical model. However, in a near future it will be extended to 
         some classes of nonlinear systems.
         </p>
         <br />
         
         <p>
-        Imhotep-SMT is developed by a group of researchers at University of California at 
-        Los Angeles and University of California at Berkeley.
+        Imhotep-SMT is developed by a team of researchers at the University of California at 
+        Los Angeles and the University of California at Berkeley.
         </p>
         <br />
         
@@ -104,7 +107,7 @@
         <p>
         Note: Imhotep: (pronounced as "emmo-tepp") was an ancient Egyptian polymath
 who is considered to be the earliest known architect, engineer and physician
-in the early history. He is famous of the design of the oldest pyramid in Egypt;
+in the ancient history. He is famous for the design of the oldest pyramid in Egypt, the 
 Pyramid of Djoser (the Step Pyramid) at Saqqara, Egypt, 2630 - 2611 BC.
         </p>
         <br />
@@ -113,17 +116,17 @@ Pyramid of Djoser (the Step Pyramid) at Saqqara, Egypt, 2630 - 2611 BC.
 		<p>
 		<b>(1) "Secure State Estimation Under Sensor Attacks: A Satisfiability Modulo Theory Approach"</b>
 		<br /> <br />
-		Yasser Shoukry Pierluigi Nuzzo, Alberto Puggelli, Alberto L. Sangiovanni-Vincentelli, Sanjit A. Seshia, 
-		and Paulo Tabuada.<br />
+		Yasser Shoukry, Pierluigi Nuzzo, Alberto Puggelli, Alberto L. Sangiovanni-Vincentelli, Sanjit A. Seshia, 
+		and Paulo Tabuada,<br />
 		ArXiv e-prints, Dec. 2014. [<a href="http://arxiv.org/abs/1412.4324">url<a/>]</li>
 
 		<br /><br /><br />
 		<b>(2)"Sound and Complete State Estimation for Linear 
 		Dynamical Systems Under Sensor Attack Using Satisfiability Modulo Theory Solving"</b>
 		<br /><br />
-		Yasser Shoukry, Alberto Puggelli, Pierluigi Nuzzo, Alberto Sangiovanni-Vincentelli, 
-		Sanjit A. Seshia, and Paulo Tabuada.<br />
-		The 2015 American Control Conference (ACC), to appear.
+		Yasser Shoukry, Alberto Puggelli, Pierluigi Nuzzo, Alberto L. Sangiovanni-Vincentelli, 
+		Sanjit A. Seshia, and Paulo Tabuada<br />
+		Proc. 2015 American Control Conference, to appear.
 		
 		</p>
         <br />
@@ -134,7 +137,8 @@ Pyramid of Djoser (the Step Pyramid) at Saqqara, Egypt, 2630 - 2611 BC.
           New features added to Imhotep-SMT. <br />
           <br />
           <span class="orangetext">15 Dec. 2014</span><br />
-          New journal paper describing the theory behind "Imhotep-SMT" is submitted. A preprint version can be accessed through arXiv.<br />
+          New journal paper describing the theoretical underpinnings of Imhotep-SMT is submitted. 
+          A preprint version can be accessed through arXiv.<br />
           <br />
           <span class="orangetext">28 Oct. 2014</span><br />
           First version of Imohtep-SMT is released.
