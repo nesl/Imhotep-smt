@@ -136,7 +136,7 @@ ugv = ss(A,B,C,0,0.001);</pre>
 		</p>
 		
 		<p>
-		<b> 2- Maximum number of sensors that can be under attack:</b>
+		<b> 2- Maximum number of sensors that can be under attack.</b>
 		As discussed above, the attacker can attack only one sensor.
 		This can be specified as follows:
 		<div class="content">
@@ -218,7 +218,7 @@ To run this combinatorial test, call the checkObservabilityCondition()</pre>
     	</p>
     	
     	<p>
-    	The final step to complete the offline configuration phase, consists in checking 
+    	The final step to complete the offline configuration phase consists in checking 
     	the sparse observability condition. This is the necessary
     	and sufficient condition to guarantee the correctness of the results. Depending
     	on the structure of the system, the test may take some time. 
@@ -246,14 +246,14 @@ Sparse observability condition passed! Solver is ready to run!</pre>
 
         <h2>Step 2- Online State Estimation </h2>
         <p>
-        	To detect the attack, we need to provide the solver with the inputs and output signals
+        	To detect the attack, we need to provide the solver with the input and output signals
         	of the system to be controlled, as shown in the figure below.
         	<br /><br /><br />
         	<img src="./images/Imhotep_SMT.png" alt="Imhotep-SMT" style="width:504px;height:328px">
         	<br />
-        	Since the solver is implemented within Matlab, to deploy it on a real application while 
-        	guaranteeing real-time operation, we need to use the capabilities embedded in
-        	the "Real-time toolbox" of Matlab. For the purpose of this tutorial, we simply 
+        	Since the solver is implemented within Matlab, we need to use the capabilities embedded in
+        	the "Real-time toolbox" of Matlab to deploy it on a real application while 
+        	guaranteeing real-time operation. However, for the purpose of this tutorial, we simply 
         	use Matlab to simulate the dynamical system as follows.
         	<div class="content">
         	<pre class="codeinput">x = randn(2,1); %unknown initial condition
