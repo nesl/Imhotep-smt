@@ -102,9 +102,8 @@
 		
         <br />
         
-        <h2>Step 2: Offline Configuration of the Solver</h2>
-		<p>
-			Imhotep-SMT must be configured offline by specifying:
+        <h2>Step 2: Offline Configuration of the Solver</h2> 
+        <p> Imhotep-SMT must be configured offline by specifying:
 			<ol>
         		<li> A discrete-time mathematical model in the state space, e.g. by specifying 
         		how the state evolves over time as well as how 
@@ -117,18 +116,17 @@
         	</ol>
         </p>
         <p>	
-        <b> 1- Discrete-time mathematical model:</b>
-		Since our solver
-		accepts only models in discrete-time, we start by discretizing the UGV model. 
-		For $M = 0.8$ and $B = 1$ and sampling time $T_s = 100 ms$, we get the following model:
+        <b> 1- Discrete-time dynamic model.</b>
+		Since our solver only accepts discrete-time models, we start by discretizing the UGV model. 
+		For $M = 0.8$ and $B = 1$ and a sampling time $T_s = 100 ms$, we obtain:
       	
       	\begin{equation*}
       		\begin{bmatrix} x(t+1) \\ v(t+1) \end{bmatrix}
       			= \begin{bmatrix}1.0000    & 0.0099\\0   & 0.9876 \end{bmatrix} 
       			\begin{bmatrix} x(t) \\ v(t) \end{bmatrix} + 
-      			\begin{bmatrix} 0.0001 \\ 0.0124\end{bmatrix} F(t)
+      			\begin{bmatrix} 0.0001 \\ 0.0124\end{bmatrix} F(t),
       	\end{equation*}
-		 which can be declared inside the Matlab as:
+		 which can be specified in Matlab as:
         <div class="content">
         <pre class="codeinput">A = [1 0.0099; 0 0.9876];
 B = [0.0001; 0.0124];
@@ -139,7 +137,7 @@ ugv = ss(A,B,C,0,0.001);</pre>
 		
 		<p>
 		<b> 2- Maximum number of sensors that can be under attack:</b>
-		As discussed in the introduction, we know that the attacker can attack only one sensor.
+		As discussed above, the attacker can attack only one sensor.
 		This can be specified as follows:
 		<div class="content">
         <pre class="codeinput">max_sensors_under_attack = int8(1);</pre>
@@ -147,10 +145,11 @@ ugv = ss(A,B,C,0,0.001);</pre>
 		</p>
 		
 		<p>
-		<b> 3- [optional] A set of safe sensors:</b>
-		We initially assume that the attacker can attack any of the three sensors. We will 
-		discuss later how Imhotep-SMT identify which sensors MUST be secured for such that
-		the UGV can operate safely.
+		<b> 3- Set of safe sensors.</b>
+		To show how Imhotep-SMT analyze the system specification, we initially 
+		assume that the attacker can attack any of the three sensors. We will then
+		show how Imhotep-SMT can actually identify which sensors <i>must</i> be secured for 
+		the UGV to operate safely.
 		
 		<div class="content">
         <pre class="codeinput">safe_sensors = [];</pre>
@@ -161,24 +160,25 @@ ugv = ss(A,B,C,0,0.001);</pre>
 		
         
         <p>
-		<b> 4- The upper bound on the measurement noise:</b>
-		Each sensor always suffers from measurement noise. The bound on the sensor measurement 
-		noise is an important parameter which affects the security of the system. For this
-		example, we assume all sensors are ideal and does not suffer from noise as follows:
+		<b> 4- Upper bound on measurement noise.</b>
+		In general, each sensor measurement suffers from measurement noise. The bound on this 
+		noise is an important parameter which affects the capability of Imhotep-SMT to distinguish between 
+		noise and attack. In this example, we assume that all sensors are ideal and are not affected by 
+		noise, as follows:
 		<div class="content">
         <pre class="codeinput">noise_bound = [0; 0; 0];</pre>
 		</div>
 		</p>
         
         <p>
-        Finally, we can now initialize the SMT solver using the init() method as:
+        We can now initialize the SMT solver using the init() method as:
         <div class="content">
         <pre class="codeinput">smt.init(ugv, max_sensors_under_attack, safe_sensors, noise_bound);</pre>
 		</div>
         </p>
         <p>
-        The Imhotep-SMT creates a report for which it checks the security index of the
-        given system and checks if it matches the specified number of sensors under attack.
+        Imhotep-SMT will check the <i>security index</i> for the system, and make sure 
+        it matches the specified number of sensors under attack.
         In this case, the following report is generated:
         <div class="content">
         <pre class="codeoutput">Theoretical upper bound on maximum number of attacks is: 0
@@ -191,20 +191,23 @@ Sensors that can improve system security are: Sensor#1</pre>
         </p>
         
         <p>
-        	The generated report insures that the specified system can not tolerate any attacks
-        	on its sensors. In other words, the internal structure of the system gives the
-        	opportunity for the attaker to corruption the sensor measurements that preclude
-        	ANY security algorithm from detecting which sensor is under attack. Moreover,
-        	the analysis done by the Imhotep-SMT shows a potential increase in the 
-        	security level of the system if the operator can insure that the GPS signal
-        	is not attacked. In which case, we can re-define the set of safe sensors as:
+        	The generated report warns the user that the specified system can not tolerate any attacks
+        	on its sensors. In other words, the structure of the specified system is such that a 
+        	corruption to the sensor measurements can preclude <i>any</i> 
+        	security algorithm from detecting the attack. If all the sensors are allowed to be 
+        	attacked, it is possible that an attack will not be detected by any algorithm. 
+        	To avoid this situation, Imhotep-SMT reports that the  
+        	security level of the system can be potentially increase if the GPS signal (sensor 1) 
+        	is not attacked. 
+        	Therefore, to avoid exceeding the theoretical limit to attack detection, 
+        	we re-define the set of safe sensors as:
         	<div class="content">
         	<pre class="codeinput">safe_sensors = [1];</pre>
 			</div>
         </p>
         
         <p>
-        And then re-initialize the solver again.
+        and initialize the solver again.
         <div class="content">
         <pre class="codeinput">smt.init(sys, max_sensors_under_attack, safe_sensors, noise_bound);</pre>
         <pre class="codeoutput">Theoretical upper bound on maximum number of attacks is: 2
