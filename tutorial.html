@@ -244,20 +244,21 @@ Sparse observability condition passed! Solver is ready to run!</pre>
         
         
 
-        <h2>Step 2-[Online] Feed inputs, measure outputs, pass them to the solver</h2>
+        <h2>Step 2- Online State Estimation </h2>
         <p>
-        	Now with the solver is ready to run, we start feeding it the inputs and output signals
-        	coming from the real system as shown in the figure below.
+        	To detect the attack, we need to provide the solver with the inputs and output signals
+        	of the system to be controlled, as shown in the figure below.
         	<br /><br /><br />
         	<img src="./images/Imhotep_SMT.png" alt="Imhotep-SMT" style="width:504px;height:328px">
         	<br />
-        	Since the solver runs over Matlab, one needs to use Matlab capabilities embedded in
-        	the "Real-time toolbox". For the purpose of this tutorial we are going
-        	to use Matlab to simulate the dynamical system as follows.
+        	Since the solver is implemented within Matlab, to deploy it on a real application while 
+        	guaranteeing real-time operation, we need to use the capabilities embedded in
+        	the "Real-time toolbox" of Matlab. For the purpose of this tutorial, we simply 
+        	use Matlab to simulate the dynamical system as follows.
         	<div class="content">
         	<pre class="codeinput">x = randn(2,1); %unknown initial condition
 attacked_sensor_index = 2; % the attacker chooses to attack the second sensor.
-for t = 1 : 1000	% simulate the system for 1000 time instances
+for t = 1 : 1000	% simulate the system for 1000 time steps
     y   = C*x;		% the system measurements 
     % the attacker corrupts the second sensor with random data
     y(attacked_sensor_index) = y(attacked_sensor_index) + 50*randn(1); 
@@ -272,7 +273,7 @@ end</pre>
         	</div>
         </p>
         <p>
-        Except for the first iteration, the code above will result into the following output 
+        Except for the first iteration, the code above results into the following output 
         at each iteration of the simulation:
         <div class="content">
         <pre class="codeoutput">error =
@@ -282,10 +283,9 @@ sensor_under_attack =
 		</div>
         </p>
         <p>
-        In general, the first $n-1$ iterations (where $n$ is the number of states of the
-        system), the output of the solver may be incorrect since the solver buffers does
-        not have enough information to correctly compute the state and determine which sensors
-        are under attack.
+        In general, for the first $n-1$ iterations (where $n$ is the number of states of the
+        system), the output of the solver may be incorrect since the information stored is not 
+        enough to correctly compute the state and determine which sensors are under attack.
         </p>
         <br />
 
