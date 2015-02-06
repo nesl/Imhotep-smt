@@ -105,9 +105,9 @@
         <h2>Step 2: Offline Configuration of the Solver</h2> 
         <p> Imhotep-SMT must be configured offline by specifying:
 			<ol>
-        		<li> A discrete-time mathematical model in the state space, e.g. by specifying 
+        		<li> A discrete-time dynamical model of the system in the state space, e.g. by specifying 
         		how the state evolves over time as well as how 
-        		the sensors measurements are related to the system state.</li>
+        		the sensor measurements are related to the system state.</li>
         		<li> The maximum number of sensors that can be under attack for the estimation to be 
         		theoretically feasible.</li>
         		<li> A set of sensors which is known to be attack-free <i>a priori</i> (this is an optional 
@@ -146,7 +146,7 @@ ugv = ss(A,B,C,0,0.001);</pre>
 		
 		<p>
 		<b> 3- Set of safe sensors.</b>
-		To show how Imhotep-SMT analyze the system specification, we initially 
+		To show how Imhotep-SMT analyzes the system specification, we initially 
 		assume that the attacker can attack any of the three sensors. We will then
 		show how Imhotep-SMT can actually identify which sensors <i>must</i> be secured for 
 		the UGV to operate safely.
@@ -161,7 +161,7 @@ ugv = ss(A,B,C,0,0.001);</pre>
         
         <p>
 		<b> 4- Upper bound on measurement noise.</b>
-		In general, each sensor measurement suffers from measurement noise. The bound on this 
+		In general, each sensor measurement suffers from noise. The bound on this 
 		noise is an important parameter which affects the capability of Imhotep-SMT to distinguish between 
 		noise and attack. In this example, we assume that all sensors are ideal and are not affected by 
 		noise, as follows:
@@ -178,7 +178,7 @@ ugv = ss(A,B,C,0,0.001);</pre>
         </p>
         <p>
         Imhotep-SMT will check the <i>security index</i> for the system, and make sure 
-        it matches the specified number of sensors under attack.
+        it matches the specified maximum number of sensors under attack.
         In this case, the following report is generated:
         <div class="content">
         <pre class="codeoutput">Theoretical upper bound on maximum number of attacks is: 0
@@ -192,15 +192,14 @@ Sensors that can improve system security are: Sensor#1</pre>
         
         <p>
         	The generated report warns the user that the specified system can not tolerate any attacks
-        	on its sensors. In other words, the structure of the specified system is such that a 
+        	on its sensors. The structure of the specified system is such that a 
         	corruption to the sensor measurements can preclude <i>any</i> 
-        	security algorithm from detecting the attack. If all the sensors are allowed to be 
-        	attacked, it is possible that an attack will not be detected by any algorithm. 
-        	To avoid this situation, Imhotep-SMT reports that the  
-        	security level of the system can be potentially increase if the GPS signal (sensor 1) 
+        	security algorithm from detecting the attack. In other words, if all the sensors are allowed to be 
+        	attacked, it is theoretically not possible to detect the attack. 
+        	To avoid this situation, Imhotep-SMT suggests that the  
+        	security level of the system can be potentially increased if the GPS signal (sensor 1) 
         	is not attacked. 
-        	Therefore, to avoid exceeding the theoretical limit to attack detection, 
-        	we re-define the set of safe sensors as:
+        	Therefore, we re-define the set of safe sensors as:
         	<div class="content">
         	<pre class="codeinput">safe_sensors = [1];</pre>
 			</div>
