@@ -36,26 +36,26 @@
     </div>
     <div id="mainimg">
       <h3>Imhotep-SMT</h3>
-      <h4>Novel SMT solver for secure state estimation</h4>
+      <h4>A novel SMT-based solver for secure state estimation</h4>
     </div>
     <div id="contentarea">
       <div id="leftbar">
       	<h2>Tutorial: Securing an Unmanned Ground Vehicle</h2>
       	<p>
-      	In this tutorial, we are going to use Imhotep-SMT in order to secure the operation
-      	of controlling an unmanned ground vehicle (UGV) against sensor attacks. The UGV
-      	has two states: position $x(t)$ and velocity $v(t)$. A model for the time evolution 
-      	of these states can be derived using conservation of energy laws as follows:
+      	In this tutorial, we are going to use Imhotep-SMT to secure the control of 
+      	an unmanned ground vehicle (UGV) against attacks to its sensors. The UGV
+      	has two state variables: the position $x(t)$ and the velocity $v(t)$. A model for the time evolution 
+      	of these variables, as derived using the energy conservation law, can be expressed as follows:
       	\begin{equation*}
       		\begin{bmatrix} \dot{x} \\ \dot{v} \end{bmatrix}
       			= \begin{bmatrix}0    & 1\\0   & \frac{-B}{M} \end{bmatrix} 
       			\begin{bmatrix} x(t) \\ v(t) \end{bmatrix} + 
       			\begin{bmatrix} 0 \\ \frac{1}{M}\end{bmatrix} F(t),
       	\end{equation*}
-      	where $M$ and $B$ denote the mechanical mass and the translational friction
-		coefficient while $F(t)$ is the force input to the UGV at time $t$. The UGV is
-		equipped with a GPS sensor which measures its position and
-		two motor encoders which measure the translational velocity.
+      	where $M$ and $B$ denote, respectively, the mechanical mass and the translational friction
+		coefficients, while $F(t)$ is the input force to the UGV at time $t$. The UGV is
+		equipped with a GPS sensor, which measures its position, and
+		two motor encoders, which measure the translational velocity.
 		The resulting output equation is:
 		\begin{equation*}
 			\begin{bmatrix} y_{\text{GPS}}(t) \\ y_{\text{right encoder}}(t) \\ y_{\text{left encoder}}(t) \end{bmatrix} = 
@@ -63,11 +63,11 @@
 			+
 			\begin{bmatrix}\psi_{\text{GPS}}(t) \\ \psi_{\text{right encoder}}(t) \\ \psi_{\text{left encoder}}(t)\end{bmatrix},
 		\end{equation*}
-		where $\psi$ is the measurement noise on each sensor. These sensor measurements are used
-		to estimate the states of the UGV. However, an adversarial attacker is 
+		where $\psi$ is the measurement noise at each sensor. These sensor measurements are used
+		to estimate the states of the UGV. However, we assume that an adversarial attacker is 
 		manipulating one of the UGV sensors in order to deceive the state estimator. In 
 		the remaining of this tutorial, we will show how Imhotep-SMT can be used to detect 
-		the existence of such an attacker while estimating the states of the UGV.
+		the existence of such an attacker, and estimate the actual state of the UGV.
 		</p>
 		
 		<br />
@@ -76,24 +76,22 @@
 
       	
       	
-        <h2>Step 0-Download Imhotep-SMT</h2>
+        <h2>Step 0: Download Imhotep-SMT</h2>
         <p>
         <ul>
         	<li> Download the latest version of Imhotep-SMT from 
-        <a href="https://github.com/nesl/Imhotep-smt/releases"> github </a>.  </li>
-        	<li> After downloading the zip file, extract its contents to "folder_path/ImhotepSMT".</li>
-        	<li> Open your Matlab, add "folder_path/ImhotepSMT/" to the Matlab path
-        	 (File->Set path->Add folder).</li>
+        <a href="https://github.com/nesl/Imhotep-smt/releases">github</a> as a zip file. </li>
+        	<li> Extract the contents of the zip file to "folder_path/ImhotepSMT".</li>
+        	<li> Open Matlab, add "folder_path/ImhotepSMT/" to your Matlab path
+        	 (e.g. by selection from the Matlab Menu "File->Set path->Add folder").</li>
         </ul>
-        
-        
-    	</p>
+        </p>
     	
         <br />
         
-        <h2>Step 1-Initialize the SMT solver</h2>
+        <h2>Step 1: Initialize and Configure the Solver</h2>
         <p>
-        	On the Matlab terminal, create a new instance of the Imhotep-SMT solver as follows:
+        	From the Matlab terminal, create a new instance of the Imhotep-SMT solver as follows:
         </p>
         
         <div class="content">
@@ -104,15 +102,17 @@
 		
         <br />
         
-        <h2>Step 2-[Offline] Configure the SMT solver</h2>
+        <h2>Step 2: Offline Configuretion of the Solver</h2>
 		<p>
-			The second step is to, offline, configure the SMT solver. This is done by specifying:
+			Imhotep-SMT must be configured offline by specifying:
 			<ol>
-        		<li> A discrete-time mathematical model specifying how the states evolves over time as well as how 
-        		the sensors measurements are related to the system states.</li>
-        		<li> The maximum number of sensors that can be under attack.</li>
-        		<li> [optional] A set of sensors which is known to be attack-free.</li>        		
-        		<li> The upper bound on the measurement noise.</li>
+        		<li> A discrete-time mathematical model in the state space, e.g. by specifying 
+        		how the state evolves over time as well as how 
+        		the sensors measurements are related to the system state.</li>
+        		<li> The maximum number of sensors that can be under attack for the estimation to be 
+        		theoretically feasible.</li>
+        		<li> [optional] A set of sensors which is known to be attack-free <i>a priori</i>.</li>        		
+        		<li> The upper bound on the magnitude (norm) of the measurement noise.</li>
         	</ol>
         </p>
         <p>	
