@@ -42,10 +42,10 @@
       <div id="leftbar">
       	<h2>Tutorial: Securing an Unmanned Ground Vehicle</h2>
       	<p>
-      	In this tutorial, we are going to use Imhotep-SMT to secure the control of 
+      	In this tutorial, we are going to demonstrate how to use Imhotep-SMT to secure the control of 
       	an unmanned ground vehicle (UGV) against attacks to its sensors. The UGV
       	has two state variables: the position $x(t)$ and the velocity $v(t)$. A model for the time evolution 
-      	of these variables, as derived using the energy conservation law, can be expressed as follows:
+      	of these variables, as derived using energy conservation laws, can be expressed as follows:
       	\begin{equation*}
       		\begin{bmatrix} \dot{x} \\ \dot{v} \end{bmatrix}
       			= \begin{bmatrix}0    & 1\\0   & \frac{-B}{M} \end{bmatrix} 
@@ -83,13 +83,13 @@
         <a href="https://github.com/nesl/Imhotep-smt/releases">github</a> as a zip file. </li>
         	<li> Extract the contents of the zip file to "folder_path/ImhotepSMT".</li>
         	<li> Open Matlab, add "folder_path/ImhotepSMT/" to your Matlab path
-        	 (e.g. by selection from the Matlab Menu "File->Set path->Add folder").</li>
+        	 (e.g. by selecting "File->Set path->Add folder" from the main Menu in Matlab).</li>
         </ul>
         </p>
     	
         <br />
         
-        <h2>Step 1: Initialize and Configure the Solver</h2>
+        <h2>Step 1: Initialize the Solver</h2>
         <p>
         	From the Matlab terminal, create a new instance of the Imhotep-SMT solver as follows:
         </p>
@@ -102,7 +102,7 @@
 		
         <br />
         
-        <h2>Step 2: Offline Configuretion of the Solver</h2>
+        <h2>Step 2: Offline Configuration of the Solver</h2>
 		<p>
 			Imhotep-SMT must be configured offline by specifying:
 			<ol>
@@ -111,7 +111,8 @@
         		the sensors measurements are related to the system state.</li>
         		<li> The maximum number of sensors that can be under attack for the estimation to be 
         		theoretically feasible.</li>
-        		<li> [optional] A set of sensors which is known to be attack-free <i>a priori</i>.</li>        		
+        		<li> A set of sensors which is known to be attack-free <i>a priori</i> (this is an optional 
+        		parameter).</li>        		
         		<li> The upper bound on the magnitude (norm) of the measurement noise.</li>
         	</ol>
         </p>
