@@ -192,7 +192,7 @@ Sensors that can improve system security are: Sensor#1</pre>
         
         <p>
         	The generated report warns the user that the specified system can not tolerate any attacks
-        	on its sensors. The structure of the specified system is such that a 
+        	on its sensors. The structure of the system is such that a 
         	corruption to the sensor measurements can preclude <i>any</i> 
         	security algorithm from detecting the attack. In other words, if all the sensors are allowed to be 
         	attacked, it is theoretically not possible to detect the attack. 
@@ -206,7 +206,7 @@ Sensors that can improve system security are: Sensor#1</pre>
         </p>
         
         <p>
-        and initialize the solver again.
+        and initialize the solver again as follows:
         <div class="content">
         <pre class="codeinput">smt.init(sys, max_sensors_under_attack, safe_sensors, noise_bound);</pre>
         <pre class="codeoutput">Theoretical upper bound on maximum number of attacks is: 2
