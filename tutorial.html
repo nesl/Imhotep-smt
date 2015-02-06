@@ -218,18 +218,19 @@ To run this combinatorial test, call the checkObservabilityCondition()</pre>
     	</p>
     	
     	<p>
-    	The final step is check the sparse observability condition. This is the necessary
+    	The final step to complete the offline configuration phase, consists in checking 
+    	the sparse observability condition. This is the necessary
     	and sufficient condition to guarantee the correctness of the results. Depending
-    	on the structure of the system, the test may take some time. Therefore, this test
-    	runs through a separate API. This step can be skipped if the user knows that 
+    	on the structure of the system, the test may take some time. 
+    	This step can be skipped if the user knows that 
     	the sparse observability condition holds for the specified system.
     	<div class="content">
         <pre class="codeinput">smt.checkObservabilityCondition(1E-20);</pre>
         <pre class="codeoutput">Calculating lower bound on the number of sensors that can be attacked...
-lower bound is euqal to 0
+lower bound is equal to 0
  
  
-The specified "number of sensors under attack" lies between the theortical
+The specified "number of sensors under attack" lies between the theoretical
 upper and lower bounds ...
 Checking the observability of 1 combinations ... This may take some time
  
