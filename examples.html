@@ -4,6 +4,14 @@
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <title>Imhotep-SMT</title>
 <link href="css/style2.css" rel="stylesheet" type="text/css" />
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]}
+  });
+</script>
+<script type="text/javascript"
+   src="./MathJax-2.4-latest/MathJax.js?config=TeX-AMS_HTML-full">
+</script>
 <link rel="icon" href="./images/papyrus.ico" type="image/x-icon" />
 <link rel="shortcut icon" href="./images/papyrus.ico" type="image/x-icon" />
 </head>
@@ -28,27 +36,92 @@
     </div>
     <div id="mainimg">
       <h3>Imhotep-SMT</h3>
-      <h4>A novel SMT-based solver for secure state estimation</h4>
+      <h4>Novel SMT solver for secure state estimation</h4>
     </div>
     <div id="contentarea">
       <div id="leftbar">
-        <h2>Example 1: Adaptive Cruise Control</h2>
+      	<h2>Example 1: Securing an Unmanned Ground Vehicle</h2>
         <p>
+        This is an example of using Imhotep-SMT in estimating the state of an Unmanned Ground 
+        Vehicle (UGV) while one of its sensors is under attack.  
     	</p>
     	
-        <br />
-
-        <h2>Example 2: Smart Grid</h2>
-        <p>
-    	</p>
     	
         <br />
+        <p>
+        The Matlab files for this example can be downloaded from <a href="./matlabSource/UGV.zip">here</a>.
+        </p>
         
-        <h2>Example 3: Random, Large Scale Systems</h2>
+        
+        <br /><br /><br />
+        <h2>Example 2: Active Cruise Control</h2>
         <p>
+		In this example, we show how Imhotep-SMT can be used to securely
+	   	estimating the state of a driving car while performing active cruise
+		control. The simulation consists of two leader cars followed by two
+		followers cars. The follower cars are under sensor attacks. One of the
+		cars (blue) uese Imhotep-SMT to estimate the state while the other
+		follower car (red) uses standard least squares estimator. The
+		simulation uses a 3D virtual reality simulator to show the perfromance
+		of the two estimators. The simulation is currently restricted to the
+		case when the cars are driving in straight lines.
+		</p>
+		<br />
+		
+		<p>
+        The Matlab files for this example can be downloaded from <a href="./matlabSource/Active_Cruise_Control.zip">here</a>.
+        </p>
+		<br /><br />
+		<p>
+		<iframe class="youtube-player" type="text/html" width="640" height="385" src="http://www.youtube.com/embed/q0wci_KnL50?autoplay=1" allowfullscreen frameborder="0">
+		</iframe>    	
+		</p>
+
+        <br /><br />
+
+		
+        <h2>Example 3: IEEE 14-bus Power Grid</h2>
+        <p>
+        <img src="images/Bus14_2.png" height="180" width="200" align="right" />
+     	<img src="images/Figure_error_power.jpg" height="180" width="200" align="right" />
+        	This is an example of using Imhotep-SMT in estimating the state of the
+   			IEEE 14-bus power network. The bus composed of 5 synchronous generators 
+   			and 14 buses. The state of each generator includes rotor angle and 
+   			frequency.  The overall system has 35 sensors: 14 sensors measure the 
+   			real power injections at every bus, 20 sensors measure the real power 
+   			flows along every branch, and one sensor measures the rotor angle of 
+   			generator number 1. In this simulation, the 
+   			attacker is assumed to pick a random set of 14 sensors. We compare the
+   			efficiency of Imohtep-SMT by comparing its estimation error with respect
+   			to the estimation error of a classical least squares estimator.
     	</p>
     	
         <br />
+        <p>
+        The Matlab files for this example can be downloaded from <a href="./matlabSource/Power_Grid.zip">here</a>.
+        </p>
+
+        <br></br>
+        
+        <h2>Example 4: Random, Large Scale Systems</h2>
+        <p>
+        To assess the scalability of Imhotep-SMT, we randomly generated a set of matrices 
+        for systems of increasing size. For each of these systems, we configured Imohtep-SMT, 
+        provided it with the system inputs and outputs for state estimation, and recorded 
+        the execution time. In the first experiment, we fix the number of sensors $p = 20$ 
+        and increase the number of system states from $n = 10$ to $n = 150$. 
+        In the second experiment, we fix the number of states n=50 and increase instead 
+        the number of sensors from $p = 3$ to $p = 150$. In both cases, half of the sensors are 
+        attacked. As a result, increasing n has a small effect on the overall execution time, 
+        which reflects the fact that the number of constraints to be satisfied does not depend on $n$. 
+        Conversely, as the number of sensors increases, the number of constraints increases, 
+        hence the execution time of Imhotep-SMT.
+    	</p>
+    	
+        <br />
+        <p>
+        The Matlab files for this example can be downloaded from <a href="./matlabSource/Random_examples.zip">here</a>.
+        </p>
 
         
 
@@ -70,12 +143,10 @@
     </div>
     -->
     <div id="bottom">
-      <!--
       <div id="email"><a href="mailto:info@yourcompany.com">info@yourcompany.com</a></div>
       <div id="validtext">
         <p>Valid <a href="http://validator.w3.org/check?uri=referer">XHTML</a> | <a href="http://jigsaw.w3.org/css-validator/check/referer">CSS</a></p>
       </div>
-      -->
     </div>
   </div>
 </div>
