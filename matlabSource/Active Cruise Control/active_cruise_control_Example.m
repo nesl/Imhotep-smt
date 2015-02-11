@@ -47,7 +47,7 @@
 
 %% Book  keeping
 clc; close all; clear all; rand('state',0); randn('state',0); 
-imhotepSMTPath = './';  %path to Imhotep-SMT
+imhotepSMTPath = '../../';  %path to Imhotep-SMT
 addpath(imhotepSMTPath);	
 
 

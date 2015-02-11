@@ -37,10 +37,8 @@
 
 
 %% Housekeeping
-clc; close all; clear all;
-rand('state',0);
-randn('state',0);
-imhotepSMTPath = './';  %path to Imhotep-SMT
+clc; close all; clear all;  rand('state',0);    randn('state',0);
+imhotepSMTPath = '../../';  %path to Imhotep-SMT
 addpath(imhotepSMTPath);	
 
 
@@ -64,11 +62,12 @@ smt.init(ugv, max_sensors_under_attack, safe_sensors, noise_bound);
 safe_sensors             = [1];
 smt.init(ugv, max_sensors_under_attack, safe_sensors, noise_bound);
 
-smt.checkObservabilityCondition(1E-20);
+smt.checkObservabilityCondition();
 
 %% Step3: Simulate the system
 error       = [];
-x           = randn(2,1); %unknown initial condition
+x0          = randn(2,1); %unknown initial condition
+x           = x0;
 attacked_sensor_index = 2; % the attacker chooses to attack the second sensor.
 simulation_time         = 50;
 for t = 1 : simulation_time	% simulate the system for 1000 time steps

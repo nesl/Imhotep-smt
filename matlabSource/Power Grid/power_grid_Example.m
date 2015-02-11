@@ -51,11 +51,10 @@
 %   Date: Feburary 5, 2015
 
 %% Housekeeping
-clc; close all; clear all;
-rand('state',0);
-randn('state',0);
-imhotepSMTPath = './';  %path to Imhotep-SMT
+clc; close all; clear all;  rand('state',0);    randn('state',0);
+imhotepSMTPath = '../../';  %path to Imhotep-SMT
 addpath(imhotepSMTPath);	
+
 
 %% load the description of the IEEE 14 bus system
 load Atilde.mat
@@ -96,7 +95,7 @@ state_error_LeastSquares    = [];
 O                           = obsv(A,C);
 Y_ls                        = zeros(p*n,1);
 
-
+disp('==== Running the IEEE-14 bus example ====');
 for t = 1 : simulation_time
     % Generate a random attack vector
     attack_signal                           = zeros(p,1);
@@ -119,6 +118,8 @@ for t = 1 : simulation_time
     Y_ls                                    = [Y_ls(p+1:end); y];
     xhatLS                                  = O\Y_ls;
     state_error_LeastSquares(t)             = norm(xhatLS - x);
+    
+    disp(['Time = ' num2str(t) ' , estimation error: Imhotep-SMT = ' num2str(state_error_ImhotepSMT(t)) ' , least squares = ' num2str(state_error_LeastSquares(t))]);
 end
 
 

@@ -72,6 +72,9 @@
 		
 		<br />
 		
+		<p>
+        The Matlab files for this tutorial can be downloaded from <a href="./matlabSource/UGV.zip">here</a>.
+        </p>
 
 
       	
@@ -181,10 +184,10 @@ ugv = ss(A,B,C,0,0.001);</pre>
         it matches the specified maximum number of sensors under attack.
         In this case, the following report is generated:
         <div class="content">
-        <pre class="codeoutput">Theoretical upper bound on maximum number of attacks is: 0
+        <pre class="codeoutput">The maximum number of attacks specified by the user is: 1
+Theoretical upper bound on maximum number of attacks is: 0
  
-ERROR: System structure does not match the specified maximum number of attacked sensors
-Maximum number of attacked sensors must be less than 0
+ERROR: System structure does not match the maximum number of attacked sensors specified by the user
  
 Sensors that can improve system security are: Sensor#1</pre>
 		</div>
@@ -209,11 +212,12 @@ Sensors that can improve system security are: Sensor#1</pre>
         and initialize the solver again as follows:
         <div class="content">
         <pre class="codeinput">smt.init(sys, max_sensors_under_attack, safe_sensors, noise_bound);</pre>
-        <pre class="codeoutput">Theoretical upper bound on maximum number of attacks is: 2
+        <pre class="codeoutput">The maximum number of attacks specified by the user is: 1
+Theoretical upper bound on maximum number of attacks is: 2
  
 Disclaimer: Correction of the solver outputs is guaranteed if and only if
-the specified system is observable after removing all combinations of 2 unsafe sensors.
-To run this combinatorial test, call the checkObservabilityCondition()</pre>
+the system passes the s-sparse observability test. To run this combinatorial test,
+call the checkObservabilityCondition()</pre>
 		</div>
     	</p>
     	
@@ -226,13 +230,9 @@ To run this combinatorial test, call the checkObservabilityCondition()</pre>
     	the sparse observability condition holds for the specified system.
     	<div class="content">
         <pre class="codeinput">smt.checkObservabilityCondition(1E-20);</pre>
-        <pre class="codeoutput">Calculating lower bound on the number of sensors that can be attacked...
-lower bound is equal to 0
- 
- 
-The specified "number of sensors under attack" lies between the theoretical
-upper and lower bounds ...
-Checking the observability of 1 combinations ... This may take some time
+        <pre class="codeoutput">INFO: The sparse observability test ensures that the system is observable
+after removing every combination of 2 sensors. This requires
+checking the observability of 1 combinations ... This may take some time
  
 Iteration number 1 out of 1 combinations ... PASS!
 Sparse observability condition passed! Solver is ready to run!</pre>

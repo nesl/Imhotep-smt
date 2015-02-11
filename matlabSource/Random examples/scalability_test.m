@@ -34,10 +34,8 @@
 
 
 %% Housekeeping
-clc; close all; clear all;
-rand('state',0);
-randn('state',0);
-imhotepSMTPath = './';  %path to Imhotep-SMT
+clc; close all; clear all;  rand('state',0);    randn('state',0);
+imhotepSMTPath = '../../';  %path to Imhotep-SMT
 addpath(imhotepSMTPath);	
 
 
@@ -55,6 +53,8 @@ for n = [10, 25, 50, 75, 100, 150]
     load(['./Test1_states/test_n' num2str(n) '_p' num2str(p)]); 
     test_counter = test_counter + 1;
     
+    disp(['==== Running Test number 1 with n = ' num2str(n) ' and p = ' num2str(p) ' ====']);
+    disp(' '); disp(' ');
     % configure ImhotepSMT
     noiseBound                  = zeros(p,1);       % noise bounds
     max_sensors_under_attack    = int8(8);          % maximum sensors under attack
@@ -62,16 +62,18 @@ for n = [10, 25, 50, 75, 100, 150]
     safe_sensors                = [];
 
     smt = ImhotepSMT();
-    smt.init(sys, max_sensors_under_attack, safe_sensors, noiseBound )
+    smt.init(sys, max_sensors_under_attack, safe_sensors, noiseBound );
 
     for t = 1 : n
         % load the outputs from collected data
         y = Y(:,t);
         tic;
         [xhat, b] = smt.addInputsOutputs(0, y);
-        TimeSpent_SMT_test1(test_counter) = toc;
+        time = toc;
+        disp(['Execution time = ' num2str(time) ' sec']);
+        TimeSpent_SMT_test1(test_counter) = time;
     end
-    
+    disp(' ');
 end 
 
 % Plot figure
@@ -95,6 +97,9 @@ for p = [3, 30, 60, 90, 120, 150]
     load(['./Test2_sensors/test_n' num2str(n) '_p' num2str(p)]); 
     test_counter = test_counter + 1;
     
+    disp(['==== Running Test number 2 with n = ' num2str(n) ' and p = ' num2str(p) ' ====']);
+    disp(' ');
+    disp(' ');
     % configure ImhotepSMT
     noiseBound                  = zeros(p,1);       % noise bounds
     max_sensors_under_attack    = int8(s);          % maximum sensors under attack
@@ -102,14 +107,16 @@ for p = [3, 30, 60, 90, 120, 150]
     safe_sensors                = [];
 
     smt = ImhotepSMT();
-    smt.init(sys, max_sensors_under_attack, safe_sensors, noiseBound )
+    smt.init(sys, max_sensors_under_attack, safe_sensors, noiseBound );
 
     for t = 1 : n
         % load the outputs from collected data
         y = Y(:,t);
         tic;
         [xhat, b] = smt.addInputsOutputs(0, y);
-        TimeSpent_SMT_test2(test_counter) = toc;
+        time = toc;
+        disp(['Execution time = ' num2str(time) ' sec']);
+        TimeSpent_SMT_test2(test_counter) = time;
     end
     
 end 

@@ -7,7 +7,7 @@ To run the IEEE 14 bus example:
 OR
 
 Edit the line:
-imhotepSMTPath = './';  %path to Imhotep-SMT
+imhotepSMTPath = '../../';  %path to Imhotep-SMT
 by placing the path to the folder which contains ImhotepSMT.m
 
 3- Run the file from the play button or by Debug->play power_grid_Example.m
