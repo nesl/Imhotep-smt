@@ -211,40 +211,6 @@ classdef ImhotepSMT  < handle
             obj.initialized                 = 1;
         end
         %------------------------
-        function [xhat, sensorsUnderAttack ]= addInputsOutputs(obj, inputs, measurments)
-            xhat = zeros(obj.n,1);
-            sensorsUnderAttack = [];
-            
-            if(sum(size(inputs) == [obj.m, 1]) < 2)
-                disp(['ERROR: Check dimension of the inputs vector. Inputs vector must be a (' num2str(obj.m) 'x1) vector']);
-                return;
-            end
-            if(size(measurments,2) ~= 1 || size(measurments,1) ~= obj.p)
-                disp(['ERROR: Check dimension of the measurments vector (Y). Measurments vector (Y) must be a (' num2str(obj.p) 'x1) vector'])
-                return;
-            end
-            
-            obj.U                                 = [obj.U(obj.m+1:end); inputs];
-            
-            for sensorIndex = 1 : obj.p
-                YY                                = obj.Y_tilde{sensorIndex};
-                obj.Y_tilde{sensorIndex}          = [YY(2:end); measurments(sensorIndex)];
-                obj.Y{sensorIndex}                = obj.Y_tilde{sensorIndex} - obj.F{sensorIndex}*obj.U;
-            end
-            
-            if(obj.bufferCounter <= obj.tau)
-                obj.bufferCounter                 =   obj.bufferCounter + 1;
-            end
-            % Is the buffers full ?
-            if(obj.bufferCounter >= obj.tau)
-                [xhat, sensorsUnderAttack ]         = obj.solve();
-                % run the estimate forward in time
-                for counter = 1 : obj.tau
-                    xhat = obj.sys.A*xhat + obj.sys.B*obj.U((counter-1)*obj.m + 1: (counter-1)*obj.m  +obj.m);
-                end
-            end
-        end
-        %------------------------
         function status = checkObservabilityCondition(obj)
             obj.o_bar = 0;
             
@@ -319,6 +285,40 @@ classdef ImhotepSMT  < handle
             end
             
             maxEstimationError = obj.maxEstimationError;
+        end
+        %------------------------
+        function [xhat, sensorsUnderAttack ]= addInputsOutputs(obj, inputs, measurments)
+            xhat = zeros(obj.n,1);
+            sensorsUnderAttack = [];
+            
+            if(sum(size(inputs) == [obj.m, 1]) < 2)
+                disp(['ERROR: Check dimension of the inputs vector. Inputs vector must be a (' num2str(obj.m) 'x1) vector']);
+                return;
+            end
+            if(size(measurments,2) ~= 1 || size(measurments,1) ~= obj.p)
+                disp(['ERROR: Check dimension of the measurments vector (Y). Measurments vector (Y) must be a (' num2str(obj.p) 'x1) vector'])
+                return;
+            end
+            
+            obj.U                                 = [obj.U(obj.m+1:end); inputs];
+            
+            for sensorIndex = 1 : obj.p
+                YY                                = obj.Y_tilde{sensorIndex};
+                obj.Y_tilde{sensorIndex}          = [YY(2:end); measurments(sensorIndex)];
+                obj.Y{sensorIndex}                = obj.Y_tilde{sensorIndex} - obj.F{sensorIndex}*obj.U;
+            end
+            
+            if(obj.bufferCounter <= obj.tau)
+                obj.bufferCounter                 =   obj.bufferCounter + 1;
+            end
+            % Is the buffers full ?
+            if(obj.bufferCounter >= obj.tau)
+                [xhat, sensorsUnderAttack ]         = obj.solve();
+                % run the estimate forward in time
+                for counter = 1 : obj.tau
+                    xhat = obj.sys.A*xhat + obj.sys.B*obj.U((counter-1)*obj.m + 1: (counter-1)*obj.m  +obj.m);
+                end
+            end
         end
         %------------------------
         function flushBuffers(obj)
