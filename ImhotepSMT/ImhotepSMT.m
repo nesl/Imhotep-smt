@@ -1,9 +1,43 @@
+%  * Copyright (c) 2015 The Regents of the University of California.
+%  * All rights reserved.
+%  *
+%  * Redistribution and use in source and binary forms, with or without
+%  * modification, are permitted provided that the following conditions
+%  * are met:
+%  * 1. Redistributions of source code must retain the above copyright
+%  *    notice, this list of conditions and the following disclaimer.
+%  * 2. Redistributions in binary form must reproduce the above
+%  *    copyright notice, this list of conditions and the following
+%  *    disclaimer in the documentation and/or other materials provided
+%  *    with the distribution.
+%  * 3. All advertising materials mentioning features or use of this
+%  *    software must display the following acknowledgement:
+%  *       This product includes software developed by Networked &
+%  *       Embedded Systems Lab at UCLA
+%  * 4. Neither the name of the University nor that of the Laboratory
+%  *    may be used to endorse or promote products derived from this
+%  *    software without specific prior written permission.
+%  *
+%  * THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS ``AS IS''
+%  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
+%  * TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+%  * PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE REGENTS
+%  * OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+%  * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+%  * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF
+%  * USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+%  * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+%  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT
+%  * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+%  * SUCH DAMAGE.
+%  */
+
 classdef ImhotepSMT  < handle
     %=============================================
     properties
         isLinear        = 1;        % 1 = linear solver, 2 = nonlinear solver
         tolerance       = 1E-5;     % mathemtical tolerance
-        maxIterations   = 100;
+        maxIterations   = 1000;
     end
     properties (SetAccess = private)
         sys             = []    % system dynamics
@@ -31,6 +65,8 @@ classdef ImhotepSMT  < handle
         
         initialized     = -1;   % check if the solver is well initialized
         isSparseObservable = -1;% does the observability check pass through
+        
+        maxEstimationError= -1;  % the theoritical upper bound on estimation error
     end
     %=============================================
     properties (Hidden)
@@ -39,6 +75,8 @@ classdef ImhotepSMT  < handle
         LESS_THAN               = -2;
         GREATER_THAN_OR_EQUAL   = 1;
         GREATER_THAN            = 2;
+        delta_s                 = 0;    % delta is a parmeter which is used to calculate the max bound
+        o_bar                   = 0;    % o_bar is a parmeter which is used to calculate the max bound
     end
     %=============================================
     methods
@@ -53,7 +91,12 @@ classdef ImhotepSMT  < handle
                 javaaddpath(fullfile(ImhotepFilepath, SAT4J_PATH,'sat4j-sat.jar'));
                 javaaddpath(fullfile(ImhotepFilepath, SAT4J_PATH,'sat4j-pb.jar'));
                 javaaddpath(fullfile(ImhotepFilepath, SAT4J_PATH,'sat4j-maxsat.jar'));
-            end
+             end
+            % discard some warning messages
+            warning('off','MATLAB:rankDeficientMatrix') ;
+            warning('off','MATLAB:nearlySingularMatrix') ;
+            warning('off','MATLAB:singularMatrix') ;
+            warning('off', 'MATLAB:nchoosek:LargeCoefficient');
         end
         %------------------------
         function status = init(obj, sys, maxNumberOfAttackedSensors, safeSensors, noiseBound)
@@ -86,13 +129,16 @@ classdef ImhotepSMT  < handle
             obj.s                       = double(maxNumberOfAttackedSensors); 
             obj.tau                     = obj.n;
             obj.bufferCounter           = 0;
+            if(obj.s > 0)
+                obj.maxIterations           = 2*nchoosek(obj.p, obj.p-2*obj.s+1) + 1;
+            end
             obj.U                       = zeros(obj.tau*obj.m,1);
             for sensorIndex = 1 : obj.p
-                F = zeros(1,obj.m*obj.tau);
+                F_temp = zeros(1,obj.m*obj.tau);
                 for counter = 2 : obj.tau
-                    F(counter,:) = [obj.sys.C(sensorIndex,:)*obj.sys.A^(counter-2)*obj.sys.B F(counter-1,1:end-obj.m)];
+                    F_temp(counter,:) = [obj.sys.C(sensorIndex,:)*obj.sys.A^(counter-2)*obj.sys.B F_temp(counter-1,1:end-obj.m)];
                 end
-                obj.F{sensorIndex} = F;
+                obj.F{sensorIndex} = F_temp;
             end
             
             %3) Check that the second argument has the correct dimensions
@@ -165,29 +211,6 @@ classdef ImhotepSMT  < handle
             obj.initialized                 = 1;
         end
         %------------------------
-%         function addSensorMeasurements(obj, measurments, sensorIndex)
-%             if(size(measurments,2) ~= 1 || size(measurments,1) ~= obj.tau)
-%                 disp('ERROR: Check dimension of the measurments vector (Y). Measurments vector (Y) should be a (n x 1) vector')
-%                 return;
-%             elseif(sensorIndex > obj.p)
-%                 disp(['ERROR: Sensor Index ' num2str(sensorIndex)  ' exceeds the number of sensors.']);
-%                 return;
-%             end
-%             
-%             
-%             obj.Y{sensorIndex}          = measurments;
-%             obj.dimNull(sensorIndex)    = obj.n - rank(obj.O{sensorIndex});
-%         end
-        %------------------------
-        function flushBuffers(obj)
-            obj.U                           = zeros(obj.tau*obj.m,1);
-            for sensorIndex = 1 : obj.p
-                obj.Y{sensorIndex}          = zeros(obj.tau,1);
-                obj.Y_tilde{sensorIndex}    = zeros(obj.tau,1);
-            end
-            obj.bufferCounter               = 0;
-        end
-        %------------------------
         function [xhat, sensorsUnderAttack ]= addInputsOutputs(obj, inputs, measurments)
             xhat = zeros(obj.n,1);
             sensorsUnderAttack = [];
@@ -221,9 +244,10 @@ classdef ImhotepSMT  < handle
                 end
             end
         end
-        
         %------------------------
-        function status = checkObservabilityCondition(obj, tol)
+        function status = checkObservabilityCondition(obj)
+            obj.o_bar = 0;
+            
             if(obj.initialized == -1)
                 disp('ERROR: The solver is not initalized yet. To initialize the solver, call the init() method');
                 status = -1;
@@ -231,44 +255,31 @@ classdef ImhotepSMT  < handle
             end
             
             if(obj.s == 0)
-                disp('The specified number of sensors under attack is 0. Abort');
+                disp('The maximum number of sensors under attack is 0. Abort');
                 status = 0;
                 return;
-            end
-            
-            OO_lower = [];
-            disp('Calculating lower bound on the number of sensors that can be attacked...');
-            for counter = 1 : obj.p
-                [~, idx]                = obj.licols(obj.O{counter}, tol);
-                OO_temp                 = zeros(1,obj.n); 
-                OO_temp(idx)            = 1;
-                OO_lower                = [OO_lower; OO_temp];
-            end
-            s_lower_bound               = floor((min(sum(OO_lower,1)) - 1)/2);
-            disp(['lower bound is euqal to ' num2str(s_lower_bound)]);
-            
-            disp(' ');
-            if(obj.s <= s_lower_bound)
-                disp('The specified number of sensors under attack is below the lower bound');
-                obj.isSparseObservable  = 1;
-                status                  = 1;
-                return
             end
             
             max_count                   = nchoosek(obj.p, obj.p - length(obj.safeSensors) - 2*obj.s);
             allCombinations             = combnk(setdiff(1:obj.p, obj.safeSensors), 2*obj.s);
             disp(' ');
-            disp('The specified "number of sensors under attack" lies between the theortical');
-            disp('upper and lower bounds ...');
-            disp(['Checking the observability of ' num2str(max_count) ' combinations ... This may take some time']);
+            disp('INFO: The sparse observability test ensures that the system is observable');
+            disp(['after removing every combination of ' num2str(2*obj.s) ' sensors. This requires']);
+            disp(['checking the observability of ' num2str(max_count) ' combinations ... This may take some time']);
             observable = 1;
             disp(' ');
             for counter = 1 : max_count
                 sensorsIdx = setdiff(1:obj.p, allCombinations(counter,:));
-                if(rank( obsv(obj.sys.A, obj.sys.C(sensorsIdx,:))) < obj.n )
+                O_temp = obsv(obj.sys.A, obj.sys.C(sensorsIdx,:));
+                if(rank(O_temp) < obj.n )
                     observable = 0;
                     disp(['Iteration number ' num2str(counter) ' out of ' num2str(max_count) ' combinations ... FAIL!']);
                     break;
+                else
+                    maxEigValue = norm(pinv(O_temp));
+                    if(maxEigValue > obj.o_bar)
+                        obj.o_bar = maxEigValue;
+                    end
                 end
                 disp(['Iteration number ' num2str(counter) ' out of ' num2str(max_count) ' combinations ... PASS!']);
             end
@@ -285,6 +296,40 @@ classdef ImhotepSMT  < handle
                 obj.initialized         = 1;
             end
         end
+        %------------------------
+        function maxEstimationError = calculateMaxEstimationError(obj)
+            obj.delta_s = 0;
+            if(obj.isSparseObservable  == 0)
+                disp(['System is not s-sparse observable, max. estimation error = ' num2str(inf)]);
+                obj.maxEstimationError = inf;
+            elseif(obj.isSparseObservable  == 1)
+                O_all = obsv(obj.sys.A, obj.sys.C);
+                O_all_inv = inv(O_all'*O_all);
+                for counter = 1 : obj.p
+                    O_rest = obsv(obj.sys.A, obj.sys.C(setdiff(1:obj.p, counter)));
+                    maxEigValue = max(eig((O_rest'*obj.O{counter})*O_all_inv));
+                     if(obj.delta_s < maxEigValue)
+                         obj.delta_s = maxEigValue;
+                     end
+                end
+                obj.maxEstimationError = sqrt(2*obj.o_bar*(1 + 2/(1 - obj.delta_s))*norm(obj.noiseBound)^2 + 2*obj.o_bar*obj.tolerance/(1 - obj.delta_s));
+            else
+                disp('Please run the s-sparse observability test first. To run this test, call checkObservabilityCondition()');
+                obj.maxEstimationError = -1;
+            end
+            
+            maxEstimationError = obj.maxEstimationError;
+        end
+        %------------------------
+        function flushBuffers(obj)
+            obj.U                           = zeros(obj.tau*obj.m,1);
+            for sensorIndex = 1 : obj.p
+                obj.Y{sensorIndex}          = zeros(obj.tau,1);
+                obj.Y_tilde{sensorIndex}    = zeros(obj.tau,1);
+            end
+            obj.bufferCounter               = 0;
+        end
+        %------------------------
     end
     %========================================
     % Helper (private) methods
@@ -309,7 +354,7 @@ classdef ImhotepSMT  < handle
             for counter = 1 : length(obj.safeSensors)
                 idx = [idx find(OO_upper(obj.safeSensors(counter),:) == 1)];
             end
-            unsafeStates        = setdiff([1:obj.n], idx);
+            unsafeStates        = setdiff(1:obj.n, idx);
             stateSecurityIndex  = sum(OO_upper(:,unsafeStates), 1);
             
             if(isempty(stateSecurityIndex))
@@ -322,73 +367,41 @@ classdef ImhotepSMT  < handle
             if(s_upper_bound < 0 )
                 s_upper_bound = 0;
             end
-            reportStr1      = ['Theoretical upper bound on maximum number of attacks is: ' num2str(s_upper_bound)];
-            disp(reportStr1);
+            disp(' ');
+            disp( ['The maximum number of attacks specified by the user is: ' num2str(obj.s)]);
+            disp( ['Theoretical upper bound on maximum number of attacks is: ' num2str(s_upper_bound)]);
+            
             
             % 2-structure of sensors
             index           = find(stateSecurityIndex == min(stateSecurityIndex), 1, 'first');
             sensorIndex     = find(OO_upper(:,index) == 1);
-            reportStr2      = 'Sensors that can improve system security are: ';
+            
             
             
             disp(' ');
             if(s_upper_bound < obj.s)
-                disp('ERROR: System structure does not match the specified maximum number of attacked sensors');
-                disp(['Maximum number of attacked sensors must be less than ' num2str(s_upper_bound)]);
-            
+                disp('ERROR: System structure does not match the maximum number of attacked sensors specified by the user');
                 if(isempty(sensorIndex) == 0)
-                for counter = 1 : length(sensorIndex)
-                    reportStr2 = [reportStr2 'Sensor#' num2str(sensorIndex(counter)) ' '];
-                end
-                disp(' ');
-                disp(reportStr2);
+                    reportStr2      = 'Sensors that can improve system security are: ';
+                    for counter = 1 : length(sensorIndex)
+                        reportStr2 = [reportStr2 'Sensor#' num2str(sensorIndex(counter)) ' '];
+                    end
+                    disp(' ');
+                    disp(reportStr2);
                 end
             
                 status      = -1;
                 return;
             elseif(obj.s > 0)
                 disp('Disclaimer: Correction of the solver outputs is guaranteed if and only if');
-                disp(['the specified system is observable after removing all combinations of ' num2str(2*obj.s) ' unsafe sensors.']);
-                disp('To run this combinatorial test, call the checkObservabilityCondition()');
+                disp('the system passes the s-sparse observability test. To run this combinatorial test,');
+                disp('call the checkObservabilityCondition()');
             else
-                disp('This system can not tolerate any sensor attacks.');
+                disp('Warning: This system is configured with maximum number of attacks = 0.');
                 status      = 0;
                 return;
             end
             status          = 1;
-        end
-        %------------------------
-        function [Xsub, idx] = licols(obj, X,tol)
-            %Extract a linearly independent set of columns of a given matrix X
-            % [Xsub,idx]=licols(X)
-            %
-            %in:
-            %
-            % X: The given input matrix
-            % tol: A rank estimation tolerance. Default=1e-10
-            %
-            %out:
-            %
-            % Xsub: The extracted columns of X
-            % idx: The indices (into X) of the extracted columns
-
-           if ~nnz(X) %X has no non-zeros and hence no independent columns
-               Xsub=[]; idx=[];
-               return
-           end
-            if nargin<2, tol=1e-25; end           
-            [~, R, E] = qr(X,0);
-            if ~isvector(R)
-                diagr = abs(diag(R));
-            else
-                diagr = R(1); 
-            end
-            %Rank estimation
-%            r = find(diagr >= tol*diagr(1), 1, 'last'); %rank estimation
-            r = rank(X);
-
-            idx=sort(E(1:r));
-            Xsub=X(:,idx);
         end
         %------------------------
         function markSensorAsSafe(obj, sensorIndex)
@@ -405,10 +418,10 @@ classdef ImhotepSMT  < handle
             end
             
             solved = 0;
-            iterationCounter = 1;
-            while solved == 0 || iterationCounter >= obj.maxIterations
+            obj.mumberOfTheoryCalls = 1;
+            while solved == 0 || obj.mumberOfTheoryCalls >= obj.maxIterations
                 obj.writeConstriantsToSAT();
-                iterationCounter    = iterationCounter + 1;
+                obj.mumberOfTheoryCalls    = obj.mumberOfTheoryCalls + 1;
                 
                 % Get the boolean assignment
                 status = obj.SATsolver.isSatisfiable();
@@ -416,13 +429,7 @@ classdef ImhotepSMT  < handle
                     disp('ERROR: System is UNSAT. Check the system parameters and measurements.');
                     return
                 end
-                
-                % Check which convex constraints needs to be satisifed
-%                 convexConstraintAssignment = zeros(1, obj.p);
-%                 for counter = 1 : obj.p
-%                     convexConstraintAssignment(counter) = calllib('CalCSminisatp','getModel', ['c' num2str(counter)]);
-%                 end
-                
+              
                 convexConstraintAssignment  = obj.SATsolver.model;
                 constraints         = find(convexConstraintAssignment < 0);
                 sensorsUnderAttack  = find(convexConstraintAssignment > 0);
@@ -460,7 +467,7 @@ classdef ImhotepSMT  < handle
                 % 2- We know that at most s-sensors are under attack.
                 % The worst case scenario is that all of them are 
                 % present in the current assignment. So skip the highest
-                % s-slac and for the rest, sort them according to their
+                % s-slack and for the rest, sort them according to their
                 % diemnsion of null space. Remeber that the boolean
                 % assignment already excluded s sensors. Now by excluding
                 % more s sensors, we have (p - 2s) remaining sensors. From
@@ -494,22 +501,6 @@ classdef ImhotepSMT  < handle
                     end
                 end
 
-%                 if(foundConflict == 0)
-%                     for counter = setdiff(constraints, max_slack_index)
-%                         Y_active    = [obj.Y{max_slack_index}; obj.Y{counter}];
-%                         O_active    = [obj.O{max_slack_index}; obj.O{counter}];
-%                         %xhat        = linsolve(O_active,Y_active);
-%                         xhat        = O_active\Y_active;
-%                         if(norm(Y_active - O_active * xhat) > obj.tolerance)
-%                             % Conflict discovered
-%                             conflicts = [max_slack_index, counter];
-%                             foundConflict = 1;
-%                             break;
-%                         end
-%                     end
-%                 end
-                
-
                 % Just-in-case if the previous search failed, then use the
                 % weakest clause
                 if(foundConflict == 0)
@@ -521,29 +512,30 @@ classdef ImhotepSMT  < handle
                 % Search for agreeable constraints. The longest the better
                 % start by lowest slack and go linearly until you find the
                 % longest set of agreeable constraints
-                Y_active = []; O_active = [];
-                for counter = 1 : length(constraints)
-                    sensor = slackIndex(counter);
-                    Y_active    = [Y_active;  obj.Y{sensor}];
-                    O_active    = [O_active;  obj.O{sensor}];
-                    %xhat        = linsolve(O_active,Y_active);
-                    xhat        = O_active\Y_active;
-                    if(norm(Y_active - O_active * xhat) > obj.tolerance + sum(obj.noiseBound(slackIndex(1:counter))) )
-                        % Conflict discovered
-                        if(counter > obj.p - 2*obj.s)
-                            agreeable = slackIndex(1:counter-1);
-                            foundAgreeable = 1;
+                if(obj.p > 3 * obj.s)
+                    Y_active = []; O_active = [];
+                    for counter = 1 : length(constraints)
+                        sensor = slackIndex(counter);
+                        Y_active    = [Y_active;  obj.Y{sensor}];
+                        O_active    = [O_active;  obj.O{sensor}];
+                        %xhat        = linsolve(O_active,Y_active);
+                        xhat        = O_active\Y_active;
+                        if(norm(Y_active - O_active * xhat) > obj.tolerance + sum(obj.noiseBound(slackIndex(1:counter))) )
+                            % Conflict discovered
+                            if(counter > obj.p - 2*obj.s)
+                                agreeable = slackIndex(1:counter-1);
+                                foundAgreeable = 1;
+                            end
+                            break;    
                         end
-                        break;    
                     end
-                end
-                if(foundAgreeable)
-                    obj.agreeableClauses{end+1} = agreeable;
-                end
-                %obj.init(obj.n, obj.p, obj.tau, obj.s);
-            end
+                    if(foundAgreeable)
+                        obj.agreeableClauses{end+1} = agreeable;
+                    end
+                end   
+            %-----------    
+            end %while(solved)
             
-            obj.mumberOfTheoryCalls = iterationCounter;
             if solved == 0
                 xhat = [];
                 sensorsUnderAttack = [];
@@ -556,12 +548,6 @@ classdef ImhotepSMT  < handle
             % Add the optimization goal
             % minimize b1 + b2 + ... bp
             % TODO
-%             calllib('CalCSminisatp','startGoal')
-%             for counter = 1 : obj.p
-%                 calllib('CalCSminisatp','addToConstraint', ['b' num2str(counter)], 1);
-%             end
-%             calllib('CalCSminisatp','closeGoal');
-
 
             
             % Add the constraint on the number of attacks does not exceed s
@@ -575,19 +561,6 @@ classdef ImhotepSMT  < handle
             litI = org.sat4j.core.VecInt(literals); 
             coefI = org.sat4j.core.VecInt(coeffs);
             obj.SATsolver.addAtMost(litI, coefI, obj.s);
-
-            
-%             % For each convex constriant, define a boolean variable 
-%             % (e.g. c1 = ||Y_1 - O_1 x|| \le 0). 
-%             % Define the following boolean constraint: (not bi => ci)
-%             % This constraint reduces to: (bi or ci) which in turn can be written
-%             % as: bi + ci >= 1
-%             for counter = 1 : obj.p
-%                 calllib('CalCSminisatp','startNewConstraint')
-%                 calllib('CalCSminisatp','addToConstraint', ['b' num2str(counter)], 1);
-%                 calllib('CalCSminisatp','addToConstraint', ['c' num2str(counter)], 1);
-%                 calllib('CalCSminisatp','closeConstraint', obj.GREATER_THAN_OR_EQUAL, 1);
-%             end
 
 
             % Add the conflicting clauses
@@ -629,5 +602,6 @@ classdef ImhotepSMT  < handle
                 obj.SATsolver.addExactly(litI, coefI, 0);
             end
         end
+        %------------------------
     end
 end
