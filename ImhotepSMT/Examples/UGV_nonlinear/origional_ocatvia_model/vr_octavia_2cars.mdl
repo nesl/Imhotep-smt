@@ -1,0 +1,4261 @@
+# $Revision: 1.1.6.1 $
+# $Date: 2010/11/17 12:55:54 $
+# $Author: batserve $
+# Copyright 1998-2010 HUMUSOFT s.r.o. and The MathWorks, Inc.
+Model {
+  Name			  "vr_octavia_2cars"
+  Version		  7.7
+  MdlSubVersion		  0
+  GraphicalInterface {
+    NumRootInports	    0
+    NumRootOutports	    0
+    ParameterArgumentNames  ""
+    ComputedModelVersion    "1.14"
+    NumModelReferences	    0
+    NumTestPointedSignals   0
+  }
+  Description		  "Vehicle Dynamics Visualization - Simulation of Multiple Objects\n\nThis example extends the vr_octav"
+  "ia example to demonstrate multiple-object\nscenario visualizations.\n\nThe pre-computed simulation data represent st"
+  "andard \"Double Lane-Change\"\nmanoeuvre conducted in two vehicle configurations - with Electronic Stability\nProgra"
+  "m control unit engaged and switched-off. The two sets of vehicle \ndynamics data is sent in parallel to the virtual "
+  "reality scene, where they \ndrive two different vehicles.\n\nVehicles are modelled using the VRML97 EXTERNPROTO mech"
+  "anism. This means\nthat in the main virtual world associated with the VR Sink block, it is possible to \ncreate seve"
+  "ral identical vehicles as instances of a common 3D object. \nThis approach greatly simplifies virtual world authorin"
+  "g. For instance, it is very \neasy to create a third vehicle to simultaneously visualize another simulation \nscenar"
+  "io.\n\nIn addition to vehicle properties controlled in the vr_octavia example, vehicle \nprototypes allow user to de"
+  "fine also vehicle color and scale. These properties\nare used to distinguish individual car instances (color) and to"
+  " avoid unpleasant\nvisual interaction of two nearly aligned 3D objects (scale). By scaling one \nof the cars by a sm"
+  "all amount, one car is encompassed into another so that\ntheir faces don't clip randomly according to the current si"
+  "mulation data \nin each simulation step.\n\nIf you prefer to visualize vehicles not this way, but rather \"side-by-s"
+  "ide\", \nit is possible to add an offset to the position of one vehicle.\n\nAcknowledgements:\n\nSkoda Octavia model"
+  " copyright Skoda Auto, courtesy of Ismar VR, Czech Republic.\n"
+  SavedCharacterEncoding  "windows-1250"
+  PostLoadFcn		  "load octavia_testlchg"
+  SaveDefaultBlockParams  on
+  ScopeRefreshTime	  0.035000
+  OverrideScopeRefreshTime on
+  DisableAllScopes	  off
+  DataTypeOverride	  "UseLocalSettings"
+  DataTypeOverrideAppliesTo "AllNumericTypes"
+  MinMaxOverflowLogging	  "UseLocalSettings"
+  MinMaxOverflowArchiveMode "Overwrite"
+  MaxMDLFileLineLength	  120
+  Created		  "Wed Oct 27 17:22:15 2010"
+  Creator		  "Danek"
+  UpdateHistory		  "UpdateHistoryNever"
+  ModifiedByFormat	  "%<Auto>"
+  LastModifiedBy	  "Danek"
+  ModifiedDateFormat	  "%<Auto>"
+  LastModifiedDate	  "Wed Oct 27 18:30:13 2010"
+  RTWModifiedTimeStamp	  210101775
+  ModelVersionFormat	  "1.%<AutoIncrement:14>"
+  ConfigurationManager	  "None"
+  SampleTimeColors	  off
+  SampleTimeAnnotations	  off
+  LibraryLinkDisplay	  "none"
+  WideLines		  off
+  ShowLineDimensions	  on
+  ShowPortDataTypes	  off
+  ShowLoopsOnError	  on
+  IgnoreBidirectionalLines off
+  ShowStorageClass	  off
+  ShowTestPointIcons	  on
+  ShowSignalResolutionIcons on
+  ShowViewerIcons	  on
+  SortedOrder		  off
+  ShowMaskWithParameters  off
+  ShowModelReferenceVariance off
+  ShowRequirementLinks	  off
+  ExecutionContextIcon	  off
+  ShowLinearizationAnnotations on
+  BlockNameDataTip	  off
+  BlockParametersDataTip  off
+  BlockDescriptionStringDataTip	off
+  ToolBar		  on
+  StatusBar		  on
+  BrowserShowLibraryLinks off
+  BrowserLookUnderMasks	  off
+  SimulationMode	  "normal"
+  LinearizationMsg	  "none"
+  Profile		  off
+  ParamWorkspaceSource	  "MATLABWorkspace"
+  AccelSystemTargetFile	  "accel.tlc"
+  AccelTemplateMakefile	  "accel_default_tmf"
+  AccelMakeCommand	  "make_rtw"
+  TryForcingSFcnDF	  off
+  RecordCoverage	  off
+  CovPath		  "/"
+  CovSaveName		  "covdata"
+  CovMetricSettings	  "dw"
+  CovNameIncrementing	  off
+  CovHtmlReporting	  on
+  CovForceBlockReductionOff on
+  covSaveCumulativeToWorkspaceVar on
+  CovSaveSingleToWorkspaceVar on
+  CovCumulativeVarName	  "covCumulativeData"
+  CovCumulativeReport	  off
+  CovReportOnPause	  on
+  CovModelRefEnable	  "Off"
+  CovExternalEMLEnable	  off
+  ExtModeBatchMode	  off
+  ExtModeEnableFloating	  on
+  ExtModeTrigType	  "manual"
+  ExtModeTrigMode	  "normal"
+  ExtModeTrigPort	  "1"
+  ExtModeTrigElement	  "any"
+  ExtModeTrigDuration	  1000
+  ExtModeTrigDurationFloating "auto"
+  ExtModeTrigHoldOff	  0
+  ExtModeTrigDelay	  0
+  ExtModeTrigDirection	  "rising"
+  ExtModeTrigLevel	  0
+  ExtModeArchiveMode	  "off"
+  ExtModeAutoIncOneShot	  off
+  ExtModeIncDirWhenArm	  off
+  ExtModeAddSuffixToVar	  off
+  ExtModeWriteAllDataToWs off
+  ExtModeArmWhenConnect	  off
+  ExtModeSkipDownloadWhenConnect off
+  ExtModeLogAll		  on
+  ExtModeAutoUpdateStatusClock on
+  BufferReuse		  off
+  ShowModelReferenceBlockVersion off
+  ShowModelReferenceBlockIO off
+  Array {
+    Type		    "Handle"
+    Dimension		    1
+    Simulink.ConfigSet {
+      $ObjectID		      1
+      Version		      "1.11.0"
+      Array {
+	Type			"Handle"
+	Dimension		8
+	Simulink.SolverCC {
+	  $ObjectID		  2
+	  Version		  "1.11.0"
+	  StartTime		  "0.0"
+	  StopTime		  "33"
+	  AbsTol		  "auto"
+	  FixedStep		  "auto"
+	  InitialStep		  "auto"
+	  MaxNumMinSteps	  "-1"
+	  MaxOrder		  5
+	  ZcThreshold		  "auto"
+	  ConsecutiveZCsStepRelTol "10*128*eps"
+	  MaxConsecutiveZCs	  "1000"
+	  ExtrapolationOrder	  4
+	  NumberNewtonIterations  1
+	  MaxStep		  "auto"
+	  MinStep		  "auto"
+	  MaxConsecutiveMinStep	  "1"
+	  RelTol		  "1e-3"
+	  SolverMode		  "Auto"
+	  ConcurrentTasks	  off
+	  Solver		  "ode45"
+	  SolverName		  "ode45"
+	  SolverJacobianMethodControl "auto"
+	  ShapePreserveControl	  "DisableAll"
+	  ZeroCrossControl	  "UseLocalSettings"
+	  ZeroCrossAlgorithm	  "Nonadaptive"
+	  AlgebraicLoopSolver	  "TrustRegion"
+	  SolverResetMethod	  "Fast"
+	  PositivePriorityOrder	  off
+	  AutoInsertRateTranBlk	  off
+	  SampleTimeConstraint	  "Unconstrained"
+	  InsertRTBMode		  "Whenever possible"
+	}
+	Simulink.DataIOCC {
+	  $ObjectID		  3
+	  Version		  "1.11.0"
+	  Decimation		  "1"
+	  ExternalInput		  "[t, u]"
+	  FinalStateName	  "xFinal"
+	  InitialState		  "xInitial"
+	  LimitDataPoints	  on
+	  MaxDataPoints		  "1000"
+	  LoadExternalInput	  off
+	  LoadInitialState	  off
+	  SaveFinalState	  off
+	  SaveCompleteFinalSimState off
+	  SaveFormat		  "Array"
+	  SignalLoggingSaveFormat "ModelDataLogs"
+	  SaveOutput		  on
+	  SaveState		  off
+	  SignalLogging		  on
+	  DSMLogging		  on
+	  InspectSignalLogs	  off
+	  SaveTime		  on
+	  ReturnWorkspaceOutputs  off
+	  StateSaveName		  "xout"
+	  TimeSaveName		  "tout"
+	  OutputSaveName	  "yout"
+	  SignalLoggingName	  "sigsOut"
+	  DSMLoggingName	  "dsmout"
+	  OutputOption		  "RefineOutputTimes"
+	  OutputTimes		  "[]"
+	  ReturnWorkspaceOutputsName "out"
+	  Refine		  "1"
+	}
+	Simulink.OptimizationCC {
+	  $ObjectID		  4
+	  Version		  "1.11.0"
+	  Array {
+	    Type		    "Cell"
+	    Dimension		    6
+	    Cell		    "ZeroExternalMemoryAtStartup"
+	    Cell		    "ZeroInternalMemoryAtStartup"
+	    Cell		    "BufferReuse"
+	    Cell		    "OptimizeModelRefInitCode"
+	    Cell		    "NoFixptDivByZeroProtection"
+	    Cell		    "LocalBlockOutputs"
+	    PropName		    "DisabledProps"
+	  }
+	  BlockReduction	  on
+	  BooleanDataType	  off
+	  ConditionallyExecuteInputs on
+	  InlineParams		  off
+	  UseIntDivNetSlope	  off
+	  UseSpecifiedMinMax	  off
+	  InlineInvariantSignals  on
+	  OptimizeBlockIOStorage  off
+	  BufferReuse		  off
+	  EnhancedBackFolding	  off
+	  StrengthReduction	  off
+	  ExpressionFolding	  off
+	  BooleansAsBitfields	  off
+	  BitfieldContainerType	  "uint_T"
+	  EnableMemcpy		  on
+	  MemcpyThreshold	  64
+	  PassReuseOutputArgsAs	  "Structure reference"
+	  ExpressionDepthLimit	  2147483647
+	  FoldNonRolledExpr	  on
+	  LocalBlockOutputs	  off
+	  RollThreshold		  5
+	  SystemCodeInlineAuto	  off
+	  StateBitsets		  off
+	  DataBitsets		  off
+	  UseTempVars		  off
+	  ZeroExternalMemoryAtStartup on
+	  ZeroInternalMemoryAtStartup on
+	  InitFltsAndDblsToZero	  on
+	  NoFixptDivByZeroProtection off
+	  EfficientFloat2IntCast  off
+	  EfficientMapNaN2IntZero on
+	  OptimizeModelRefInitCode off
+	  LifeSpan		  "inf"
+	  MaxStackSize		  "Inherit from target"
+	  BufferReusableBoundary  on
+	  SimCompilerOptimization "Off"
+	  AccelVerboseBuild	  off
+	  AccelParallelForEachSubsystem	on
+	}
+	Simulink.DebuggingCC {
+	  $ObjectID		  5
+	  Version		  "1.11.0"
+	  RTPrefix		  "error"
+	  ConsistencyChecking	  "none"
+	  ArrayBoundsChecking	  "none"
+	  SignalInfNanChecking	  "none"
+	  SignalRangeChecking	  "none"
+	  ReadBeforeWriteMsg	  "UseLocalSettings"
+	  WriteAfterWriteMsg	  "UseLocalSettings"
+	  WriteAfterReadMsg	  "UseLocalSettings"
+	  AlgebraicLoopMsg	  "warning"
+	  ArtificialAlgebraicLoopMsg "warning"
+	  SaveWithDisabledLinksMsg "warning"
+	  SaveWithParameterizedLinksMsg	"warning"
+	  CheckSSInitialOutputMsg on
+	  UnderspecifiedInitializationDetection	"Classic"
+	  MergeDetectMultiDrivingBlocksExec "none"
+	  CheckExecutionContextPreStartOutputMsg on
+	  CheckExecutionContextRuntimeOutputMsg	on
+	  SignalResolutionControl "TryResolveAllWithWarning"
+	  BlockPriorityViolationMsg "warning"
+	  MinStepSizeMsg	  "warning"
+	  TimeAdjustmentMsg	  "none"
+	  MaxConsecutiveZCsMsg	  "error"
+	  MaskedZcDiagnostic	  "warning"
+	  IgnoredZcDiagnostic	  "warning"
+	  SolverPrmCheckMsg	  "none"
+	  InheritedTsInSrcMsg	  "warning"
+	  DiscreteInheritContinuousMsg "warning"
+	  MultiTaskDSMMsg	  "warning"
+	  MultiTaskCondExecSysMsg "none"
+	  MultiTaskRateTransMsg	  "error"
+	  SingleTaskRateTransMsg  "none"
+	  TasksWithSamePriorityMsg "warning"
+	  SigSpecEnsureSampleTimeMsg "warning"
+	  CheckMatrixSingularityMsg "none"
+	  IntegerOverflowMsg	  "warning"
+	  Int32ToFloatConvMsg	  "warning"
+	  ParameterDowncastMsg	  "error"
+	  ParameterOverflowMsg	  "error"
+	  ParameterUnderflowMsg	  "none"
+	  ParameterPrecisionLossMsg "warning"
+	  ParameterTunabilityLossMsg "warning"
+	  FixptConstUnderflowMsg  "none"
+	  FixptConstOverflowMsg	  "none"
+	  FixptConstPrecisionLossMsg "none"
+	  UnderSpecifiedDataTypeMsg "none"
+	  UnnecessaryDatatypeConvMsg "none"
+	  VectorMatrixConversionMsg "none"
+	  InvalidFcnCallConnMsg	  "error"
+	  FcnCallInpInsideContextMsg "Use local settings"
+	  SignalLabelMismatchMsg  "none"
+	  UnconnectedInputMsg	  "warning"
+	  UnconnectedOutputMsg	  "warning"
+	  UnconnectedLineMsg	  "warning"
+	  SFcnCompatibilityMsg	  "none"
+	  UniqueDataStoreMsg	  "none"
+	  BusObjectLabelMismatch  "warning"
+	  RootOutportRequireBusObject "warning"
+	  AssertControl		  "UseLocalSettings"
+	  EnableOverflowDetection off
+	  ModelReferenceIOMsg	  "none"
+	  ModelReferenceMultiInstanceNormalModeStructChecksumCheck "error"
+	  ModelReferenceVersionMismatchMessage "none"
+	  ModelReferenceIOMismatchMessage "none"
+	  ModelReferenceCSMismatchMessage "none"
+	  UnknownTsInhSupMsg	  "warning"
+	  ModelReferenceDataLoggingMessage "warning"
+	  ModelReferenceSymbolNameMessage "warning"
+	  ModelReferenceExtraNoncontSigs "error"
+	  StateNameClashWarn	  "warning"
+	  SimStateInterfaceChecksumMismatchMsg "warning"
+	  SimStateOlderReleaseMsg "error"
+	  InitInArrayFormatMsg	  "warning"
+	  StrictBusMsg		  "None"
+	  BusNameAdapt		  "WarnAndRepair"
+	  NonBusSignalsTreatedAsBus "none"
+	  LoggingUnavailableSignals "error"
+	  BlockIODiagnostic	  "none"
+	  SFUnusedDataAndEventsDiag "warning"
+	  SFUnexpectedBacktrackingDiag "warning"
+	  SFInvalidInputDataAccessInChartInitDiag "warning"
+	  SFNoUnconditionalDefaultTransitionDiag "warning"
+	  SFTransitionOutsideNaturalParentDiag "warning"
+	}
+	Simulink.HardwareCC {
+	  $ObjectID		  6
+	  Version		  "1.11.0"
+	  ProdBitPerChar	  8
+	  ProdBitPerShort	  16
+	  ProdBitPerInt		  32
+	  ProdBitPerLong	  32
+	  ProdBitPerFloat	  32
+	  ProdBitPerDouble	  64
+	  ProdBitPerPointer	  32
+	  ProdLargestAtomicInteger "Char"
+	  ProdLargestAtomicFloat  "None"
+	  ProdIntDivRoundTo	  "Undefined"
+	  ProdEndianess		  "Unspecified"
+	  ProdWordSize		  32
+	  ProdShiftRightIntArith  on
+	  ProdHWDeviceType	  "32-bit Generic"
+	  TargetBitPerChar	  8
+	  TargetBitPerShort	  16
+	  TargetBitPerInt	  32
+	  TargetBitPerLong	  32
+	  TargetBitPerFloat	  32
+	  TargetBitPerDouble	  64
+	  TargetBitPerPointer	  32
+	  TargetLargestAtomicInteger "Char"
+	  TargetLargestAtomicFloat "None"
+	  TargetShiftRightIntArith on
+	  TargetIntDivRoundTo	  "Undefined"
+	  TargetEndianess	  "Unspecified"
+	  TargetWordSize	  32
+	  TargetTypeEmulationWarnSuppressLevel 0
+	  TargetPreprocMaxBitsSint 32
+	  TargetPreprocMaxBitsUint 32
+	  TargetHWDeviceType	  "Specified"
+	  TargetUnknown		  off
+	  ProdEqTarget		  on
+	}
+	Simulink.ModelReferenceCC {
+	  $ObjectID		  7
+	  Version		  "1.11.0"
+	  UpdateModelReferenceTargets "IfOutOfDateOrStructuralChange"
+	  CheckModelReferenceTargetMessage "error"
+	  EnableParallelModelReferenceBuilds off
+	  ParallelModelReferenceErrorOnInvalidPool on
+	  ParallelModelReferenceMATLABWorkerInit "None"
+	  ModelReferenceNumInstancesAllowed "Multi"
+	  PropagateVarSize	  "Infer from blocks in model"
+	  ModelReferencePassRootInputsByReference on
+	  ModelReferenceMinAlgLoopOccurrences off
+	  PropagateSignalLabelsOutOfModel off
+	  SupportModelReferenceSimTargetCustomCode off
+	}
+	Simulink.SFSimCC {
+	  $ObjectID		  8
+	  Version		  "1.11.0"
+	  SFSimEnableDebug	  on
+	  SFSimOverflowDetection  on
+	  SFSimEcho		  on
+	  SimBlas		  on
+	  SimCtrlC		  on
+	  SimExtrinsic		  on
+	  SimIntegrity		  on
+	  SimUseLocalCustomCode	  off
+	  SimParseCustomCode	  on
+	  SimBuildMode		  "sf_incremental_build"
+	}
+	Simulink.RTWCC {
+	  $BackupClass		  "Simulink.RTWCC"
+	  $ObjectID		  9
+	  Version		  "1.11.0"
+	  Array {
+	    Type		    "Cell"
+	    Dimension		    1
+	    Cell		    "IncludeHyperlinkInReport"
+	    PropName		    "DisabledProps"
+	  }
+	  SystemTargetFile	  "grt.tlc"
+	  GenCodeOnly		  off
+	  MakeCommand		  "make_rtw"
+	  GenerateMakefile	  on
+	  TemplateMakefile	  "grt_default_tmf"
+	  Description		  "Generic Real-Time Target"
+	  GenerateReport	  off
+	  SaveLog		  off
+	  RTWVerbose		  on
+	  RetainRTWFile		  on
+	  ProfileTLC		  off
+	  TLCDebug		  off
+	  TLCCoverage		  off
+	  TLCAssert		  off
+	  ProcessScriptMode	  "Default"
+	  ConfigurationMode	  "Optimized"
+	  ProcessScript		  "grt_make_rtw_hook"
+	  ConfigAtBuild		  off
+	  RTWUseLocalCustomCode	  off
+	  RTWUseSimCustomCode	  off
+	  IncludeHyperlinkInReport off
+	  LaunchReport		  off
+	  TargetLang		  "C"
+	  IncludeBusHierarchyInRTWFileBlockHierarchyMap	off
+	  IncludeERTFirstTime	  on
+	  GenerateTraceInfo	  off
+	  GenerateTraceReport	  off
+	  GenerateTraceReportSl	  off
+	  GenerateTraceReportSf	  off
+	  GenerateTraceReportEml  off
+	  GenerateCodeInfo	  off
+	  GenerateSLWebview	  off
+	  GenerateCodeMetricsReport off
+	  RTWCompilerOptimization "Off"
+	  CheckMdlBeforeBuild	  "Off"
+	  CustomRebuildMode	  "OnUpdate"
+	  Array {
+	    Type		    "Handle"
+	    Dimension		    2
+	    Simulink.CodeAppCC {
+	      $ObjectID		      10
+	      Version		      "1.11.0"
+	      Array {
+		Type			"Cell"
+		Dimension		9
+		Cell			"IgnoreCustomStorageClasses"
+		Cell			"InsertBlockDesc"
+		Cell			"SFDataObjDesc"
+		Cell			"SimulinkDataObjDesc"
+		Cell			"DefineNamingRule"
+		Cell			"SignalNamingRule"
+		Cell			"ParamNamingRule"
+		Cell			"InlinedPrmAccess"
+		Cell			"CustomSymbolStr"
+		PropName		"DisabledProps"
+	      }
+	      ForceParamTrailComments off
+	      GenerateComments	      on
+	      IgnoreCustomStorageClasses on
+	      IgnoreTestpoints	      off
+	      IncHierarchyInIds	      off
+	      MaxIdLength	      31
+	      PreserveName	      off
+	      PreserveNameWithParent  off
+	      ShowEliminatedStatement off
+	      IncAutoGenComments      off
+	      SimulinkDataObjDesc     off
+	      SFDataObjDesc	      off
+	      MATLABFcnDesc	      off
+	      IncDataTypeInIds	      off
+	      MangleLength	      1
+	      CustomSymbolStrGlobalVar "$R$N$M"
+	      CustomSymbolStrType     "$N$R$M"
+	      CustomSymbolStrField    "$N$M"
+	      CustomSymbolStrFcn      "$R$N$M$F"
+	      CustomSymbolStrFcnArg   "rt$I$N$M"
+	      CustomSymbolStrBlkIO    "rtb_$N$M"
+	      CustomSymbolStrTmpVar   "$N$M"
+	      CustomSymbolStrMacro    "$R$N$M"
+	      DefineNamingRule	      "None"
+	      ParamNamingRule	      "None"
+	      SignalNamingRule	      "None"
+	      InsertBlockDesc	      off
+	      InsertPolySpaceComments off
+	      SimulinkBlockComments   on
+	      MATLABSourceComments    off
+	      EnableCustomComments    off
+	      InlinedPrmAccess	      "Literals"
+	      ReqsInCode	      off
+	      UseSimReservedNames     off
+	    }
+	    Simulink.GRTTargetCC {
+	      $BackupClass	      "Simulink.TargetCC"
+	      $ObjectID		      11
+	      Version		      "1.11.0"
+	      Array {
+		Type			"Cell"
+		Dimension		11
+		Cell			"IncludeMdlTerminateFcn"
+		Cell			"CombineOutputUpdateFcns"
+		Cell			"SuppressErrorStatus"
+		Cell			"ERTCustomFileBanners"
+		Cell			"GenerateSampleERTMain"
+		Cell			"MultiInstanceERTCode"
+		Cell			"PurelyIntegerCode"
+		Cell			"SupportNonInlinedSFcns"
+		Cell			"SupportComplex"
+		Cell			"SupportAbsoluteTime"
+		Cell			"SupportContinuousTime"
+		PropName		"DisabledProps"
+	      }
+	      TargetFcnLib	      "ansi_tfl_tmw.mat"
+	      TargetLibSuffix	      ""
+	      TargetPreCompLibLocation ""
+	      TargetFunctionLibrary   "ANSI_C"
+	      UtilityFuncGeneration   "Auto"
+	      ERTMultiwordTypeDef     "System defined"
+	      FunctionExecutionProfile off
+	      CodeExecutionProfiling  off
+	      ERTCodeCoverageTool     "None"
+	      ERTMultiwordLength      256
+	      MultiwordLength	      2048
+	      GenerateFullHeader      on
+	      GenerateSampleERTMain   off
+	      GenerateTestInterfaces  off
+	      IsPILTarget	      off
+	      ModelReferenceCompliant on
+	      ParMdlRefBuildCompliant on
+	      CompOptLevelCompliant   on
+	      IncludeMdlTerminateFcn  on
+	      GeneratePreprocessorConditionals "Disable all"
+	      CombineOutputUpdateFcns off
+	      CombineSignalStateStructs	off
+	      SuppressErrorStatus     off
+	      ERTFirstTimeCompliant   off
+	      IncludeFileDelimiter    "Auto"
+	      ERTCustomFileBanners    off
+	      SupportAbsoluteTime     on
+	      LogVarNameModifier      "rt_"
+	      MatFileLogging	      on
+	      MultiInstanceERTCode    off
+	      SupportNonFinite	      on
+	      SupportComplex	      on
+	      PurelyIntegerCode	      off
+	      SupportContinuousTime   on
+	      SupportNonInlinedSFcns  on
+	      SupportVariableSizeSignals off
+	      EnableShiftOperators    on
+	      ParenthesesLevel	      "Nominal"
+	      PortableWordSizes	      off
+	      ModelStepFunctionPrototypeControlCompliant off
+	      CPPClassGenCompliant    off
+	      AutosarCompliant	      off
+	      UseMalloc		      off
+	      ExtMode		      off
+	      ExtModeStaticAlloc      off
+	      ExtModeTesting	      off
+	      ExtModeStaticAllocSize  1000000
+	      ExtModeTransport	      0
+	      ExtModeMexFile	      "ext_comm"
+	      ExtModeIntrfLevel	      "Level1"
+	      RTWCAPISignals	      off
+	      RTWCAPIParams	      off
+	      RTWCAPIStates	      off
+	      RTWCAPIRootIO	      off
+	      GenerateASAP2	      off
+	    }
+	    PropName		    "Components"
+	  }
+	}
+	PropName		"Components"
+      }
+      Name		      "Configuration"
+      CurrentDlgPage	      "Solver"
+      ConfigPrmDlgPosition     [ 200, 197, 1080, 827 ] 
+    }
+    PropName		    "ConfigurationSets"
+  }
+  Simulink.ConfigSet {
+    $PropName		    "ActiveConfigurationSet"
+    $ObjectID		    1
+  }
+  BlockDefaults {
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    NamePlacement	    "normal"
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+    ShowName		    on
+    BlockRotation	    0
+    BlockMirror		    off
+  }
+  AnnotationDefaults {
+    HorizontalAlignment	    "center"
+    VerticalAlignment	    "middle"
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+    UseDisplayTextAsClickCallback off
+  }
+  LineDefaults {
+    FontName		    "Helvetica"
+    FontSize		    9
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+  }
+  BlockParameterDefaults {
+    Block {
+      BlockType		      Constant
+      Value		      "1"
+      VectorParams1D	      on
+      SamplingMode	      "Sample based"
+      OutMin		      "[]"
+      OutMax		      "[]"
+      OutDataTypeStr	      "Inherit: Inherit from 'Constant value'"
+      LockScale		      off
+      SampleTime	      "inf"
+      FramePeriod	      "inf"
+      PreserveConstantTs      off
+    }
+    Block {
+      BlockType		      Demux
+      Outputs		      "4"
+      DisplayOption	      "none"
+      BusSelectionMode	      off
+    }
+    Block {
+      BlockType		      FromWorkspace
+      VariableName	      "simulink_input"
+      SampleTime	      "-1"
+      Interpolate	      on
+      ZeroCross		      off
+      OutputAfterFinalValue   "Extrapolation"
+    }
+    Block {
+      BlockType		      Gain
+      Gain		      "1"
+      Multiplication	      "Element-wise(K.*u)"
+      ParamMin		      "[]"
+      ParamMax		      "[]"
+      ParamDataTypeStr	      "Inherit: Same as input"
+      OutMin		      "[]"
+      OutMax		      "[]"
+      OutDataTypeStr	      "Inherit: Same as input"
+      LockScale		      off
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      Ground
+    }
+    Block {
+      BlockType		      Inport
+      Port		      "1"
+      OutputFunctionCall      off
+      OutMin		      "[]"
+      OutMax		      "[]"
+      OutDataTypeStr	      "Inherit: auto"
+      LockScale		      off
+      BusOutputAsStruct	      off
+      PortDimensions	      "-1"
+      VarSizeSig	      "Inherit"
+      SampleTime	      "-1"
+      SignalType	      "auto"
+      SamplingMode	      "auto"
+      LatchByDelayingOutsideSignal off
+      LatchInputForFeedbackSignals off
+      Interpolate	      on
+    }
+    Block {
+      BlockType		      Outport
+      Port		      "1"
+      OutMin		      "[]"
+      OutMax		      "[]"
+      OutDataTypeStr	      "Inherit: auto"
+      LockScale		      off
+      BusOutputAsStruct	      off
+      PortDimensions	      "-1"
+      VarSizeSig	      "Inherit"
+      SampleTime	      "-1"
+      SignalType	      "auto"
+      SamplingMode	      "auto"
+      SourceOfInitialOutputValue "Dialog"
+      OutputWhenDisabled      "held"
+      InitialOutput	      "[]"
+    }
+    Block {
+      BlockType		      Product
+      Inputs		      "2"
+      Multiplication	      "Element-wise(.*)"
+      CollapseMode	      "All dimensions"
+      CollapseDim	      "1"
+      InputSameDT	      on
+      OutMin		      "[]"
+      OutMax		      "[]"
+      OutDataTypeStr	      "Inherit: Same as first input"
+      LockScale		      off
+      RndMeth		      "Zero"
+      SaturateOnIntegerOverflow	on
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      Relay
+      OnSwitchValue	      "eps"
+      OffSwitchValue	      "eps"
+      OnOutputValue	      "1"
+      OffOutputValue	      "0"
+      OutMin		      "[]"
+      OutMax		      "[]"
+      OutDataTypeStr	      "Inherit: All ports same datatype"
+      LockScale		      off
+      ZeroCross		      on
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      SubSystem
+      ShowPortLabels	      "FromPortIcon"
+      Permissions	      "ReadWrite"
+      PermitHierarchicalResolution "All"
+      TreatAsAtomicUnit	      off
+      CheckFcnCallInpInsideContextMsg off
+      SystemSampleTime	      "-1"
+      RTWFcnNameOpts	      "Auto"
+      RTWFileNameOpts	      "Auto"
+      RTWMemSecFuncInitTerm   "Inherit from model"
+      RTWMemSecFuncExecute    "Inherit from model"
+      RTWMemSecDataConstants  "Inherit from model"
+      RTWMemSecDataInternal   "Inherit from model"
+      RTWMemSecDataParameters "Inherit from model"
+      SimViewingDevice	      off
+      DataTypeOverride	      "UseLocalSettings"
+      DataTypeOverrideAppliesTo	"AllNumericTypes"
+      MinMaxOverflowLogging   "UseLocalSettings"
+      Variant		      off
+      GeneratePreprocessorConditionals off
+    }
+  }
+  System {
+    Name		    "vr_octavia_2cars"
+    Location		    [241, 108, 1174, 923]
+    Open		    on
+    ModelBrowserVisibility  off
+    ModelBrowserWidth	    200
+    ScreenColor		    "white"
+    PaperOrientation	    "landscape"
+    PaperPositionMode	    "auto"
+    PaperType		    "usletter"
+    PaperUnits		    "inches"
+    TiledPaperMargins	    [0.196850, 0.196850, 0.196850, 0.196850]
+    TiledPageScale	    1
+    ShowPageBoundaries	    off
+    ZoomFactor		    "100"
+    ReportName		    "simulink-default.rpt"
+    SIDHighWatermark	    "241"
+    Block {
+      BlockType		      Constant
+      Name		      "Car body scale"
+      SID		      "165"
+      Position		      [530, 766, 615, 784]
+      ShowName		      off
+      Value		      "[1.01 1.01 1.01]"
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "Coordinate Transformations\nCar1"
+      SID		      "1"
+      Ports		      [1, 21]
+      Position		      [140, 72, 235, 408]
+      MinAlgLoopOccurrences   off
+      PropExecContextOutsideSubsystem off
+      RTWSystemCode	      "Auto"
+      FunctionWithSeparateData off
+      Opaque		      off
+      RequestExecContextInheritance off
+      MaskHideContents	      off
+      System {
+	Name			"Coordinate Transformations\nCar1"
+	Location		[98, 74, 985, 977]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"A4"
+	PaperUnits		"centimeters"
+	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
+	TiledPageScale		1
+	ShowPageBoundaries	off
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "In1"
+	  SID			  "2"
+	  Position		  [20, 668, 50, 682]
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Demux
+	  Name			  "Demux"
+	  SID			  "3"
+	  Ports			  [1, 8]
+	  Position		  [75, 262, 80, 1093]
+	  BackgroundColor	  "black"
+	  ShowName		  off
+	  Outputs		  "[3,9,1,16,16,16,16,1]"
+	}
+	Block {
+	  BlockType		  Demux
+	  Name			  "Demux1"
+	  SID			  "4"
+	  Ports			  [1, 4]
+	  Position		  [370, 500, 375, 700]
+	  BackgroundColor	  "black"
+	  ShowName		  off
+	  Outputs		  "[9,3,1,3]"
+	  Port {
+	    PortNumber		    1
+	    Name		    "Wheel System Matrix2"
+	    RTWStorageClass	    "Auto"
+	    DataLoggingNameMode	    "SignalName"
+	  }
+	  Port {
+	    PortNumber		    2
+	    Name		    "Wheel Position2"
+	    RTWStorageClass	    "Auto"
+	    DataLoggingNameMode	    "SignalName"
+	  }
+	  Port {
+	    PortNumber		    3
+	    Name		    "Wheel Angle2"
+	    RTWStorageClass	    "Auto"
+	    DataLoggingNameMode	    "SignalName"
+	  }
+	  Port {
+	    PortNumber		    4
+	    Name		    "Wheel Forces2"
+	    RTWStorageClass	    "Auto"
+	    DataLoggingNameMode	    "SignalName"
+	  }
+	}
+	Block {
+	  BlockType		  Demux
+	  Name			  "Demux2"
+	  SID			  "5"
+	  Ports			  [1, 4]
+	  Position		  [370, 715, 375, 915]
+	  BackgroundColor	  "black"
+	  ShowName		  off
+	  Outputs		  "[9,3,1,3]"
+	  Port {
+	    PortNumber		    1
+	    Name		    "Wheel System Matrix3"
+	    RTWStorageClass	    "Auto"
+	    DataLoggingNameMode	    "SignalName"
+	  }
+	  Port {
+	    PortNumber		    2
+	    Name		    "Wheel Position3"
+	    RTWStorageClass	    "Auto"
+	    DataLoggingNameMode	    "SignalName"
+	  }
+	  Port {
+	    PortNumber		    3
+	    Name		    "Wheel Angle3"
+	    RTWStorageClass	    "Auto"
+	    DataLoggingNameMode	    "SignalName"
+	  }
+	  Port {
+	    PortNumber		    4
+	    Name		    "Wheel Forces3"
+	    RTWStorageClass	    "Auto"
+	    DataLoggingNameMode	    "SignalName"
+	  }
+	}
+	Block {
+	  BlockType		  Demux
+	  Name			  "Demux3"
+	  SID			  "6"
+	  Ports			  [1, 4]
+	  Position		  [370, 285, 375, 485]
+	  BackgroundColor	  "black"
+	  ShowName		  off
+	  Outputs		  "[9,3,1,3]"
+	  Port {
+	    PortNumber		    1
+	    Name		    "Wheel System Matrix1"
+	    RTWStorageClass	    "Auto"
+	    DataLoggingNameMode	    "SignalName"
+	  }
+	  Port {
+	    PortNumber		    2
+	    Name		    "Wheel Position1"
+	    RTWStorageClass	    "Auto"
+	    DataLoggingNameMode	    "SignalName"
+	  }
+	  Port {
+	    PortNumber		    3
+	    Name		    "Wheel Angle1"
+	    RTWStorageClass	    "Auto"
+	    DataLoggingNameMode	    "SignalName"
+	  }
+	  Port {
+	    PortNumber		    4
+	    Name		    "Wheel Forces1"
+	    RTWStorageClass	    "Auto"
+	    DataLoggingNameMode	    "SignalName"
+	  }
+	}
+	Block {
+	  BlockType		  Demux
+	  Name			  "Demux4"
+	  SID			  "7"
+	  Ports			  [1, 4]
+	  Position		  [370, 935, 375, 1135]
+	  BackgroundColor	  "black"
+	  ShowName		  off
+	  Outputs		  "[9,3,1,3]"
+	  Port {
+	    PortNumber		    1
+	    Name		    "Wheel System Matrix4"
+	    RTWStorageClass	    "Auto"
+	    DataLoggingNameMode	    "SignalName"
+	  }
+	  Port {
+	    PortNumber		    2
+	    Name		    "Wheel Position4"
+	    RTWStorageClass	    "Auto"
+	    DataLoggingNameMode	    "SignalName"
+	  }
+	  Port {
+	    PortNumber		    3
+	    Name		    "Wheel Angle4"
+	    RTWStorageClass	    "Auto"
+	    DataLoggingNameMode	    "SignalName"
+	  }
+	  Port {
+	    PortNumber		    4
+	    Name		    "Wheel Forces4"
+	    RTWStorageClass	    "Auto"
+	    DataLoggingNameMode	    "SignalName"
+	  }
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Forces Visibility \nSwitch"
+	  SID			  "86"
+	  Ports			  [2, 1]
+	  Position		  [1020, 67, 1050, 103]
+	  BackgroundColor	  "cyan"
+	  LibraryVersion	  "1.232"
+	  SourceBlock		  "simulink/Signal\nRouting/Manual Switch"
+	  SourceType		  "Manual Switch"
+	  ShowPortLabels	  "FromPortIcon"
+	  SystemSampleTime	  "-1"
+	  FunctionWithSeparateData off
+	  RTWMemSecFuncInitTerm	  "Inherit from model"
+	  RTWMemSecFuncExecute	  "Inherit from model"
+	  RTWMemSecDataConstants  "Inherit from model"
+	  RTWMemSecDataInternal	  "Inherit from model"
+	  RTWMemSecDataParameters "Inherit from model"
+	  GeneratePreprocessorConditionals off
+	  sw			  "1"
+	  action		  "0"
+	  varsize		  off
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "Forces Visualization Scaling\n[Longitudal Lateral Normal]"
+	  SID			  "8"
+	  Position		  [415, 57, 550, 93]
+	  BackgroundColor	  "cyan"
+	  Value			  "[0.001 0.001 0.00025]"
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "Gain"
+	  SID			  "9"
+	  Position		  [315, 185, 345, 215]
+	  ShowName		  off
+	  Gain			  "[-1 1 -1 1]"
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "Gain1"
+	  SID			  "10"
+	  Position		  [130, 110, 160, 140]
+	  ShowName		  off
+	  Gain			  "[1 -1 1]"
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "Gain2"
+	  SID			  "11"
+	  Position		  [815, 345, 845, 375]
+	  ShowName		  off
+	  Gain			  "[1 -1 1]"
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "Gain3"
+	  SID			  "12"
+	  Position		  [815, 560, 845, 590]
+	  ShowName		  off
+	  Gain			  "[1 -1 1]"
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "Gain4"
+	  SID			  "13"
+	  Position		  [815, 510, 845, 540]
+	  ShowName		  off
+	  Gain			  "[1 -1 -1 1]"
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "Gain5"
+	  SID			  "14"
+	  Position		  [815, 775, 845, 805]
+	  ShowName		  off
+	  Gain			  "[1 -1 1]"
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "Gain6"
+	  SID			  "15"
+	  Position		  [815, 295, 845, 325]
+	  ShowName		  off
+	  Gain			  "[1 -1 -1 1]"
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "Gain7"
+	  SID			  "16"
+	  Position		  [815, 725, 845, 755]
+	  ShowName		  off
+	  Gain			  "[1 -1 -1 1]"
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "Gain8"
+	  SID			  "17"
+	  Position		  [815, 995, 845, 1025]
+	  ShowName		  off
+	  Gain			  "[1 -1 1]"
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "Gain9"
+	  SID			  "18"
+	  Position		  [815, 945, 845, 975]
+	  ShowName		  off
+	  Gain			  "[1 -1 -1 1]"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "Invisible"
+	  SID			  "87"
+	  Position		  [940, 95, 960, 115]
+	  Value			  "-1"
+	}
+	Block {
+	  BlockType		  Product
+	  Name			  "Product"
+	  SID			  "19"
+	  Ports			  [2, 1]
+	  Position		  [640, 66, 685, 99]
+	  ShowName		  off
+	  InputSameDT		  off
+	  RndMeth		  "Floor"
+	}
+	Block {
+	  BlockType		  Product
+	  Name			  "Product1"
+	  SID			  "20"
+	  Ports			  [2, 1]
+	  Position		  [640, 116, 685, 149]
+	  ShowName		  off
+	  InputSameDT		  off
+	  RndMeth		  "Floor"
+	}
+	Block {
+	  BlockType		  Product
+	  Name			  "Product2"
+	  SID			  "21"
+	  Ports			  [2, 1]
+	  Position		  [640, 166, 685, 199]
+	  ShowName		  off
+	  InputSameDT		  off
+	  RndMeth		  "Floor"
+	}
+	Block {
+	  BlockType		  Product
+	  Name			  "Product3"
+	  SID			  "22"
+	  Ports			  [2, 1]
+	  Position		  [640, 216, 685, 249]
+	  ShowName		  off
+	  InputSameDT		  off
+	  RndMeth		  "Floor"
+	}
+	Block {
+	  BlockType		  Relay
+	  Name			  "Relay"
+	  SID			  "23"
+	  Position		  [690, 1135, 720, 1165]
+	  ShowName		  off
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Rotation Matrix\nto VRML Rotation"
+	  SID			  "24"
+	  Ports			  [1, 1]
+	  Position		  [155, 181, 250, 219]
+	  ShowName		  off
+	  LibraryVersion	  "1.241"
+	  SourceBlock		  "vrlib/Utilities/Rotation Matrix\nto VRML Rotation"
+	  SourceType		  "Rotation Matrix to VRML Rotation"
+	  ShowPortLabels	  "FromPortIcon"
+	  SystemSampleTime	  "-1"
+	  FunctionWithSeparateData off
+	  RTWMemSecFuncInitTerm	  "Inherit from model"
+	  RTWMemSecFuncExecute	  "Inherit from model"
+	  RTWMemSecDataConstants  "Inherit from model"
+	  RTWMemSecDataInternal	  "Inherit from model"
+	  RTWMemSecDataParameters "Inherit from model"
+	  GeneratePreprocessorConditionals off
+	  maxzero		  "1e-12"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Rotation Matrix\nto VRML Rotation1"
+	  SID			  "25"
+	  Ports			  [1, 1]
+	  Position		  [675, 291, 770, 329]
+	  ShowName		  off
+	  LibraryVersion	  "1.241"
+	  SourceBlock		  "vrlib/Utilities/Rotation Matrix\nto VRML Rotation"
+	  SourceType		  "Rotation Matrix to VRML Rotation"
+	  ShowPortLabels	  "FromPortIcon"
+	  SystemSampleTime	  "-1"
+	  FunctionWithSeparateData off
+	  RTWMemSecFuncInitTerm	  "Inherit from model"
+	  RTWMemSecFuncExecute	  "Inherit from model"
+	  RTWMemSecDataConstants  "Inherit from model"
+	  RTWMemSecDataInternal	  "Inherit from model"
+	  RTWMemSecDataParameters "Inherit from model"
+	  GeneratePreprocessorConditionals off
+	  maxzero		  "1e-12"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Rotation Matrix\nto VRML Rotation2"
+	  SID			  "26"
+	  Ports			  [1, 1]
+	  Position		  [665, 506, 760, 544]
+	  ShowName		  off
+	  LibraryVersion	  "1.241"
+	  SourceBlock		  "vrlib/Utilities/Rotation Matrix\nto VRML Rotation"
+	  SourceType		  "Rotation Matrix to VRML Rotation"
+	  ShowPortLabels	  "FromPortIcon"
+	  SystemSampleTime	  "-1"
+	  FunctionWithSeparateData off
+	  RTWMemSecFuncInitTerm	  "Inherit from model"
+	  RTWMemSecFuncExecute	  "Inherit from model"
+	  RTWMemSecDataConstants  "Inherit from model"
+	  RTWMemSecDataInternal	  "Inherit from model"
+	  RTWMemSecDataParameters "Inherit from model"
+	  GeneratePreprocessorConditionals off
+	  maxzero		  "1e-12"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Rotation Matrix\nto VRML Rotation3"
+	  SID			  "27"
+	  Ports			  [1, 1]
+	  Position		  [670, 721, 765, 759]
+	  ShowName		  off
+	  LibraryVersion	  "1.241"
+	  SourceBlock		  "vrlib/Utilities/Rotation Matrix\nto VRML Rotation"
+	  SourceType		  "Rotation Matrix to VRML Rotation"
+	  ShowPortLabels	  "FromPortIcon"
+	  SystemSampleTime	  "-1"
+	  FunctionWithSeparateData off
+	  RTWMemSecFuncInitTerm	  "Inherit from model"
+	  RTWMemSecFuncExecute	  "Inherit from model"
+	  RTWMemSecDataConstants  "Inherit from model"
+	  RTWMemSecDataInternal	  "Inherit from model"
+	  RTWMemSecDataParameters "Inherit from model"
+	  GeneratePreprocessorConditionals off
+	  maxzero		  "1e-12"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Rotation Matrix\nto VRML Rotation4"
+	  SID			  "28"
+	  Ports			  [1, 1]
+	  Position		  [670, 941, 765, 979]
+	  ShowName		  off
+	  LibraryVersion	  "1.241"
+	  SourceBlock		  "vrlib/Utilities/Rotation Matrix\nto VRML Rotation"
+	  SourceType		  "Rotation Matrix to VRML Rotation"
+	  ShowPortLabels	  "FromPortIcon"
+	  SystemSampleTime	  "-1"
+	  FunctionWithSeparateData off
+	  RTWMemSecFuncInitTerm	  "Inherit from model"
+	  RTWMemSecFuncExecute	  "Inherit from model"
+	  RTWMemSecDataConstants  "Inherit from model"
+	  RTWMemSecDataInternal	  "Inherit from model"
+	  RTWMemSecDataParameters "Inherit from model"
+	  GeneratePreprocessorConditionals off
+	  maxzero		  "1e-12"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "VR Signal Expander"
+	  SID			  "29"
+	  Ports			  [1, 1]
+	  Position		  [180, 259, 280, 291]
+	  ShowName		  off
+	  LibraryVersion	  "1.241"
+	  SourceBlock		  "vrlib/VR Signal Expander"
+	  SourceType		  "VR Signal Expander"
+	  ShowPortLabels	  "FromPortIcon"
+	  SystemSampleTime	  "-1"
+	  FunctionWithSeparateData off
+	  RTWMemSecFuncInitTerm	  "Inherit from model"
+	  RTWMemSecFuncExecute	  "Inherit from model"
+	  RTWMemSecDataConstants  "Inherit from model"
+	  RTWMemSecDataInternal	  "Inherit from model"
+	  RTWMemSecDataParameters "Inherit from model"
+	  GeneratePreprocessorConditionals off
+	  outwidth		  "4"
+	  outidx		  "[4]"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "VR Signal Expander1"
+	  SID			  "30"
+	  Ports			  [1, 1]
+	  Position		  [875, 395, 975, 425]
+	  ShowName		  off
+	  LibraryVersion	  "1.241"
+	  SourceBlock		  "vrlib/VR Signal Expander"
+	  SourceType		  "VR Signal Expander"
+	  ShowPortLabels	  "FromPortIcon"
+	  SystemSampleTime	  "-1"
+	  FunctionWithSeparateData off
+	  RTWMemSecFuncInitTerm	  "Inherit from model"
+	  RTWMemSecFuncExecute	  "Inherit from model"
+	  RTWMemSecDataConstants  "Inherit from model"
+	  RTWMemSecDataInternal	  "Inherit from model"
+	  RTWMemSecDataParameters "Inherit from model"
+	  GeneratePreprocessorConditionals off
+	  outwidth		  "4"
+	  outidx		  "[4]"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "VR Signal Expander10"
+	  SID			  "31"
+	  Ports			  [1, 1]
+	  Position		  [875, 774, 975, 806]
+	  ShowName		  off
+	  LibraryVersion	  "1.241"
+	  SourceBlock		  "vrlib/VR Signal Expander"
+	  SourceType		  "VR Signal Expander"
+	  ShowPortLabels	  "FromPortIcon"
+	  SystemSampleTime	  "-1"
+	  FunctionWithSeparateData off
+	  RTWMemSecFuncInitTerm	  "Inherit from model"
+	  RTWMemSecFuncExecute	  "Inherit from model"
+	  RTWMemSecDataConstants  "Inherit from model"
+	  RTWMemSecDataInternal	  "Inherit from model"
+	  RTWMemSecDataParameters "Inherit from model"
+	  GeneratePreprocessorConditionals off
+	  outwidth		  "3"
+	  outidx		  "[1 3 2 ]"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "VR Signal Expander11"
+	  SID			  "32"
+	  Ports			  [1, 1]
+	  Position		  [875, 295, 975, 325]
+	  ShowName		  off
+	  LibraryVersion	  "1.241"
+	  SourceBlock		  "vrlib/VR Signal Expander"
+	  SourceType		  "VR Signal Expander"
+	  ShowPortLabels	  "FromPortIcon"
+	  SystemSampleTime	  "-1"
+	  FunctionWithSeparateData off
+	  RTWMemSecFuncInitTerm	  "Inherit from model"
+	  RTWMemSecFuncExecute	  "Inherit from model"
+	  RTWMemSecDataConstants  "Inherit from model"
+	  RTWMemSecDataInternal	  "Inherit from model"
+	  RTWMemSecDataParameters "Inherit from model"
+	  GeneratePreprocessorConditionals off
+	  outwidth		  "4"
+	  outidx		  "[1 3 2 4]"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "VR Signal Expander12"
+	  SID			  "33"
+	  Ports			  [1, 1]
+	  Position		  [875, 1045, 975, 1075]
+	  ShowName		  off
+	  LibraryVersion	  "1.241"
+	  SourceBlock		  "vrlib/VR Signal Expander"
+	  SourceType		  "VR Signal Expander"
+	  ShowPortLabels	  "FromPortIcon"
+	  SystemSampleTime	  "-1"
+	  FunctionWithSeparateData off
+	  RTWMemSecFuncInitTerm	  "Inherit from model"
+	  RTWMemSecFuncExecute	  "Inherit from model"
+	  RTWMemSecDataConstants  "Inherit from model"
+	  RTWMemSecDataInternal	  "Inherit from model"
+	  RTWMemSecDataParameters "Inherit from model"
+	  GeneratePreprocessorConditionals off
+	  outwidth		  "4"
+	  outidx		  "[4]"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "VR Signal Expander13"
+	  SID			  "34"
+	  Ports			  [1, 1]
+	  Position		  [875, 945, 975, 975]
+	  ShowName		  off
+	  LibraryVersion	  "1.241"
+	  SourceBlock		  "vrlib/VR Signal Expander"
+	  SourceType		  "VR Signal Expander"
+	  ShowPortLabels	  "FromPortIcon"
+	  SystemSampleTime	  "-1"
+	  FunctionWithSeparateData off
+	  RTWMemSecFuncInitTerm	  "Inherit from model"
+	  RTWMemSecFuncExecute	  "Inherit from model"
+	  RTWMemSecDataConstants  "Inherit from model"
+	  RTWMemSecDataInternal	  "Inherit from model"
+	  RTWMemSecDataParameters "Inherit from model"
+	  GeneratePreprocessorConditionals off
+	  outwidth		  "4"
+	  outidx		  "[1 3 2 4]"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "VR Signal Expander14"
+	  SID			  "35"
+	  Ports			  [1, 1]
+	  Position		  [875, 994, 975, 1026]
+	  ShowName		  off
+	  LibraryVersion	  "1.241"
+	  SourceBlock		  "vrlib/VR Signal Expander"
+	  SourceType		  "VR Signal Expander"
+	  ShowPortLabels	  "FromPortIcon"
+	  SystemSampleTime	  "-1"
+	  FunctionWithSeparateData off
+	  RTWMemSecFuncInitTerm	  "Inherit from model"
+	  RTWMemSecFuncExecute	  "Inherit from model"
+	  RTWMemSecDataConstants  "Inherit from model"
+	  RTWMemSecDataInternal	  "Inherit from model"
+	  RTWMemSecDataParameters "Inherit from model"
+	  GeneratePreprocessorConditionals off
+	  outwidth		  "3"
+	  outidx		  "[1 3 2 ]"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "VR Signal Expander15"
+	  SID			  "36"
+	  Ports			  [1, 1]
+	  Position		  [735, 69, 830, 101]
+	  ShowName		  off
+	  LibraryVersion	  "1.241"
+	  SourceBlock		  "vrlib/VR Signal Expander"
+	  SourceType		  "VR Signal Expander"
+	  ShowPortLabels	  "FromPortIcon"
+	  SystemSampleTime	  "-1"
+	  FunctionWithSeparateData off
+	  RTWMemSecFuncInitTerm	  "Inherit from model"
+	  RTWMemSecFuncExecute	  "Inherit from model"
+	  RTWMemSecDataConstants  "Inherit from model"
+	  RTWMemSecDataInternal	  "Inherit from model"
+	  RTWMemSecDataParameters "Inherit from model"
+	  GeneratePreprocessorConditionals off
+	  outwidth		  "3"
+	  outidx		  "[1 3 2]"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "VR Signal Expander16"
+	  SID			  "37"
+	  Ports			  [1, 1]
+	  Position		  [735, 119, 830, 151]
+	  ShowName		  off
+	  LibraryVersion	  "1.241"
+	  SourceBlock		  "vrlib/VR Signal Expander"
+	  SourceType		  "VR Signal Expander"
+	  ShowPortLabels	  "FromPortIcon"
+	  SystemSampleTime	  "-1"
+	  FunctionWithSeparateData off
+	  RTWMemSecFuncInitTerm	  "Inherit from model"
+	  RTWMemSecFuncExecute	  "Inherit from model"
+	  RTWMemSecDataConstants  "Inherit from model"
+	  RTWMemSecDataInternal	  "Inherit from model"
+	  RTWMemSecDataParameters "Inherit from model"
+	  GeneratePreprocessorConditionals off
+	  outwidth		  "3"
+	  outidx		  "[1 3 2]"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "VR Signal Expander17"
+	  SID			  "38"
+	  Ports			  [1, 1]
+	  Position		  [735, 169, 830, 201]
+	  ShowName		  off
+	  LibraryVersion	  "1.241"
+	  SourceBlock		  "vrlib/VR Signal Expander"
+	  SourceType		  "VR Signal Expander"
+	  ShowPortLabels	  "FromPortIcon"
+	  SystemSampleTime	  "-1"
+	  FunctionWithSeparateData off
+	  RTWMemSecFuncInitTerm	  "Inherit from model"
+	  RTWMemSecFuncExecute	  "Inherit from model"
+	  RTWMemSecDataConstants  "Inherit from model"
+	  RTWMemSecDataInternal	  "Inherit from model"
+	  RTWMemSecDataParameters "Inherit from model"
+	  GeneratePreprocessorConditionals off
+	  outwidth		  "3"
+	  outidx		  "[1 3 2]"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "VR Signal Expander18"
+	  SID			  "39"
+	  Ports			  [1, 1]
+	  Position		  [735, 219, 830, 251]
+	  ShowName		  off
+	  LibraryVersion	  "1.241"
+	  SourceBlock		  "vrlib/VR Signal Expander"
+	  SourceType		  "VR Signal Expander"
+	  ShowPortLabels	  "FromPortIcon"
+	  SystemSampleTime	  "-1"
+	  FunctionWithSeparateData off
+	  RTWMemSecFuncInitTerm	  "Inherit from model"
+	  RTWMemSecFuncExecute	  "Inherit from model"
+	  RTWMemSecDataConstants  "Inherit from model"
+	  RTWMemSecDataInternal	  "Inherit from model"
+	  RTWMemSecDataParameters "Inherit from model"
+	  GeneratePreprocessorConditionals off
+	  outwidth		  "3"
+	  outidx		  "[1 3 2]"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "VR Signal Expander2"
+	  SID			  "40"
+	  Ports			  [1, 1]
+	  Position		  [875, 610, 975, 640]
+	  ShowName		  off
+	  LibraryVersion	  "1.241"
+	  SourceBlock		  "vrlib/VR Signal Expander"
+	  SourceType		  "VR Signal Expander"
+	  ShowPortLabels	  "FromPortIcon"
+	  SystemSampleTime	  "-1"
+	  FunctionWithSeparateData off
+	  RTWMemSecFuncInitTerm	  "Inherit from model"
+	  RTWMemSecFuncExecute	  "Inherit from model"
+	  RTWMemSecDataConstants  "Inherit from model"
+	  RTWMemSecDataInternal	  "Inherit from model"
+	  RTWMemSecDataParameters "Inherit from model"
+	  GeneratePreprocessorConditionals off
+	  outwidth		  "4"
+	  outidx		  "[4]"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "VR Signal Expander3"
+	  SID			  "41"
+	  Ports			  [1, 1]
+	  Position		  [875, 510, 975, 540]
+	  ShowName		  off
+	  LibraryVersion	  "1.241"
+	  SourceBlock		  "vrlib/VR Signal Expander"
+	  SourceType		  "VR Signal Expander"
+	  ShowPortLabels	  "FromPortIcon"
+	  SystemSampleTime	  "-1"
+	  FunctionWithSeparateData off
+	  RTWMemSecFuncInitTerm	  "Inherit from model"
+	  RTWMemSecFuncExecute	  "Inherit from model"
+	  RTWMemSecDataConstants  "Inherit from model"
+	  RTWMemSecDataInternal	  "Inherit from model"
+	  RTWMemSecDataParameters "Inherit from model"
+	  GeneratePreprocessorConditionals off
+	  outwidth		  "4"
+	  outidx		  "[1 3 2 4]"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "VR Signal Expander4"
+	  SID			  "42"
+	  Ports			  [1, 1]
+	  Position		  [875, 559, 975, 591]
+	  ShowName		  off
+	  LibraryVersion	  "1.241"
+	  SourceBlock		  "vrlib/VR Signal Expander"
+	  SourceType		  "VR Signal Expander"
+	  ShowPortLabels	  "FromPortIcon"
+	  SystemSampleTime	  "-1"
+	  FunctionWithSeparateData off
+	  RTWMemSecFuncInitTerm	  "Inherit from model"
+	  RTWMemSecFuncExecute	  "Inherit from model"
+	  RTWMemSecDataConstants  "Inherit from model"
+	  RTWMemSecDataInternal	  "Inherit from model"
+	  RTWMemSecDataParameters "Inherit from model"
+	  GeneratePreprocessorConditionals off
+	  outwidth		  "3"
+	  outidx		  "[1 3 2 ]"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "VR Signal Expander5"
+	  SID			  "43"
+	  Ports			  [1, 1]
+	  Position		  [210, 106, 305, 144]
+	  ShowName		  off
+	  LibraryVersion	  "1.241"
+	  SourceBlock		  "vrlib/VR Signal Expander"
+	  SourceType		  "VR Signal Expander"
+	  ShowPortLabels	  "FromPortIcon"
+	  SystemSampleTime	  "-1"
+	  FunctionWithSeparateData off
+	  RTWMemSecFuncInitTerm	  "Inherit from model"
+	  RTWMemSecFuncExecute	  "Inherit from model"
+	  RTWMemSecDataConstants  "Inherit from model"
+	  RTWMemSecDataInternal	  "Inherit from model"
+	  RTWMemSecDataParameters "Inherit from model"
+	  GeneratePreprocessorConditionals off
+	  outwidth		  "3"
+	  outidx		  "[1 3 2]"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "VR Signal Expander6"
+	  SID			  "44"
+	  Ports			  [1, 1]
+	  Position		  [375, 184, 470, 216]
+	  ShowName		  off
+	  LibraryVersion	  "1.241"
+	  SourceBlock		  "vrlib/VR Signal Expander"
+	  SourceType		  "VR Signal Expander"
+	  ShowPortLabels	  "FromPortIcon"
+	  SystemSampleTime	  "-1"
+	  FunctionWithSeparateData off
+	  RTWMemSecFuncInitTerm	  "Inherit from model"
+	  RTWMemSecFuncExecute	  "Inherit from model"
+	  RTWMemSecDataConstants  "Inherit from model"
+	  RTWMemSecDataInternal	  "Inherit from model"
+	  RTWMemSecDataParameters "Inherit from model"
+	  GeneratePreprocessorConditionals off
+	  outwidth		  "4"
+	  outidx		  "[1 3 2 4]"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "VR Signal Expander7"
+	  SID			  "45"
+	  Ports			  [1, 1]
+	  Position		  [875, 344, 975, 376]
+	  ShowName		  off
+	  LibraryVersion	  "1.241"
+	  SourceBlock		  "vrlib/VR Signal Expander"
+	  SourceType		  "VR Signal Expander"
+	  ShowPortLabels	  "FromPortIcon"
+	  SystemSampleTime	  "-1"
+	  FunctionWithSeparateData off
+	  RTWMemSecFuncInitTerm	  "Inherit from model"
+	  RTWMemSecFuncExecute	  "Inherit from model"
+	  RTWMemSecDataConstants  "Inherit from model"
+	  RTWMemSecDataInternal	  "Inherit from model"
+	  RTWMemSecDataParameters "Inherit from model"
+	  GeneratePreprocessorConditionals off
+	  outwidth		  "3"
+	  outidx		  "[1 3 2 ]"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "VR Signal Expander8"
+	  SID			  "46"
+	  Ports			  [1, 1]
+	  Position		  [875, 825, 975, 855]
+	  ShowName		  off
+	  LibraryVersion	  "1.241"
+	  SourceBlock		  "vrlib/VR Signal Expander"
+	  SourceType		  "VR Signal Expander"
+	  ShowPortLabels	  "FromPortIcon"
+	  SystemSampleTime	  "-1"
+	  FunctionWithSeparateData off
+	  RTWMemSecFuncInitTerm	  "Inherit from model"
+	  RTWMemSecFuncExecute	  "Inherit from model"
+	  RTWMemSecDataConstants  "Inherit from model"
+	  RTWMemSecDataInternal	  "Inherit from model"
+	  RTWMemSecDataParameters "Inherit from model"
+	  GeneratePreprocessorConditionals off
+	  outwidth		  "4"
+	  outidx		  "[4]"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "VR Signal Expander9"
+	  SID			  "47"
+	  Ports			  [1, 1]
+	  Position		  [875, 725, 975, 755]
+	  ShowName		  off
+	  LibraryVersion	  "1.241"
+	  SourceBlock		  "vrlib/VR Signal Expander"
+	  SourceType		  "VR Signal Expander"
+	  ShowPortLabels	  "FromPortIcon"
+	  SystemSampleTime	  "-1"
+	  FunctionWithSeparateData off
+	  RTWMemSecFuncInitTerm	  "Inherit from model"
+	  RTWMemSecFuncExecute	  "Inherit from model"
+	  RTWMemSecDataConstants  "Inherit from model"
+	  RTWMemSecDataInternal	  "Inherit from model"
+	  RTWMemSecDataParameters "Inherit from model"
+	  GeneratePreprocessorConditionals off
+	  outwidth		  "4"
+	  outidx		  "[1 3 2 4]"
+	}
+	Block {
+	  BlockType		  Ground
+	  Name			  "Visible"
+	  SID			  "88"
+	  Position		  [940, 55, 960, 75]
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Vehicle_pos"
+	  SID			  "48"
+	  Position		  [350, 118, 380, 132]
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Vehicle_rot"
+	  SID			  "49"
+	  Position		  [500, 193, 530, 207]
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Wheel1_rot"
+	  SID			  "55"
+	  Position		  [1000, 303, 1030, 317]
+	  Port			  "3"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Wheel1_pos"
+	  SID			  "56"
+	  Position		  [1000, 353, 1030, 367]
+	  Port			  "4"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Wheel1_spin"
+	  SID			  "57"
+	  Position		  [1000, 403, 1030, 417]
+	  Port			  "5"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Wheel2_rot"
+	  SID			  "58"
+	  Position		  [1000, 518, 1030, 532]
+	  Port			  "6"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Wheel2_pos"
+	  SID			  "59"
+	  Position		  [1000, 568, 1030, 582]
+	  Port			  "7"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Wheel2_spin"
+	  SID			  "60"
+	  Position		  [1000, 618, 1030, 632]
+	  Port			  "8"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Wheel3_rot"
+	  SID			  "61"
+	  Position		  [1000, 733, 1030, 747]
+	  Port			  "9"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Wheel3_pos"
+	  SID			  "62"
+	  Position		  [1000, 783, 1030, 797]
+	  Port			  "10"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Wheel3_spin"
+	  SID			  "63"
+	  Position		  [1000, 833, 1030, 847]
+	  Port			  "11"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Wheel4_rot"
+	  SID			  "64"
+	  Position		  [1000, 953, 1030, 967]
+	  Port			  "12"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Wheel4_pos"
+	  SID			  "65"
+	  Position		  [1000, 1003, 1030, 1017]
+	  Port			  "13"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Wheel4_spin"
+	  SID			  "66"
+	  Position		  [1000, 1053, 1030, 1067]
+	  Port			  "14"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Steering_angle"
+	  SID			  "54"
+	  Position		  [310, 268, 340, 282]
+	  Port			  "15"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Brake_pedal"
+	  SID			  "67"
+	  Position		  [995, 1143, 1025, 1157]
+	  Port			  "16"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Forces_OnOff"
+	  SID			  "89"
+	  Position		  [1095, 78, 1125, 92]
+	  Port			  "17"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Forces1"
+	  SID			  "50"
+	  Position		  [855, 78, 885, 92]
+	  Port			  "18"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Forces2"
+	  SID			  "51"
+	  Position		  [855, 128, 885, 142]
+	  Port			  "19"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Forces3"
+	  SID			  "52"
+	  Position		  [855, 178, 885, 192]
+	  Port			  "20"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Forces4"
+	  SID			  "53"
+	  Position		  [855, 228, 885, 242]
+	  Port			  "21"
+	  IconDisplay		  "Port number"
+	}
+	Line {
+	  SrcBlock		  "Gain1"
+	  SrcPort		  1
+	  DstBlock		  "VR Signal Expander5"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Rotation Matrix\nto VRML Rotation"
+	  SrcPort		  1
+	  DstBlock		  "Gain"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Gain"
+	  SrcPort		  1
+	  DstBlock		  "VR Signal Expander6"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Gain6"
+	  SrcPort		  1
+	  DstBlock		  "VR Signal Expander11"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Gain2"
+	  SrcPort		  1
+	  DstBlock		  "VR Signal Expander7"
+	  DstPort		  1
+	}
+	Line {
+	  Name			  "Wheel System Matrix1"
+	  Labels		  [0, 0]
+	  SrcBlock		  "Demux3"
+	  SrcPort		  1
+	  DstBlock		  "Rotation Matrix\nto VRML Rotation1"
+	  DstPort		  1
+	}
+	Line {
+	  Name			  "Wheel Position1"
+	  Labels		  [0, 0]
+	  SrcBlock		  "Demux3"
+	  SrcPort		  2
+	  DstBlock		  "Gain2"
+	  DstPort		  1
+	}
+	Line {
+	  Name			  "Wheel Angle1"
+	  Labels		  [0, 0]
+	  SrcBlock		  "Demux3"
+	  SrcPort		  3
+	  DstBlock		  "VR Signal Expander1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Gain4"
+	  SrcPort		  1
+	  DstBlock		  "VR Signal Expander3"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Rotation Matrix\nto VRML Rotation2"
+	  SrcPort		  1
+	  DstBlock		  "Gain4"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Gain3"
+	  SrcPort		  1
+	  DstBlock		  "VR Signal Expander4"
+	  DstPort		  1
+	}
+	Line {
+	  Name			  "Wheel System Matrix2"
+	  Labels		  [0, 0]
+	  SrcBlock		  "Demux1"
+	  SrcPort		  1
+	  DstBlock		  "Rotation Matrix\nto VRML Rotation2"
+	  DstPort		  1
+	}
+	Line {
+	  Name			  "Wheel Position2"
+	  Labels		  [0, 0]
+	  SrcBlock		  "Demux1"
+	  SrcPort		  2
+	  DstBlock		  "Gain3"
+	  DstPort		  1
+	}
+	Line {
+	  Name			  "Wheel Angle2"
+	  Labels		  [0, 0]
+	  SrcBlock		  "Demux1"
+	  SrcPort		  3
+	  DstBlock		  "VR Signal Expander2"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Gain7"
+	  SrcPort		  1
+	  DstBlock		  "VR Signal Expander9"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Rotation Matrix\nto VRML Rotation3"
+	  SrcPort		  1
+	  DstBlock		  "Gain7"
+	  DstPort		  1
+	}
+	Line {
+	  Name			  "Wheel Forces3"
+	  Labels		  [0, 0]
+	  SrcBlock		  "Demux2"
+	  SrcPort		  4
+	  Points		  [220, 0; 0, -700]
+	  DstBlock		  "Product2"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Gain5"
+	  SrcPort		  1
+	  DstBlock		  "VR Signal Expander10"
+	  DstPort		  1
+	}
+	Line {
+	  Name			  "Wheel System Matrix3"
+	  Labels		  [0, 0]
+	  SrcBlock		  "Demux2"
+	  SrcPort		  1
+	  DstBlock		  "Rotation Matrix\nto VRML Rotation3"
+	  DstPort		  1
+	}
+	Line {
+	  Name			  "Wheel Position3"
+	  Labels		  [0, 0]
+	  SrcBlock		  "Demux2"
+	  SrcPort		  2
+	  DstBlock		  "Gain5"
+	  DstPort		  1
+	}
+	Line {
+	  Name			  "Wheel Angle3"
+	  Labels		  [0, 0]
+	  SrcBlock		  "Demux2"
+	  SrcPort		  3
+	  DstBlock		  "VR Signal Expander8"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Gain9"
+	  SrcPort		  1
+	  DstBlock		  "VR Signal Expander13"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Rotation Matrix\nto VRML Rotation4"
+	  SrcPort		  1
+	  DstBlock		  "Gain9"
+	  DstPort		  1
+	}
+	Line {
+	  Name			  "Wheel Forces4"
+	  Labels		  [0, 0]
+	  SrcBlock		  "Demux4"
+	  SrcPort		  4
+	  Points		  [225, 0; 0, -870]
+	  DstBlock		  "Product3"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Gain8"
+	  SrcPort		  1
+	  DstBlock		  "VR Signal Expander14"
+	  DstPort		  1
+	}
+	Line {
+	  Name			  "Wheel System Matrix4"
+	  Labels		  [0, 0]
+	  SrcBlock		  "Demux4"
+	  SrcPort		  1
+	  DstBlock		  "Rotation Matrix\nto VRML Rotation4"
+	  DstPort		  1
+	}
+	Line {
+	  Name			  "Wheel Position4"
+	  Labels		  [0, 0]
+	  SrcBlock		  "Demux4"
+	  SrcPort		  2
+	  DstBlock		  "Gain8"
+	  DstPort		  1
+	}
+	Line {
+	  Name			  "Wheel Angle4"
+	  Labels		  [0, 0]
+	  SrcBlock		  "Demux4"
+	  SrcPort		  3
+	  DstBlock		  "VR Signal Expander12"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "VR Signal Expander5"
+	  SrcPort		  1
+	  DstBlock		  "Vehicle_pos"
+	  DstPort		  1
+	}
+	Line {
+	  Name			  "Wheel Forces1"
+	  Labels		  [0, 0]
+	  SrcBlock		  "Demux3"
+	  SrcPort		  4
+	  Points		  [210, 0; 0, -370]
+	  DstBlock		  "Product"
+	  DstPort		  2
+	}
+	Line {
+	  Name			  "Wheel Forces2"
+	  Labels		  [0, 0]
+	  SrcBlock		  "Demux1"
+	  SrcPort		  4
+	  Points		  [215, 0; 0, -535]
+	  DstBlock		  "Product1"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Product"
+	  SrcPort		  1
+	  DstBlock		  "VR Signal Expander15"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Product1"
+	  SrcPort		  1
+	  DstBlock		  "VR Signal Expander16"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Product2"
+	  SrcPort		  1
+	  DstBlock		  "VR Signal Expander17"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Product3"
+	  SrcPort		  1
+	  DstBlock		  "VR Signal Expander18"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "VR Signal Expander6"
+	  SrcPort		  1
+	  DstBlock		  "Vehicle_rot"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "VR Signal Expander15"
+	  SrcPort		  1
+	  DstBlock		  "Forces1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "VR Signal Expander16"
+	  SrcPort		  1
+	  DstBlock		  "Forces2"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "VR Signal Expander17"
+	  SrcPort		  1
+	  DstBlock		  "Forces3"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "VR Signal Expander18"
+	  SrcPort		  1
+	  DstBlock		  "Forces4"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "VR Signal Expander"
+	  SrcPort		  1
+	  DstBlock		  "Steering_angle"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "VR Signal Expander11"
+	  SrcPort		  1
+	  DstBlock		  "Wheel1_rot"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "In1"
+	  SrcPort		  1
+	  Points		  [5, 0]
+	  DstBlock		  "Demux"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "VR Signal Expander7"
+	  SrcPort		  1
+	  DstBlock		  "Wheel1_pos"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "VR Signal Expander1"
+	  SrcPort		  1
+	  DstBlock		  "Wheel1_spin"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "VR Signal Expander3"
+	  SrcPort		  1
+	  DstBlock		  "Wheel2_rot"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "VR Signal Expander4"
+	  SrcPort		  1
+	  DstBlock		  "Wheel2_pos"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "VR Signal Expander2"
+	  SrcPort		  1
+	  DstBlock		  "Wheel2_spin"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "VR Signal Expander9"
+	  SrcPort		  1
+	  DstBlock		  "Wheel3_rot"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "VR Signal Expander10"
+	  SrcPort		  1
+	  DstBlock		  "Wheel3_pos"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "VR Signal Expander8"
+	  SrcPort		  1
+	  DstBlock		  "Wheel3_spin"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "VR Signal Expander13"
+	  SrcPort		  1
+	  DstBlock		  "Wheel4_rot"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "VR Signal Expander14"
+	  SrcPort		  1
+	  DstBlock		  "Wheel4_pos"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "VR Signal Expander12"
+	  SrcPort		  1
+	  DstBlock		  "Wheel4_spin"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  8
+	  Points		  [210, 0; 0, 105]
+	  DstBlock		  "Relay"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Relay"
+	  SrcPort		  1
+	  DstBlock		  "Brake_pedal"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  1
+	  Points		  [30, 0]
+	  DstBlock		  "Gain1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  2
+	  Points		  [55, 0]
+	  DstBlock		  "Rotation Matrix\nto VRML Rotation"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  3
+	  Points		  [80, 0]
+	  DstBlock		  "VR Signal Expander"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  4
+	  Points		  [240, 0; 0, -240]
+	  DstBlock		  "Demux3"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  5
+	  Points		  [270, 0]
+	  DstBlock		  "Demux1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  6
+	  Points		  [230, 0; 0, -20]
+	  DstBlock		  "Demux2"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  7
+	  Points		  [220, 0; 0, 95]
+	  DstBlock		  "Demux4"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Forces Visualization Scaling\n[Longitudal Lateral Normal]"
+	  SrcPort		  1
+	  Points		  [20, 0]
+	  Branch {
+	    DstBlock		    "Product"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, 50]
+	    Branch {
+	      DstBlock		      "Product1"
+	      DstPort		      1
+	    }
+	    Branch {
+	      Points		      [0, 0; 0, 50]
+	      Branch {
+		DstBlock		"Product2"
+		DstPort			1
+	      }
+	      Branch {
+		Points			[0, 50]
+		DstBlock		"Product3"
+		DstPort			1
+	      }
+	    }
+	  }
+	}
+	Line {
+	  SrcBlock		  "Rotation Matrix\nto VRML Rotation1"
+	  SrcPort		  1
+	  DstBlock		  "Gain6"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Visible"
+	  SrcPort		  1
+	  Points		  [20, 0; 0, 10]
+	  DstBlock		  "Forces Visibility \nSwitch"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Invisible"
+	  SrcPort		  1
+	  Points		  [20, 0; 0, -10]
+	  DstBlock		  "Forces Visibility \nSwitch"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Forces Visibility \nSwitch"
+	  SrcPort		  1
+	  DstBlock		  "Forces_OnOff"
+	  DstPort		  1
+	}
+	Annotation {
+	  Name			  "Steering angle"
+	  Position		  [126, 533]
+	}
+	Annotation {
+	  Name			  "FL Wheel"
+	  Position		  [126, 640]
+	}
+	Annotation {
+	  Name			  "FR Wheel"
+	  Position		  [119, 747]
+	}
+	Annotation {
+	  Name			  "RL Wheel"
+	  Position		  [124, 860]
+	}
+	Annotation {
+	  Name			  "RR Wheel"
+	  Position		  [125, 957]
+	}
+	Annotation {
+	  Name			  "Brake Pedal"
+	  Position		  [127, 1060]
+	}
+	Annotation {
+	  Name			  "Pos"
+	  Position		  [100, 322]
+	}
+	Annotation {
+	  Name			  "Rot"
+	  Position		  [104, 428]
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "Coordinate Transformations \nCar2"
+      SID		      "91"
+      Ports		      [1, 21]
+      Position		      [395, 410, 490, 730]
+      MinAlgLoopOccurrences   off
+      PropExecContextOutsideSubsystem off
+      RTWSystemCode	      "Auto"
+      FunctionWithSeparateData off
+      Opaque		      off
+      RequestExecContextInheritance off
+      MaskHideContents	      off
+      System {
+	Name			"Coordinate Transformations \nCar2"
+	Location		[98, 74, 985, 977]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"A4"
+	PaperUnits		"centimeters"
+	TiledPaperMargins	[1.270000, 1.270000, 1.270000, 1.270000]
+	TiledPageScale		1
+	ShowPageBoundaries	off
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "In1"
+	  SID			  "92"
+	  Position		  [20, 668, 50, 682]
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Demux
+	  Name			  "Demux"
+	  SID			  "93"
+	  Ports			  [1, 8]
+	  Position		  [75, 262, 80, 1093]
+	  BackgroundColor	  "black"
+	  ShowName		  off
+	  Outputs		  "[3,9,1,16,16,16,16,1]"
+	}
+	Block {
+	  BlockType		  Demux
+	  Name			  "Demux1"
+	  SID			  "94"
+	  Ports			  [1, 4]
+	  Position		  [370, 500, 375, 700]
+	  BackgroundColor	  "black"
+	  ShowName		  off
+	  Outputs		  "[9,3,1,3]"
+	  Port {
+	    PortNumber		    1
+	    Name		    "Wheel System Matrix2"
+	    RTWStorageClass	    "Auto"
+	    DataLoggingNameMode	    "SignalName"
+	  }
+	  Port {
+	    PortNumber		    2
+	    Name		    "Wheel Position2"
+	    RTWStorageClass	    "Auto"
+	    DataLoggingNameMode	    "SignalName"
+	  }
+	  Port {
+	    PortNumber		    3
+	    Name		    "Wheel Angle2"
+	    RTWStorageClass	    "Auto"
+	    DataLoggingNameMode	    "SignalName"
+	  }
+	  Port {
+	    PortNumber		    4
+	    Name		    "Wheel Forces2"
+	    RTWStorageClass	    "Auto"
+	    DataLoggingNameMode	    "SignalName"
+	  }
+	}
+	Block {
+	  BlockType		  Demux
+	  Name			  "Demux2"
+	  SID			  "95"
+	  Ports			  [1, 4]
+	  Position		  [370, 715, 375, 915]
+	  BackgroundColor	  "black"
+	  ShowName		  off
+	  Outputs		  "[9,3,1,3]"
+	  Port {
+	    PortNumber		    1
+	    Name		    "Wheel System Matrix3"
+	    RTWStorageClass	    "Auto"
+	    DataLoggingNameMode	    "SignalName"
+	  }
+	  Port {
+	    PortNumber		    2
+	    Name		    "Wheel Position3"
+	    RTWStorageClass	    "Auto"
+	    DataLoggingNameMode	    "SignalName"
+	  }
+	  Port {
+	    PortNumber		    3
+	    Name		    "Wheel Angle3"
+	    RTWStorageClass	    "Auto"
+	    DataLoggingNameMode	    "SignalName"
+	  }
+	  Port {
+	    PortNumber		    4
+	    Name		    "Wheel Forces3"
+	    RTWStorageClass	    "Auto"
+	    DataLoggingNameMode	    "SignalName"
+	  }
+	}
+	Block {
+	  BlockType		  Demux
+	  Name			  "Demux3"
+	  SID			  "96"
+	  Ports			  [1, 4]
+	  Position		  [370, 285, 375, 485]
+	  BackgroundColor	  "black"
+	  ShowName		  off
+	  Outputs		  "[9,3,1,3]"
+	  Port {
+	    PortNumber		    1
+	    Name		    "Wheel System Matrix1"
+	    RTWStorageClass	    "Auto"
+	    DataLoggingNameMode	    "SignalName"
+	  }
+	  Port {
+	    PortNumber		    2
+	    Name		    "Wheel Position1"
+	    RTWStorageClass	    "Auto"
+	    DataLoggingNameMode	    "SignalName"
+	  }
+	  Port {
+	    PortNumber		    3
+	    Name		    "Wheel Angle1"
+	    RTWStorageClass	    "Auto"
+	    DataLoggingNameMode	    "SignalName"
+	  }
+	  Port {
+	    PortNumber		    4
+	    Name		    "Wheel Forces1"
+	    RTWStorageClass	    "Auto"
+	    DataLoggingNameMode	    "SignalName"
+	  }
+	}
+	Block {
+	  BlockType		  Demux
+	  Name			  "Demux4"
+	  SID			  "97"
+	  Ports			  [1, 4]
+	  Position		  [370, 935, 375, 1135]
+	  BackgroundColor	  "black"
+	  ShowName		  off
+	  Outputs		  "[9,3,1,3]"
+	  Port {
+	    PortNumber		    1
+	    Name		    "Wheel System Matrix4"
+	    RTWStorageClass	    "Auto"
+	    DataLoggingNameMode	    "SignalName"
+	  }
+	  Port {
+	    PortNumber		    2
+	    Name		    "Wheel Position4"
+	    RTWStorageClass	    "Auto"
+	    DataLoggingNameMode	    "SignalName"
+	  }
+	  Port {
+	    PortNumber		    3
+	    Name		    "Wheel Angle4"
+	    RTWStorageClass	    "Auto"
+	    DataLoggingNameMode	    "SignalName"
+	  }
+	  Port {
+	    PortNumber		    4
+	    Name		    "Wheel Forces4"
+	    RTWStorageClass	    "Auto"
+	    DataLoggingNameMode	    "SignalName"
+	  }
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Forces Visibility \nSwitch"
+	  SID			  "98"
+	  Ports			  [2, 1]
+	  Position		  [1020, 67, 1050, 103]
+	  BackgroundColor	  "cyan"
+	  LibraryVersion	  "1.232"
+	  SourceBlock		  "simulink/Signal\nRouting/Manual Switch"
+	  SourceType		  "Manual Switch"
+	  ShowPortLabels	  "FromPortIcon"
+	  SystemSampleTime	  "-1"
+	  FunctionWithSeparateData off
+	  RTWMemSecFuncInitTerm	  "Inherit from model"
+	  RTWMemSecFuncExecute	  "Inherit from model"
+	  RTWMemSecDataConstants  "Inherit from model"
+	  RTWMemSecDataInternal	  "Inherit from model"
+	  RTWMemSecDataParameters "Inherit from model"
+	  GeneratePreprocessorConditionals off
+	  sw			  "1"
+	  action		  "0"
+	  varsize		  off
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "Forces Visualization Scaling\n[Longitudal Lateral Normal]"
+	  SID			  "99"
+	  Position		  [415, 57, 550, 93]
+	  BackgroundColor	  "cyan"
+	  Value			  "[0.001 0.001 0.00025]"
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "Gain"
+	  SID			  "100"
+	  Position		  [315, 185, 345, 215]
+	  ShowName		  off
+	  Gain			  "[-1 1 -1 1]"
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "Gain1"
+	  SID			  "101"
+	  Position		  [130, 110, 160, 140]
+	  ShowName		  off
+	  Gain			  "[1 -1 1]"
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "Gain2"
+	  SID			  "102"
+	  Position		  [815, 345, 845, 375]
+	  ShowName		  off
+	  Gain			  "[1 -1 1]"
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "Gain3"
+	  SID			  "103"
+	  Position		  [815, 560, 845, 590]
+	  ShowName		  off
+	  Gain			  "[1 -1 1]"
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "Gain4"
+	  SID			  "104"
+	  Position		  [815, 510, 845, 540]
+	  ShowName		  off
+	  Gain			  "[1 -1 -1 1]"
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "Gain5"
+	  SID			  "105"
+	  Position		  [815, 775, 845, 805]
+	  ShowName		  off
+	  Gain			  "[1 -1 1]"
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "Gain6"
+	  SID			  "106"
+	  Position		  [815, 295, 845, 325]
+	  ShowName		  off
+	  Gain			  "[1 -1 -1 1]"
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "Gain7"
+	  SID			  "107"
+	  Position		  [815, 725, 845, 755]
+	  ShowName		  off
+	  Gain			  "[1 -1 -1 1]"
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "Gain8"
+	  SID			  "108"
+	  Position		  [815, 995, 845, 1025]
+	  ShowName		  off
+	  Gain			  "[1 -1 1]"
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "Gain9"
+	  SID			  "109"
+	  Position		  [815, 945, 845, 975]
+	  ShowName		  off
+	  Gain			  "[1 -1 -1 1]"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "Invisible"
+	  SID			  "110"
+	  Position		  [940, 95, 960, 115]
+	  Value			  "-1"
+	}
+	Block {
+	  BlockType		  Product
+	  Name			  "Product"
+	  SID			  "111"
+	  Ports			  [2, 1]
+	  Position		  [640, 66, 685, 99]
+	  ShowName		  off
+	  InputSameDT		  off
+	  RndMeth		  "Floor"
+	}
+	Block {
+	  BlockType		  Product
+	  Name			  "Product1"
+	  SID			  "112"
+	  Ports			  [2, 1]
+	  Position		  [640, 116, 685, 149]
+	  ShowName		  off
+	  InputSameDT		  off
+	  RndMeth		  "Floor"
+	}
+	Block {
+	  BlockType		  Product
+	  Name			  "Product2"
+	  SID			  "113"
+	  Ports			  [2, 1]
+	  Position		  [640, 166, 685, 199]
+	  ShowName		  off
+	  InputSameDT		  off
+	  RndMeth		  "Floor"
+	}
+	Block {
+	  BlockType		  Product
+	  Name			  "Product3"
+	  SID			  "114"
+	  Ports			  [2, 1]
+	  Position		  [640, 216, 685, 249]
+	  ShowName		  off
+	  InputSameDT		  off
+	  RndMeth		  "Floor"
+	}
+	Block {
+	  BlockType		  Relay
+	  Name			  "Relay"
+	  SID			  "115"
+	  Position		  [690, 1135, 720, 1165]
+	  ShowName		  off
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Rotation Matrix\nto VRML Rotation"
+	  SID			  "116"
+	  Ports			  [1, 1]
+	  Position		  [155, 181, 250, 219]
+	  ShowName		  off
+	  LibraryVersion	  "1.241"
+	  SourceBlock		  "vrlib/Utilities/Rotation Matrix\nto VRML Rotation"
+	  SourceType		  "Rotation Matrix to VRML Rotation"
+	  ShowPortLabels	  "FromPortIcon"
+	  SystemSampleTime	  "-1"
+	  FunctionWithSeparateData off
+	  RTWMemSecFuncInitTerm	  "Inherit from model"
+	  RTWMemSecFuncExecute	  "Inherit from model"
+	  RTWMemSecDataConstants  "Inherit from model"
+	  RTWMemSecDataInternal	  "Inherit from model"
+	  RTWMemSecDataParameters "Inherit from model"
+	  GeneratePreprocessorConditionals off
+	  maxzero		  "1e-12"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Rotation Matrix\nto VRML Rotation1"
+	  SID			  "117"
+	  Ports			  [1, 1]
+	  Position		  [675, 291, 770, 329]
+	  ShowName		  off
+	  LibraryVersion	  "1.241"
+	  SourceBlock		  "vrlib/Utilities/Rotation Matrix\nto VRML Rotation"
+	  SourceType		  "Rotation Matrix to VRML Rotation"
+	  ShowPortLabels	  "FromPortIcon"
+	  SystemSampleTime	  "-1"
+	  FunctionWithSeparateData off
+	  RTWMemSecFuncInitTerm	  "Inherit from model"
+	  RTWMemSecFuncExecute	  "Inherit from model"
+	  RTWMemSecDataConstants  "Inherit from model"
+	  RTWMemSecDataInternal	  "Inherit from model"
+	  RTWMemSecDataParameters "Inherit from model"
+	  GeneratePreprocessorConditionals off
+	  maxzero		  "1e-12"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Rotation Matrix\nto VRML Rotation2"
+	  SID			  "118"
+	  Ports			  [1, 1]
+	  Position		  [665, 506, 760, 544]
+	  ShowName		  off
+	  LibraryVersion	  "1.241"
+	  SourceBlock		  "vrlib/Utilities/Rotation Matrix\nto VRML Rotation"
+	  SourceType		  "Rotation Matrix to VRML Rotation"
+	  ShowPortLabels	  "FromPortIcon"
+	  SystemSampleTime	  "-1"
+	  FunctionWithSeparateData off
+	  RTWMemSecFuncInitTerm	  "Inherit from model"
+	  RTWMemSecFuncExecute	  "Inherit from model"
+	  RTWMemSecDataConstants  "Inherit from model"
+	  RTWMemSecDataInternal	  "Inherit from model"
+	  RTWMemSecDataParameters "Inherit from model"
+	  GeneratePreprocessorConditionals off
+	  maxzero		  "1e-12"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Rotation Matrix\nto VRML Rotation3"
+	  SID			  "119"
+	  Ports			  [1, 1]
+	  Position		  [670, 721, 765, 759]
+	  ShowName		  off
+	  LibraryVersion	  "1.241"
+	  SourceBlock		  "vrlib/Utilities/Rotation Matrix\nto VRML Rotation"
+	  SourceType		  "Rotation Matrix to VRML Rotation"
+	  ShowPortLabels	  "FromPortIcon"
+	  SystemSampleTime	  "-1"
+	  FunctionWithSeparateData off
+	  RTWMemSecFuncInitTerm	  "Inherit from model"
+	  RTWMemSecFuncExecute	  "Inherit from model"
+	  RTWMemSecDataConstants  "Inherit from model"
+	  RTWMemSecDataInternal	  "Inherit from model"
+	  RTWMemSecDataParameters "Inherit from model"
+	  GeneratePreprocessorConditionals off
+	  maxzero		  "1e-12"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Rotation Matrix\nto VRML Rotation4"
+	  SID			  "120"
+	  Ports			  [1, 1]
+	  Position		  [670, 941, 765, 979]
+	  ShowName		  off
+	  LibraryVersion	  "1.241"
+	  SourceBlock		  "vrlib/Utilities/Rotation Matrix\nto VRML Rotation"
+	  SourceType		  "Rotation Matrix to VRML Rotation"
+	  ShowPortLabels	  "FromPortIcon"
+	  SystemSampleTime	  "-1"
+	  FunctionWithSeparateData off
+	  RTWMemSecFuncInitTerm	  "Inherit from model"
+	  RTWMemSecFuncExecute	  "Inherit from model"
+	  RTWMemSecDataConstants  "Inherit from model"
+	  RTWMemSecDataInternal	  "Inherit from model"
+	  RTWMemSecDataParameters "Inherit from model"
+	  GeneratePreprocessorConditionals off
+	  maxzero		  "1e-12"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "VR Signal Expander"
+	  SID			  "121"
+	  Ports			  [1, 1]
+	  Position		  [180, 259, 280, 291]
+	  ShowName		  off
+	  LibraryVersion	  "1.241"
+	  SourceBlock		  "vrlib/VR Signal Expander"
+	  SourceType		  "VR Signal Expander"
+	  ShowPortLabels	  "FromPortIcon"
+	  SystemSampleTime	  "-1"
+	  FunctionWithSeparateData off
+	  RTWMemSecFuncInitTerm	  "Inherit from model"
+	  RTWMemSecFuncExecute	  "Inherit from model"
+	  RTWMemSecDataConstants  "Inherit from model"
+	  RTWMemSecDataInternal	  "Inherit from model"
+	  RTWMemSecDataParameters "Inherit from model"
+	  GeneratePreprocessorConditionals off
+	  outwidth		  "4"
+	  outidx		  "[4]"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "VR Signal Expander1"
+	  SID			  "122"
+	  Ports			  [1, 1]
+	  Position		  [875, 395, 975, 425]
+	  ShowName		  off
+	  LibraryVersion	  "1.241"
+	  SourceBlock		  "vrlib/VR Signal Expander"
+	  SourceType		  "VR Signal Expander"
+	  ShowPortLabels	  "FromPortIcon"
+	  SystemSampleTime	  "-1"
+	  FunctionWithSeparateData off
+	  RTWMemSecFuncInitTerm	  "Inherit from model"
+	  RTWMemSecFuncExecute	  "Inherit from model"
+	  RTWMemSecDataConstants  "Inherit from model"
+	  RTWMemSecDataInternal	  "Inherit from model"
+	  RTWMemSecDataParameters "Inherit from model"
+	  GeneratePreprocessorConditionals off
+	  outwidth		  "4"
+	  outidx		  "[4]"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "VR Signal Expander10"
+	  SID			  "123"
+	  Ports			  [1, 1]
+	  Position		  [875, 774, 975, 806]
+	  ShowName		  off
+	  LibraryVersion	  "1.241"
+	  SourceBlock		  "vrlib/VR Signal Expander"
+	  SourceType		  "VR Signal Expander"
+	  ShowPortLabels	  "FromPortIcon"
+	  SystemSampleTime	  "-1"
+	  FunctionWithSeparateData off
+	  RTWMemSecFuncInitTerm	  "Inherit from model"
+	  RTWMemSecFuncExecute	  "Inherit from model"
+	  RTWMemSecDataConstants  "Inherit from model"
+	  RTWMemSecDataInternal	  "Inherit from model"
+	  RTWMemSecDataParameters "Inherit from model"
+	  GeneratePreprocessorConditionals off
+	  outwidth		  "3"
+	  outidx		  "[1 3 2 ]"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "VR Signal Expander11"
+	  SID			  "124"
+	  Ports			  [1, 1]
+	  Position		  [875, 295, 975, 325]
+	  ShowName		  off
+	  LibraryVersion	  "1.241"
+	  SourceBlock		  "vrlib/VR Signal Expander"
+	  SourceType		  "VR Signal Expander"
+	  ShowPortLabels	  "FromPortIcon"
+	  SystemSampleTime	  "-1"
+	  FunctionWithSeparateData off
+	  RTWMemSecFuncInitTerm	  "Inherit from model"
+	  RTWMemSecFuncExecute	  "Inherit from model"
+	  RTWMemSecDataConstants  "Inherit from model"
+	  RTWMemSecDataInternal	  "Inherit from model"
+	  RTWMemSecDataParameters "Inherit from model"
+	  GeneratePreprocessorConditionals off
+	  outwidth		  "4"
+	  outidx		  "[1 3 2 4]"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "VR Signal Expander12"
+	  SID			  "125"
+	  Ports			  [1, 1]
+	  Position		  [875, 1045, 975, 1075]
+	  ShowName		  off
+	  LibraryVersion	  "1.241"
+	  SourceBlock		  "vrlib/VR Signal Expander"
+	  SourceType		  "VR Signal Expander"
+	  ShowPortLabels	  "FromPortIcon"
+	  SystemSampleTime	  "-1"
+	  FunctionWithSeparateData off
+	  RTWMemSecFuncInitTerm	  "Inherit from model"
+	  RTWMemSecFuncExecute	  "Inherit from model"
+	  RTWMemSecDataConstants  "Inherit from model"
+	  RTWMemSecDataInternal	  "Inherit from model"
+	  RTWMemSecDataParameters "Inherit from model"
+	  GeneratePreprocessorConditionals off
+	  outwidth		  "4"
+	  outidx		  "[4]"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "VR Signal Expander13"
+	  SID			  "126"
+	  Ports			  [1, 1]
+	  Position		  [875, 945, 975, 975]
+	  ShowName		  off
+	  LibraryVersion	  "1.241"
+	  SourceBlock		  "vrlib/VR Signal Expander"
+	  SourceType		  "VR Signal Expander"
+	  ShowPortLabels	  "FromPortIcon"
+	  SystemSampleTime	  "-1"
+	  FunctionWithSeparateData off
+	  RTWMemSecFuncInitTerm	  "Inherit from model"
+	  RTWMemSecFuncExecute	  "Inherit from model"
+	  RTWMemSecDataConstants  "Inherit from model"
+	  RTWMemSecDataInternal	  "Inherit from model"
+	  RTWMemSecDataParameters "Inherit from model"
+	  GeneratePreprocessorConditionals off
+	  outwidth		  "4"
+	  outidx		  "[1 3 2 4]"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "VR Signal Expander14"
+	  SID			  "127"
+	  Ports			  [1, 1]
+	  Position		  [875, 994, 975, 1026]
+	  ShowName		  off
+	  LibraryVersion	  "1.241"
+	  SourceBlock		  "vrlib/VR Signal Expander"
+	  SourceType		  "VR Signal Expander"
+	  ShowPortLabels	  "FromPortIcon"
+	  SystemSampleTime	  "-1"
+	  FunctionWithSeparateData off
+	  RTWMemSecFuncInitTerm	  "Inherit from model"
+	  RTWMemSecFuncExecute	  "Inherit from model"
+	  RTWMemSecDataConstants  "Inherit from model"
+	  RTWMemSecDataInternal	  "Inherit from model"
+	  RTWMemSecDataParameters "Inherit from model"
+	  GeneratePreprocessorConditionals off
+	  outwidth		  "3"
+	  outidx		  "[1 3 2 ]"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "VR Signal Expander15"
+	  SID			  "128"
+	  Ports			  [1, 1]
+	  Position		  [735, 69, 830, 101]
+	  ShowName		  off
+	  LibraryVersion	  "1.241"
+	  SourceBlock		  "vrlib/VR Signal Expander"
+	  SourceType		  "VR Signal Expander"
+	  ShowPortLabels	  "FromPortIcon"
+	  SystemSampleTime	  "-1"
+	  FunctionWithSeparateData off
+	  RTWMemSecFuncInitTerm	  "Inherit from model"
+	  RTWMemSecFuncExecute	  "Inherit from model"
+	  RTWMemSecDataConstants  "Inherit from model"
+	  RTWMemSecDataInternal	  "Inherit from model"
+	  RTWMemSecDataParameters "Inherit from model"
+	  GeneratePreprocessorConditionals off
+	  outwidth		  "3"
+	  outidx		  "[1 3 2]"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "VR Signal Expander16"
+	  SID			  "129"
+	  Ports			  [1, 1]
+	  Position		  [735, 119, 830, 151]
+	  ShowName		  off
+	  LibraryVersion	  "1.241"
+	  SourceBlock		  "vrlib/VR Signal Expander"
+	  SourceType		  "VR Signal Expander"
+	  ShowPortLabels	  "FromPortIcon"
+	  SystemSampleTime	  "-1"
+	  FunctionWithSeparateData off
+	  RTWMemSecFuncInitTerm	  "Inherit from model"
+	  RTWMemSecFuncExecute	  "Inherit from model"
+	  RTWMemSecDataConstants  "Inherit from model"
+	  RTWMemSecDataInternal	  "Inherit from model"
+	  RTWMemSecDataParameters "Inherit from model"
+	  GeneratePreprocessorConditionals off
+	  outwidth		  "3"
+	  outidx		  "[1 3 2]"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "VR Signal Expander17"
+	  SID			  "130"
+	  Ports			  [1, 1]
+	  Position		  [735, 169, 830, 201]
+	  ShowName		  off
+	  LibraryVersion	  "1.241"
+	  SourceBlock		  "vrlib/VR Signal Expander"
+	  SourceType		  "VR Signal Expander"
+	  ShowPortLabels	  "FromPortIcon"
+	  SystemSampleTime	  "-1"
+	  FunctionWithSeparateData off
+	  RTWMemSecFuncInitTerm	  "Inherit from model"
+	  RTWMemSecFuncExecute	  "Inherit from model"
+	  RTWMemSecDataConstants  "Inherit from model"
+	  RTWMemSecDataInternal	  "Inherit from model"
+	  RTWMemSecDataParameters "Inherit from model"
+	  GeneratePreprocessorConditionals off
+	  outwidth		  "3"
+	  outidx		  "[1 3 2]"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "VR Signal Expander18"
+	  SID			  "131"
+	  Ports			  [1, 1]
+	  Position		  [735, 219, 830, 251]
+	  ShowName		  off
+	  LibraryVersion	  "1.241"
+	  SourceBlock		  "vrlib/VR Signal Expander"
+	  SourceType		  "VR Signal Expander"
+	  ShowPortLabels	  "FromPortIcon"
+	  SystemSampleTime	  "-1"
+	  FunctionWithSeparateData off
+	  RTWMemSecFuncInitTerm	  "Inherit from model"
+	  RTWMemSecFuncExecute	  "Inherit from model"
+	  RTWMemSecDataConstants  "Inherit from model"
+	  RTWMemSecDataInternal	  "Inherit from model"
+	  RTWMemSecDataParameters "Inherit from model"
+	  GeneratePreprocessorConditionals off
+	  outwidth		  "3"
+	  outidx		  "[1 3 2]"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "VR Signal Expander2"
+	  SID			  "132"
+	  Ports			  [1, 1]
+	  Position		  [875, 610, 975, 640]
+	  ShowName		  off
+	  LibraryVersion	  "1.241"
+	  SourceBlock		  "vrlib/VR Signal Expander"
+	  SourceType		  "VR Signal Expander"
+	  ShowPortLabels	  "FromPortIcon"
+	  SystemSampleTime	  "-1"
+	  FunctionWithSeparateData off
+	  RTWMemSecFuncInitTerm	  "Inherit from model"
+	  RTWMemSecFuncExecute	  "Inherit from model"
+	  RTWMemSecDataConstants  "Inherit from model"
+	  RTWMemSecDataInternal	  "Inherit from model"
+	  RTWMemSecDataParameters "Inherit from model"
+	  GeneratePreprocessorConditionals off
+	  outwidth		  "4"
+	  outidx		  "[4]"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "VR Signal Expander3"
+	  SID			  "133"
+	  Ports			  [1, 1]
+	  Position		  [875, 510, 975, 540]
+	  ShowName		  off
+	  LibraryVersion	  "1.241"
+	  SourceBlock		  "vrlib/VR Signal Expander"
+	  SourceType		  "VR Signal Expander"
+	  ShowPortLabels	  "FromPortIcon"
+	  SystemSampleTime	  "-1"
+	  FunctionWithSeparateData off
+	  RTWMemSecFuncInitTerm	  "Inherit from model"
+	  RTWMemSecFuncExecute	  "Inherit from model"
+	  RTWMemSecDataConstants  "Inherit from model"
+	  RTWMemSecDataInternal	  "Inherit from model"
+	  RTWMemSecDataParameters "Inherit from model"
+	  GeneratePreprocessorConditionals off
+	  outwidth		  "4"
+	  outidx		  "[1 3 2 4]"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "VR Signal Expander4"
+	  SID			  "134"
+	  Ports			  [1, 1]
+	  Position		  [875, 559, 975, 591]
+	  ShowName		  off
+	  LibraryVersion	  "1.241"
+	  SourceBlock		  "vrlib/VR Signal Expander"
+	  SourceType		  "VR Signal Expander"
+	  ShowPortLabels	  "FromPortIcon"
+	  SystemSampleTime	  "-1"
+	  FunctionWithSeparateData off
+	  RTWMemSecFuncInitTerm	  "Inherit from model"
+	  RTWMemSecFuncExecute	  "Inherit from model"
+	  RTWMemSecDataConstants  "Inherit from model"
+	  RTWMemSecDataInternal	  "Inherit from model"
+	  RTWMemSecDataParameters "Inherit from model"
+	  GeneratePreprocessorConditionals off
+	  outwidth		  "3"
+	  outidx		  "[1 3 2 ]"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "VR Signal Expander5"
+	  SID			  "135"
+	  Ports			  [1, 1]
+	  Position		  [210, 106, 305, 144]
+	  ShowName		  off
+	  LibraryVersion	  "1.241"
+	  SourceBlock		  "vrlib/VR Signal Expander"
+	  SourceType		  "VR Signal Expander"
+	  ShowPortLabels	  "FromPortIcon"
+	  SystemSampleTime	  "-1"
+	  FunctionWithSeparateData off
+	  RTWMemSecFuncInitTerm	  "Inherit from model"
+	  RTWMemSecFuncExecute	  "Inherit from model"
+	  RTWMemSecDataConstants  "Inherit from model"
+	  RTWMemSecDataInternal	  "Inherit from model"
+	  RTWMemSecDataParameters "Inherit from model"
+	  GeneratePreprocessorConditionals off
+	  outwidth		  "3"
+	  outidx		  "[1 3 2]"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "VR Signal Expander6"
+	  SID			  "136"
+	  Ports			  [1, 1]
+	  Position		  [375, 184, 470, 216]
+	  ShowName		  off
+	  LibraryVersion	  "1.241"
+	  SourceBlock		  "vrlib/VR Signal Expander"
+	  SourceType		  "VR Signal Expander"
+	  ShowPortLabels	  "FromPortIcon"
+	  SystemSampleTime	  "-1"
+	  FunctionWithSeparateData off
+	  RTWMemSecFuncInitTerm	  "Inherit from model"
+	  RTWMemSecFuncExecute	  "Inherit from model"
+	  RTWMemSecDataConstants  "Inherit from model"
+	  RTWMemSecDataInternal	  "Inherit from model"
+	  RTWMemSecDataParameters "Inherit from model"
+	  GeneratePreprocessorConditionals off
+	  outwidth		  "4"
+	  outidx		  "[1 3 2 4]"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "VR Signal Expander7"
+	  SID			  "137"
+	  Ports			  [1, 1]
+	  Position		  [875, 344, 975, 376]
+	  ShowName		  off
+	  LibraryVersion	  "1.241"
+	  SourceBlock		  "vrlib/VR Signal Expander"
+	  SourceType		  "VR Signal Expander"
+	  ShowPortLabels	  "FromPortIcon"
+	  SystemSampleTime	  "-1"
+	  FunctionWithSeparateData off
+	  RTWMemSecFuncInitTerm	  "Inherit from model"
+	  RTWMemSecFuncExecute	  "Inherit from model"
+	  RTWMemSecDataConstants  "Inherit from model"
+	  RTWMemSecDataInternal	  "Inherit from model"
+	  RTWMemSecDataParameters "Inherit from model"
+	  GeneratePreprocessorConditionals off
+	  outwidth		  "3"
+	  outidx		  "[1 3 2 ]"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "VR Signal Expander8"
+	  SID			  "138"
+	  Ports			  [1, 1]
+	  Position		  [875, 825, 975, 855]
+	  ShowName		  off
+	  LibraryVersion	  "1.241"
+	  SourceBlock		  "vrlib/VR Signal Expander"
+	  SourceType		  "VR Signal Expander"
+	  ShowPortLabels	  "FromPortIcon"
+	  SystemSampleTime	  "-1"
+	  FunctionWithSeparateData off
+	  RTWMemSecFuncInitTerm	  "Inherit from model"
+	  RTWMemSecFuncExecute	  "Inherit from model"
+	  RTWMemSecDataConstants  "Inherit from model"
+	  RTWMemSecDataInternal	  "Inherit from model"
+	  RTWMemSecDataParameters "Inherit from model"
+	  GeneratePreprocessorConditionals off
+	  outwidth		  "4"
+	  outidx		  "[4]"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "VR Signal Expander9"
+	  SID			  "139"
+	  Ports			  [1, 1]
+	  Position		  [875, 725, 975, 755]
+	  ShowName		  off
+	  LibraryVersion	  "1.241"
+	  SourceBlock		  "vrlib/VR Signal Expander"
+	  SourceType		  "VR Signal Expander"
+	  ShowPortLabels	  "FromPortIcon"
+	  SystemSampleTime	  "-1"
+	  FunctionWithSeparateData off
+	  RTWMemSecFuncInitTerm	  "Inherit from model"
+	  RTWMemSecFuncExecute	  "Inherit from model"
+	  RTWMemSecDataConstants  "Inherit from model"
+	  RTWMemSecDataInternal	  "Inherit from model"
+	  RTWMemSecDataParameters "Inherit from model"
+	  GeneratePreprocessorConditionals off
+	  outwidth		  "4"
+	  outidx		  "[1 3 2 4]"
+	}
+	Block {
+	  BlockType		  Ground
+	  Name			  "Visible"
+	  SID			  "140"
+	  Position		  [940, 55, 960, 75]
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Vehicle_pos"
+	  SID			  "141"
+	  Position		  [350, 118, 380, 132]
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Vehicle_rot"
+	  SID			  "142"
+	  Position		  [500, 193, 530, 207]
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Wheel1_rot"
+	  SID			  "143"
+	  Position		  [1000, 303, 1030, 317]
+	  Port			  "3"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Wheel1_pos"
+	  SID			  "144"
+	  Position		  [1000, 353, 1030, 367]
+	  Port			  "4"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Wheel1_spin"
+	  SID			  "145"
+	  Position		  [1000, 403, 1030, 417]
+	  Port			  "5"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Wheel2_rot"
+	  SID			  "146"
+	  Position		  [1000, 518, 1030, 532]
+	  Port			  "6"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Wheel2_pos"
+	  SID			  "147"
+	  Position		  [1000, 568, 1030, 582]
+	  Port			  "7"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Wheel2_spin"
+	  SID			  "148"
+	  Position		  [1000, 618, 1030, 632]
+	  Port			  "8"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Wheel3_rot"
+	  SID			  "149"
+	  Position		  [1000, 733, 1030, 747]
+	  Port			  "9"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Wheel3_pos"
+	  SID			  "150"
+	  Position		  [1000, 783, 1030, 797]
+	  Port			  "10"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Wheel3_spin"
+	  SID			  "151"
+	  Position		  [1000, 833, 1030, 847]
+	  Port			  "11"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Wheel4_rot"
+	  SID			  "152"
+	  Position		  [1000, 953, 1030, 967]
+	  Port			  "12"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Wheel4_pos"
+	  SID			  "153"
+	  Position		  [1000, 1003, 1030, 1017]
+	  Port			  "13"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Wheel4_spin"
+	  SID			  "154"
+	  Position		  [1000, 1053, 1030, 1067]
+	  Port			  "14"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Steering_angle"
+	  SID			  "155"
+	  Position		  [310, 268, 340, 282]
+	  Port			  "15"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Brake_pedal"
+	  SID			  "156"
+	  Position		  [995, 1143, 1025, 1157]
+	  Port			  "16"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Forces_OnOff"
+	  SID			  "157"
+	  Position		  [1095, 78, 1125, 92]
+	  Port			  "17"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Forces1"
+	  SID			  "158"
+	  Position		  [855, 78, 885, 92]
+	  Port			  "18"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Forces2"
+	  SID			  "159"
+	  Position		  [855, 128, 885, 142]
+	  Port			  "19"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Forces3"
+	  SID			  "160"
+	  Position		  [855, 178, 885, 192]
+	  Port			  "20"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Forces4"
+	  SID			  "161"
+	  Position		  [855, 228, 885, 242]
+	  Port			  "21"
+	  IconDisplay		  "Port number"
+	}
+	Line {
+	  SrcBlock		  "Gain1"
+	  SrcPort		  1
+	  DstBlock		  "VR Signal Expander5"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Rotation Matrix\nto VRML Rotation"
+	  SrcPort		  1
+	  DstBlock		  "Gain"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Gain"
+	  SrcPort		  1
+	  DstBlock		  "VR Signal Expander6"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Gain6"
+	  SrcPort		  1
+	  DstBlock		  "VR Signal Expander11"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Gain2"
+	  SrcPort		  1
+	  DstBlock		  "VR Signal Expander7"
+	  DstPort		  1
+	}
+	Line {
+	  Name			  "Wheel System Matrix1"
+	  Labels		  [0, 0]
+	  SrcBlock		  "Demux3"
+	  SrcPort		  1
+	  DstBlock		  "Rotation Matrix\nto VRML Rotation1"
+	  DstPort		  1
+	}
+	Line {
+	  Name			  "Wheel Position1"
+	  Labels		  [0, 0]
+	  SrcBlock		  "Demux3"
+	  SrcPort		  2
+	  DstBlock		  "Gain2"
+	  DstPort		  1
+	}
+	Line {
+	  Name			  "Wheel Angle1"
+	  Labels		  [0, 0]
+	  SrcBlock		  "Demux3"
+	  SrcPort		  3
+	  DstBlock		  "VR Signal Expander1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Gain4"
+	  SrcPort		  1
+	  DstBlock		  "VR Signal Expander3"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Rotation Matrix\nto VRML Rotation2"
+	  SrcPort		  1
+	  DstBlock		  "Gain4"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Gain3"
+	  SrcPort		  1
+	  DstBlock		  "VR Signal Expander4"
+	  DstPort		  1
+	}
+	Line {
+	  Name			  "Wheel System Matrix2"
+	  Labels		  [0, 0]
+	  SrcBlock		  "Demux1"
+	  SrcPort		  1
+	  DstBlock		  "Rotation Matrix\nto VRML Rotation2"
+	  DstPort		  1
+	}
+	Line {
+	  Name			  "Wheel Position2"
+	  Labels		  [0, 0]
+	  SrcBlock		  "Demux1"
+	  SrcPort		  2
+	  DstBlock		  "Gain3"
+	  DstPort		  1
+	}
+	Line {
+	  Name			  "Wheel Angle2"
+	  Labels		  [0, 0]
+	  SrcBlock		  "Demux1"
+	  SrcPort		  3
+	  DstBlock		  "VR Signal Expander2"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Gain7"
+	  SrcPort		  1
+	  DstBlock		  "VR Signal Expander9"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Rotation Matrix\nto VRML Rotation3"
+	  SrcPort		  1
+	  DstBlock		  "Gain7"
+	  DstPort		  1
+	}
+	Line {
+	  Name			  "Wheel Forces3"
+	  Labels		  [0, 0]
+	  SrcBlock		  "Demux2"
+	  SrcPort		  4
+	  Points		  [220, 0; 0, -700]
+	  DstBlock		  "Product2"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Gain5"
+	  SrcPort		  1
+	  DstBlock		  "VR Signal Expander10"
+	  DstPort		  1
+	}
+	Line {
+	  Name			  "Wheel System Matrix3"
+	  Labels		  [0, 0]
+	  SrcBlock		  "Demux2"
+	  SrcPort		  1
+	  DstBlock		  "Rotation Matrix\nto VRML Rotation3"
+	  DstPort		  1
+	}
+	Line {
+	  Name			  "Wheel Position3"
+	  Labels		  [0, 0]
+	  SrcBlock		  "Demux2"
+	  SrcPort		  2
+	  DstBlock		  "Gain5"
+	  DstPort		  1
+	}
+	Line {
+	  Name			  "Wheel Angle3"
+	  Labels		  [0, 0]
+	  SrcBlock		  "Demux2"
+	  SrcPort		  3
+	  DstBlock		  "VR Signal Expander8"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Gain9"
+	  SrcPort		  1
+	  DstBlock		  "VR Signal Expander13"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Rotation Matrix\nto VRML Rotation4"
+	  SrcPort		  1
+	  DstBlock		  "Gain9"
+	  DstPort		  1
+	}
+	Line {
+	  Name			  "Wheel Forces4"
+	  Labels		  [0, 0]
+	  SrcBlock		  "Demux4"
+	  SrcPort		  4
+	  Points		  [225, 0; 0, -870]
+	  DstBlock		  "Product3"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Gain8"
+	  SrcPort		  1
+	  DstBlock		  "VR Signal Expander14"
+	  DstPort		  1
+	}
+	Line {
+	  Name			  "Wheel System Matrix4"
+	  Labels		  [0, 0]
+	  SrcBlock		  "Demux4"
+	  SrcPort		  1
+	  DstBlock		  "Rotation Matrix\nto VRML Rotation4"
+	  DstPort		  1
+	}
+	Line {
+	  Name			  "Wheel Position4"
+	  Labels		  [0, 0]
+	  SrcBlock		  "Demux4"
+	  SrcPort		  2
+	  DstBlock		  "Gain8"
+	  DstPort		  1
+	}
+	Line {
+	  Name			  "Wheel Angle4"
+	  Labels		  [0, 0]
+	  SrcBlock		  "Demux4"
+	  SrcPort		  3
+	  DstBlock		  "VR Signal Expander12"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "VR Signal Expander5"
+	  SrcPort		  1
+	  DstBlock		  "Vehicle_pos"
+	  DstPort		  1
+	}
+	Line {
+	  Name			  "Wheel Forces1"
+	  Labels		  [0, 0]
+	  SrcBlock		  "Demux3"
+	  SrcPort		  4
+	  Points		  [210, 0; 0, -370]
+	  DstBlock		  "Product"
+	  DstPort		  2
+	}
+	Line {
+	  Name			  "Wheel Forces2"
+	  Labels		  [0, 0]
+	  SrcBlock		  "Demux1"
+	  SrcPort		  4
+	  Points		  [215, 0; 0, -535]
+	  DstBlock		  "Product1"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Product"
+	  SrcPort		  1
+	  DstBlock		  "VR Signal Expander15"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Product1"
+	  SrcPort		  1
+	  DstBlock		  "VR Signal Expander16"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Product2"
+	  SrcPort		  1
+	  DstBlock		  "VR Signal Expander17"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Product3"
+	  SrcPort		  1
+	  DstBlock		  "VR Signal Expander18"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "VR Signal Expander6"
+	  SrcPort		  1
+	  DstBlock		  "Vehicle_rot"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "VR Signal Expander15"
+	  SrcPort		  1
+	  DstBlock		  "Forces1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "VR Signal Expander16"
+	  SrcPort		  1
+	  DstBlock		  "Forces2"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "VR Signal Expander17"
+	  SrcPort		  1
+	  DstBlock		  "Forces3"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "VR Signal Expander18"
+	  SrcPort		  1
+	  DstBlock		  "Forces4"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "VR Signal Expander"
+	  SrcPort		  1
+	  DstBlock		  "Steering_angle"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "VR Signal Expander11"
+	  SrcPort		  1
+	  DstBlock		  "Wheel1_rot"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "In1"
+	  SrcPort		  1
+	  Points		  [5, 0]
+	  DstBlock		  "Demux"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "VR Signal Expander7"
+	  SrcPort		  1
+	  DstBlock		  "Wheel1_pos"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "VR Signal Expander1"
+	  SrcPort		  1
+	  DstBlock		  "Wheel1_spin"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "VR Signal Expander3"
+	  SrcPort		  1
+	  DstBlock		  "Wheel2_rot"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "VR Signal Expander4"
+	  SrcPort		  1
+	  DstBlock		  "Wheel2_pos"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "VR Signal Expander2"
+	  SrcPort		  1
+	  DstBlock		  "Wheel2_spin"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "VR Signal Expander9"
+	  SrcPort		  1
+	  DstBlock		  "Wheel3_rot"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "VR Signal Expander10"
+	  SrcPort		  1
+	  DstBlock		  "Wheel3_pos"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "VR Signal Expander8"
+	  SrcPort		  1
+	  DstBlock		  "Wheel3_spin"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "VR Signal Expander13"
+	  SrcPort		  1
+	  DstBlock		  "Wheel4_rot"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "VR Signal Expander14"
+	  SrcPort		  1
+	  DstBlock		  "Wheel4_pos"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "VR Signal Expander12"
+	  SrcPort		  1
+	  DstBlock		  "Wheel4_spin"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  8
+	  Points		  [210, 0; 0, 105]
+	  DstBlock		  "Relay"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Relay"
+	  SrcPort		  1
+	  DstBlock		  "Brake_pedal"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  1
+	  Points		  [30, 0]
+	  DstBlock		  "Gain1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  2
+	  Points		  [55, 0]
+	  DstBlock		  "Rotation Matrix\nto VRML Rotation"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  3
+	  Points		  [80, 0]
+	  DstBlock		  "VR Signal Expander"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  4
+	  Points		  [240, 0; 0, -240]
+	  DstBlock		  "Demux3"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  5
+	  Points		  [270, 0]
+	  DstBlock		  "Demux1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  6
+	  Points		  [230, 0; 0, -20]
+	  DstBlock		  "Demux2"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  7
+	  Points		  [220, 0; 0, 95]
+	  DstBlock		  "Demux4"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Forces Visualization Scaling\n[Longitudal Lateral Normal]"
+	  SrcPort		  1
+	  Points		  [20, 0]
+	  Branch {
+	    DstBlock		    "Product"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, 50]
+	    Branch {
+	      DstBlock		      "Product1"
+	      DstPort		      1
+	    }
+	    Branch {
+	      Points		      [0, 0; 0, 50]
+	      Branch {
+		DstBlock		"Product2"
+		DstPort			1
+	      }
+	      Branch {
+		Points			[0, 50]
+		DstBlock		"Product3"
+		DstPort			1
+	      }
+	    }
+	  }
+	}
+	Line {
+	  SrcBlock		  "Rotation Matrix\nto VRML Rotation1"
+	  SrcPort		  1
+	  DstBlock		  "Gain6"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Visible"
+	  SrcPort		  1
+	  Points		  [20, 0; 0, 10]
+	  DstBlock		  "Forces Visibility \nSwitch"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Invisible"
+	  SrcPort		  1
+	  Points		  [20, 0; 0, -10]
+	  DstBlock		  "Forces Visibility \nSwitch"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Forces Visibility \nSwitch"
+	  SrcPort		  1
+	  DstBlock		  "Forces_OnOff"
+	  DstPort		  1
+	}
+	Annotation {
+	  Name			  "Steering angle"
+	  Position		  [126, 533]
+	}
+	Annotation {
+	  Name			  "FL Wheel"
+	  Position		  [126, 640]
+	}
+	Annotation {
+	  Name			  "FR Wheel"
+	  Position		  [119, 747]
+	}
+	Annotation {
+	  Name			  "RL Wheel"
+	  Position		  [124, 860]
+	}
+	Annotation {
+	  Name			  "RR Wheel"
+	  Position		  [125, 957]
+	}
+	Annotation {
+	  Name			  "Brake Pedal"
+	  Position		  [127, 1060]
+	}
+	Annotation {
+	  Name			  "Pos"
+	  Position		  [100, 322]
+	}
+	Annotation {
+	  Name			  "Rot"
+	  Position		  [104, 428]
+	}
+      }
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "Froggy Yellow"
+      SID		      "90"
+      Position		      [270, 395, 355, 415]
+      Value		      "[0.88 0.95 0.0]"
+    }
+    Block {
+      BlockType		      FromWorkspace
+      Name		      "Lane Change\nESP On"
+      SID		      "164"
+      Position		      [40, 558, 105, 582]
+      VariableName	      "esp_on"
+      SampleTime	      "0.04"
+      OutputAfterFinalValue   "Holding final value"
+    }
+    Block {
+      BlockType		      FromWorkspace
+      Name		      "Lane Change \nESP Off "
+      SID		      "73"
+      Position		      [40, 228, 105, 252]
+      VariableName	      "esp_off"
+      SampleTime	      "0.04"
+      OutputAfterFinalValue   "Holding final value"
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "Shiny Magenta"
+      SID		      "162"
+      Position		      [530, 726, 615, 744]
+      Value		      "[0.88 0.15 0.9]"
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "VR Visualization"
+      SID		      "72"
+      Ports		      [45]
+      Position		      [690, 74, 885, 766]
+      InstantiateOnLoad	      on
+      LibraryVersion	      "1.241"
+      SourceBlock	      "vrlib/VR Sink"
+      SourceType	      "Virtual Reality Sink"
+      SampleTime	      "0.08"
+      ViewEnable	      on
+      RemoteChange	      off
+      RemoteView	      on
+      FieldsWritten	      "Car_1.Car_Position.3.1.1.double#Car_1.Car_Rotation.4.1.1.double#Car_1.WheelFL_Rotation.4.1."
+      "1.double#Car_1.WheelFL_Translation.3.1.1.double#Car_1.WheelFL_Spin_Rotation.4.1.1.double#Car_1.WheelFR_Rotation."
+      "4.1.1.double#Car_1.WheelFR_Translation.3.1.1.double#Car_1.WheelFR_Spin_Rotation.4.1.1.double#Car_1.WheelRL_Rotat"
+      "ion.4.1.1.double#Car_1.WheelRL_Translation.3.1.1.double#Car_1.WheelRL_Spin_Rotation.4.1.1.double#Car_1.WheelRR_R"
+      "otation.4.1.1.double#Car_1.WheelRR_Translation.3.1.1.double#Car_1.WheelRR_Spin_Rotation.4.1.1.double#Car_1.Steer"
+      "ingWheel1_Rotation.4.1.1.double#Car_1.Backlights_Switch.1.1.1.double#Car_1.Forces_Switch.1.1.1.double#Car_1.Forc"
+      "e1_Scale.3.1.1.double#Car_1.Force2_Scale.3.1.1.double#Car_1.Force3_Scale.3.1.1.double#Car_1.Force4_Scale.3.1.1.d"
+      "ouble#Car_1.Car_DiffuseColor.3.1.1.double#Car_2.Car_Position.3.1.1.double#Car_2.Car_Rotation.4.1.1.double#Car_2."
+      "WheelFL_Rotation.4.1.1.double#Car_2.WheelFL_Translation.3.1.1.double#Car_2.WheelFL_Spin_Rotation.4.1.1.double#Ca"
+      "r_2.WheelFR_Rotation.4.1.1.double#Car_2.WheelFR_Translation.3.1.1.double#Car_2.WheelFR_Spin_Rotation.4.1.1.doubl"
+      "e#Car_2.WheelRL_Rotation.4.1.1.double#Car_2.WheelRL_Translation.3.1.1.double#Car_2.WheelRL_Spin_Rotation.4.1.1.d"
+      "ouble#Car_2.WheelRR_Rotation.4.1.1.double#Car_2.WheelRR_Translation.3.1.1.double#Car_2.WheelRR_Spin_Rotation.4.1"
+      ".1.double#Car_2.SteeringWheel1_Rotation.4.1.1.double#Car_2.Backlights_Switch.1.1.1.double#Car_2.Forces_Switch.1."
+      "1.1.double#Car_2.Force1_Scale.3.1.1.double#Car_2.Force2_Scale.3.1.1.double#Car_2.Force3_Scale.3.1.1.double#Car_2"
+      ".Force4_Scale.3.1.1.double#Car_2.Car_DiffuseColor.3.1.1.double#Car_2.Body_Scale.3.1.1.double"
+      WorldFileName	      "octavia_scene_lchg_2cars.wrl"
+      WorldDescription	      "Vehicle Dynamics Visualization - Multiple Vehicles"
+      AutoView		      on
+      VideoDimensions	      "[]"
+      FigureProperties	      "{'Position', 'Name', 'Viewpoint', 'CameraBound', 'CameraDirection', 'CameraPosition', 'C"
+      "ameraUpVector', 'ZoomFactor', 'Antialiasing', 'Headlight', 'Lighting', 'NavPanel', 'StatusBar', 'ToolBar', 'Text"
+      "ures', 'Transparency', 'Wireframe', 'NavZones', 'NavMode', 'NavSpeed', 'Record2DCompressMethod', 'Record2DCompre"
+      "ssQuality', 'Record2D', 'Record2DFileName', 'Record2DFPS'; [3.0000000000000000e+001  8.5000000000000000e+001  5."
+      "7600000000000000e+002  3.8000000000000000e+002], 'Vehicle Dynamics Visualization - Multiple Vehicles', 'Car - Vi"
+      "ew from Right Above Ahead', 'on', [0.0000000000000000e+000  0.0000000000000000e+000 -1.0000000000000000e+000], ["
+      "0.0000000000000000e+000  0.0000000000000000e+000  0.0000000000000000e+000], [0.0000000000000000e+000  1.00000000"
+      "00000000e+000  0.0000000000000000e+000], [1.0000000000000000e+000], 'on', 'off', 'on', 'halfbar', 'on', 'on', 'o"
+      "n', 'on', 'off', 'off', 'walk', 'normal', 'auto', [7.5000000000000000e+001], 'off', '%f_anim_%n.avi', [1.5000000"
+      "000000000e+001]} "
+    }
+    Line {
+      SrcBlock		      "Lane Change \nESP Off "
+      SrcPort		      1
+      DstBlock		      "Coordinate Transformations\nCar1"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Lane Change\nESP On"
+      SrcPort		      1
+      DstBlock		      "Coordinate Transformations \nCar2"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Coordinate Transformations \nCar2"
+      SrcPort		      1
+      DstBlock		      "VR Visualization"
+      DstPort		      23
+    }
+    Line {
+      SrcBlock		      "Coordinate Transformations \nCar2"
+      SrcPort		      2
+      DstBlock		      "VR Visualization"
+      DstPort		      24
+    }
+    Line {
+      SrcBlock		      "Coordinate Transformations \nCar2"
+      SrcPort		      3
+      DstBlock		      "VR Visualization"
+      DstPort		      25
+    }
+    Line {
+      SrcBlock		      "Coordinate Transformations \nCar2"
+      SrcPort		      4
+      DstBlock		      "VR Visualization"
+      DstPort		      26
+    }
+    Line {
+      SrcBlock		      "Coordinate Transformations \nCar2"
+      SrcPort		      5
+      DstBlock		      "VR Visualization"
+      DstPort		      27
+    }
+    Line {
+      SrcBlock		      "Coordinate Transformations \nCar2"
+      SrcPort		      6
+      DstBlock		      "VR Visualization"
+      DstPort		      28
+    }
+    Line {
+      SrcBlock		      "Coordinate Transformations \nCar2"
+      SrcPort		      7
+      DstBlock		      "VR Visualization"
+      DstPort		      29
+    }
+    Line {
+      SrcBlock		      "Coordinate Transformations \nCar2"
+      SrcPort		      8
+      DstBlock		      "VR Visualization"
+      DstPort		      30
+    }
+    Line {
+      SrcBlock		      "Coordinate Transformations \nCar2"
+      SrcPort		      9
+      DstBlock		      "VR Visualization"
+      DstPort		      31
+    }
+    Line {
+      SrcBlock		      "Coordinate Transformations \nCar2"
+      SrcPort		      11
+      DstBlock		      "VR Visualization"
+      DstPort		      33
+    }
+    Line {
+      SrcBlock		      "Coordinate Transformations \nCar2"
+      SrcPort		      12
+      DstBlock		      "VR Visualization"
+      DstPort		      34
+    }
+    Line {
+      SrcBlock		      "Coordinate Transformations \nCar2"
+      SrcPort		      13
+      DstBlock		      "VR Visualization"
+      DstPort		      35
+    }
+    Line {
+      SrcBlock		      "Coordinate Transformations \nCar2"
+      SrcPort		      14
+      DstBlock		      "VR Visualization"
+      DstPort		      36
+    }
+    Line {
+      SrcBlock		      "Coordinate Transformations \nCar2"
+      SrcPort		      15
+      DstBlock		      "VR Visualization"
+      DstPort		      37
+    }
+    Line {
+      SrcBlock		      "Coordinate Transformations \nCar2"
+      SrcPort		      16
+      DstBlock		      "VR Visualization"
+      DstPort		      38
+    }
+    Line {
+      SrcBlock		      "Coordinate Transformations \nCar2"
+      SrcPort		      17
+      DstBlock		      "VR Visualization"
+      DstPort		      39
+    }
+    Line {
+      SrcBlock		      "Coordinate Transformations \nCar2"
+      SrcPort		      18
+      DstBlock		      "VR Visualization"
+      DstPort		      40
+    }
+    Line {
+      SrcBlock		      "Coordinate Transformations \nCar2"
+      SrcPort		      19
+      DstBlock		      "VR Visualization"
+      DstPort		      41
+    }
+    Line {
+      SrcBlock		      "Coordinate Transformations \nCar2"
+      SrcPort		      21
+      DstBlock		      "VR Visualization"
+      DstPort		      43
+    }
+    Line {
+      SrcBlock		      "Shiny Magenta"
+      SrcPort		      1
+      DstBlock		      "VR Visualization"
+      DstPort		      44
+    }
+    Line {
+      SrcBlock		      "Coordinate Transformations\nCar1"
+      SrcPort		      1
+      DstBlock		      "VR Visualization"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Coordinate Transformations\nCar1"
+      SrcPort		      2
+      DstBlock		      "VR Visualization"
+      DstPort		      2
+    }
+    Line {
+      SrcBlock		      "Coordinate Transformations\nCar1"
+      SrcPort		      3
+      DstBlock		      "VR Visualization"
+      DstPort		      3
+    }
+    Line {
+      SrcBlock		      "Coordinate Transformations\nCar1"
+      SrcPort		      4
+      DstBlock		      "VR Visualization"
+      DstPort		      4
+    }
+    Line {
+      SrcBlock		      "Coordinate Transformations\nCar1"
+      SrcPort		      5
+      DstBlock		      "VR Visualization"
+      DstPort		      5
+    }
+    Line {
+      SrcBlock		      "Coordinate Transformations\nCar1"
+      SrcPort		      6
+      DstBlock		      "VR Visualization"
+      DstPort		      6
+    }
+    Line {
+      SrcBlock		      "Coordinate Transformations\nCar1"
+      SrcPort		      7
+      DstBlock		      "VR Visualization"
+      DstPort		      7
+    }
+    Line {
+      SrcBlock		      "Coordinate Transformations\nCar1"
+      SrcPort		      8
+      DstBlock		      "VR Visualization"
+      DstPort		      8
+    }
+    Line {
+      SrcBlock		      "Coordinate Transformations\nCar1"
+      SrcPort		      9
+      DstBlock		      "VR Visualization"
+      DstPort		      9
+    }
+    Line {
+      SrcBlock		      "Coordinate Transformations\nCar1"
+      SrcPort		      10
+      DstBlock		      "VR Visualization"
+      DstPort		      10
+    }
+    Line {
+      SrcBlock		      "Coordinate Transformations\nCar1"
+      SrcPort		      11
+      DstBlock		      "VR Visualization"
+      DstPort		      11
+    }
+    Line {
+      SrcBlock		      "Coordinate Transformations\nCar1"
+      SrcPort		      12
+      DstBlock		      "VR Visualization"
+      DstPort		      12
+    }
+    Line {
+      SrcBlock		      "Coordinate Transformations\nCar1"
+      SrcPort		      13
+      DstBlock		      "VR Visualization"
+      DstPort		      13
+    }
+    Line {
+      SrcBlock		      "Coordinate Transformations\nCar1"
+      SrcPort		      14
+      DstBlock		      "VR Visualization"
+      DstPort		      14
+    }
+    Line {
+      SrcBlock		      "Coordinate Transformations\nCar1"
+      SrcPort		      15
+      DstBlock		      "VR Visualization"
+      DstPort		      15
+    }
+    Line {
+      SrcBlock		      "Coordinate Transformations\nCar1"
+      SrcPort		      16
+      DstBlock		      "VR Visualization"
+      DstPort		      16
+    }
+    Line {
+      SrcBlock		      "Coordinate Transformations\nCar1"
+      SrcPort		      17
+      DstBlock		      "VR Visualization"
+      DstPort		      17
+    }
+    Line {
+      SrcBlock		      "Coordinate Transformations\nCar1"
+      SrcPort		      18
+      DstBlock		      "VR Visualization"
+      DstPort		      18
+    }
+    Line {
+      SrcBlock		      "Coordinate Transformations\nCar1"
+      SrcPort		      19
+      DstBlock		      "VR Visualization"
+      DstPort		      19
+    }
+    Line {
+      SrcBlock		      "Coordinate Transformations\nCar1"
+      SrcPort		      20
+      DstBlock		      "VR Visualization"
+      DstPort		      20
+    }
+    Line {
+      SrcBlock		      "Coordinate Transformations\nCar1"
+      SrcPort		      21
+      DstBlock		      "VR Visualization"
+      DstPort		      21
+    }
+    Line {
+      SrcBlock		      "Froggy Yellow"
+      SrcPort		      1
+      DstBlock		      "VR Visualization"
+      DstPort		      22
+    }
+    Line {
+      SrcBlock		      "Coordinate Transformations \nCar2"
+      SrcPort		      10
+      DstBlock		      "VR Visualization"
+      DstPort		      32
+    }
+    Line {
+      SrcBlock		      "Coordinate Transformations \nCar2"
+      SrcPort		      20
+      DstBlock		      "VR Visualization"
+      DstPort		      42
+    }
+    Line {
+      SrcBlock		      "Car body scale"
+      SrcPort		      1
+      Points		      [25, 0; 0, -25]
+      DstBlock		      "VR Visualization"
+      DstPort		      45
+    }
+    Annotation {
+      Name		      "Vehicle Dynamics Visualization\n- Simulation of Multiple Objects"
+      Position		      [471, 42]
+      FontName		      "Arial"
+      FontSize		      16
+      FontWeight	      "bold"
+    }
+    Annotation {
+      Name		      "Copyright 1998-2010 HUMUSOFT s.r.o. and The MathWorks, Inc."
+      Position		      [186, 773]
+    }
+  }
+}

@@ -111,7 +111,10 @@ for t = 1 : simulation_time
     x                                       = A*x + B*u;
     
     % estimate the state using Imhotep-SMT
+    tt_start                                = tic;
     [xhat, bhat]                            = smt.addInputsOutputs(u, y);
+    tt_elapsed                              = toc(tt_start)
+    
     state_error_ImhotepSMT(t)               = norm(xhat - x);
     
     % estimate the state using Least squares

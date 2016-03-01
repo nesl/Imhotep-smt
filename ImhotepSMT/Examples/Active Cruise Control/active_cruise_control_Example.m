@@ -81,7 +81,7 @@ Q = [500 0; 0 1];           R   = eye(1);
 
 
 %% prepare the 3D model
-world                           = vrworld('ugv_vr2.wrl');
+world                           = vrworld('octavia_scene_lchg_2cars.wrl');
 open(world);
 
 if(exist('fig') == 0)
@@ -89,12 +89,12 @@ if(exist('fig') == 0)
 end
 vrdrawnow;
 
-car                             = vrnode(world, 'Automobile2');
-carCordInit                     = [13,0.5,-11];
+car                             = vrnode(world, 'Car_1');
+carCordInit                     = car.Car_Position;
 
-car_SMT                         = vrnode(world, 'Automobile');
+car_SMT                         = vrnode(world, 'Car_2');
 
-camera                          = vrnode(world, 'View1');
+camera                          = vrnode(world, 'FlyingCamera');
 cameraCordInit                  = [2.4, 10.2, 25.8] - [-7.5, 0, 20];
 diffCamera                      = cameraCordInit - carCordInit;
 
@@ -106,8 +106,8 @@ if(exist('fig2') == 0)
 end
 
 
-car2                            = vrnode(world2, 'Automobile2');
-car_noSMT                       = vrnode(world2, 'Automobile');
+car2                            = vrnode(world2, 'Vehicle_system_Car1');
+car_noSMT                       = vrnode(world2, 'Vehicle_system_Car2');
 
 camera2                         = vrnode(world2, 'View1');
 camera2CordInit                 = cameraCordInit;
@@ -186,17 +186,20 @@ while(end_sim == 0)
     %========== Leader Car ==========
     state(1) = mod(state(1),points(4));
     if(state(1) <= points(1))
-        car.translation         = carCordInit + [0 0 state(1)];
-        car.rotation            = [0, 1, 0, angles(1)];
+        car.Car_Position        = carCordInit + [0 0 state(1)];
+        car.Car_Rotation            = [0, 1, 0, angles(1)];
         
-        car2.translation        = car.translation;
-        car2.rotation           = car.rotation;
+        car2.translation        = car.Car_Position;
+        car2.rotation           = car.Car_Rotation;
         
         Fx                      = K_lqr  *([points(1); 5] - state);
         phase                   = 1;
     elseif(state(1) <= points(2))
-        car.translation         = carCordInit + [0 0 points(1)] - [state(1) - points(1) 0 0];
-        car.rotation            = [0, 1, 0, angles(2)];
+        %car.translation         = carCordInit + [0 0 points(1)] - [state(1) - points(1) 0 0];
+        %car.rotation            = [0, 1, 0, angles(2)];
+        
+        car.Car_Position        = carCordInit + [0 0 points(1)] - [state(1) - points(1) 0 0];
+        car.Car_Rotation        = [0, 1, 0, angles(2)];
         
         car2.translation        = car.translation;
         car2.rotation           = car.rotation;
@@ -230,8 +233,8 @@ while(end_sim == 0)
     state_SMT(1)                = mod(state_SMT(1),points(4));
     xhat_SMT(1)                 = mod(xhat_SMT(1),points(4));
     if(state_SMT(1) <= points(1))
-        car_SMT.translation     = carCordInit + [0 0 state_SMT(1)];
-        car_SMT.rotation        = [0, 1, 0, angles(1)];
+        car_SMT.Car_Position     = carCordInit + [0 0 state_SMT(1)];
+        car_SMT.Car_Rotation        = [0, 1, 0, angles(1)];
         
         error                   = state - [initShift;0] - xhat_SMT;
         Fx_SMT                  = K_lqr  *error;
@@ -329,7 +332,7 @@ while(end_sim == 0)
     end
     
     %======== Update the Scene ==========
-    camera.position             = car.translation + diffCamera;
+    camera.position             = car.Car_Position + diffCamera;
     camera2.position            = car2.translation + diffCamera2;
     vrdrawnow;
     

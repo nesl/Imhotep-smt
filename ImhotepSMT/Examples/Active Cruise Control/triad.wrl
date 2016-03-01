@@ -1,0 +1,32 @@
+#VRML V2.0 utf8
+
+# VRML Triad
+# $Revision: 1.1.6.2 $ $Date: 2009/04/13 16:49:23 $ $Author: batserve $
+# "Copyright 1998-2009 HUMUSOFT s.r.o. and The MathWorks, Inc."
+
+WorldInfo {
+ title "VRML Triad"
+}
+
+DEF Triad Transform {
+ children [
+  DEF Triad_Shape Shape {
+   geometry DEF Triad_Geometry IndexedLineSet {
+    color Color {
+     color [1 0 0,
+      0 1 0,
+      0 0 1]
+    }
+    coord Coordinate {
+     point [ 0 0 0,
+      1 0 0,
+      0 1 0,
+      0 0 1 ]
+    }
+    colorPerVertex FALSE
+    coordIndex [ 0, 1, -1, 0, 2, -1, 0, 3, -1]
+    colorIndex [0, 1, 2]
+   }
+  }
+ ]
+}

@@ -30,6 +30,8 @@
 %  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT
 %  * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 %  * SUCH DAMAGE.
+%  *
+%  * Developed by: Yasser Shoukry
 %  */
 
 classdef ImhotepSMT  < handle
@@ -106,6 +108,7 @@ classdef ImhotepSMT  < handle
                 return;
             end
             
+            obj.isLinear        = 1;
             %1) Check the type of the first argument
             if(isa(sys,'ss') == 0)
                 disp(['ERROR: First argument of init() is not of type "ss".' char(13) 
@@ -211,6 +214,115 @@ classdef ImhotepSMT  < handle
             obj.initialized                 = 1;
         end
         %------------------------
+        function status = initNonLinearSolver(obj, nlsys, maxNumberOfAttackedSensors, safeSensors, noiseBound)
+            if(obj.initialized == 1)
+                disp('WARNING: Solver is already initialized. Ignoring this method call!')
+                status = 1;
+                return;
+            end
+            
+            obj.isLinear        = 2;
+            %1) Check the type of the first argument
+            if(isa(nlsys,'nlsys') == 0)
+                disp(['ERROR: First argument of init() is not of type "nlsys".' char(13) 
+                'Please specify the dynamics of your system properly']);
+                status = -1;
+                obj.initialized = -1;
+                return; 
+            end
+            if(isinteger(maxNumberOfAttackedSensors) == 0)
+                disp('ERROR: Second argument of initNonLinearSolver() must be of integer type')
+                status = -1;
+                obj.initialized = -1;
+                return; 
+            end
+            
+            %2) Copy the system specification and extract the dimensions
+            obj.sys                     = nlsys;
+            obj.n                       = nlsys.n; 
+            obj.p                       = nlsys.p; 
+            obj.m                       = nlsys.m;
+            obj.s                       = double(maxNumberOfAttackedSensors); 
+            obj.tau                     = nlsys.tau;
+            obj.bufferCounter           = 0;
+            if(obj.s > 0)
+                obj.maxIterations       = 2*nchoosek(obj.p, obj.p-2*obj.s+1) + 1;
+            end
+            for inputCounter = 1 : obj.m
+                obj.U{inputCounter}     = zeros(obj.tau,1);
+            end
+            
+            
+            
+            %3) Check that the second argument has the correct dimensions
+            %and all its components are positive
+            if(size(noiseBound,2) > size(noiseBound,1))
+                noiseBound              = noiseBound';
+            end
+            if(sum(size(noiseBound) ~= [obj.p,1]) > 0)
+                disp(['ERROR: The noise bound vector must be ' num2str(obj.p) 'x 1']);
+                status                  = -1;
+                obj.initialized         = -1;
+                return;
+            else
+                for sensorIndex = 1 : obj.p
+                    if(noiseBound(sensorIndex) < 0)
+                        disp(['ERROR: Noise bound for sensor#' num2str(sensorIndex) ' must be positive number.']);
+                        status          = -1;
+                        obj.initialized = -1;
+                        return;                
+                    end
+                    obj.noiseBound(sensorIndex) = noiseBound(sensorIndex);
+                end 
+            end
+            
+            %4) Check that the set of safe sensors are all less than obj.p
+            if(max(safeSensors) > obj.p)
+                disp(['ERROR: Largest index of safe sensors must be less than ' num2str(obj.p) '.']);
+                status = -1;
+                obj.initialized = -1;
+                return;  
+            end
+            obj.safeSensors             = safeSensors;
+            
+            for counter = 1 : length(obj.safeSensors)
+                obj.markSensorAsSafe(obj.safeSensors(counter));
+            end
+            
+            %5) Calculate the observability matrix along with the
+            %dimension of the null space.
+            for sensorIndex = 1 : obj.p
+                obj.Y{sensorIndex}          = zeros(obj.tau,1);
+                obj.dimNull(sensorIndex)    = 1;    % dummy number to skip the ordering based on the kernel
+                obj.O{sensorIndex}          = 0;    % dummy number
+            end
+            
+            %6) Analyze the structure of the system and check the upper
+            %bound on the "maximum number of attacked sensors"
+%             status                          = obj.analyzeSystemStructure();
+%             if(status == -1)
+%                 return;
+%             end
+            
+            %7) Initalize the SAT solver
+            obj.mumberOfTheoryCalls         = 0;
+            numberOfBooleanVariables        = obj.p;
+            numberOfConvexConstraints       = obj.p;
+            
+            obj.agreeableClauses            = {};
+            obj.conflictClauses             = {};
+            
+            numberOfVariables               = numberOfBooleanVariables + numberOfConvexConstraints;
+            numberOfConstraints             = numberOfConvexConstraints + 1 + length(obj.conflictClauses);
+
+            obj.SATsolver                   = org.sat4j.pb.SolverFactory.newLight();
+            obj.SATsolver.newVar(numberOfVariables);
+            obj.SATsolver.setExpectedNumberOfClauses(numberOfConstraints);
+            
+            %8) All initializations are going well
+            obj.initialized                 = 1;
+        end
+        %------------------------
         function status = checkObservabilityCondition(obj)
             obj.o_bar = 0;
             
@@ -287,7 +399,8 @@ classdef ImhotepSMT  < handle
             maxEstimationError = obj.maxEstimationError;
         end
         %------------------------
-        function [xhat, sensorsUnderAttack ]= addInputsOutputs(obj, inputs, measurments)
+        function [xhat, sensorsUnderAttack, status ]= addInputsOutputs(obj, inputs, measurments)
+            status = -1; 
             xhat = zeros(obj.n,1);
             sensorsUnderAttack = [];
             
@@ -299,24 +412,46 @@ classdef ImhotepSMT  < handle
                 disp(['ERROR: Check dimension of the measurments vector (Y). Measurments vector (Y) must be a (' num2str(obj.p) 'x1) vector'])
                 return;
             end
+%             
+%             for inputCounter = 1 : obj.m
+%                 UU                                  = obj.U(inputCounter);
+%                 obj.U(inputCounter)                 = [UU(2:end); inputs(inputCounter)];
+%             end
+            %TBD
+            obj.U                   = [obj.U(obj.m+1:end); inputs];
             
-            obj.U                                 = [obj.U(obj.m+1:end); inputs];
-            
-            for sensorIndex = 1 : obj.p
-                YY                                = obj.Y_tilde{sensorIndex};
-                obj.Y_tilde{sensorIndex}          = [YY(2:end); measurments(sensorIndex)];
-                obj.Y{sensorIndex}                = obj.Y_tilde{sensorIndex} - obj.F{sensorIndex}*obj.U;
+            if(obj.isLinear == 1)
+                for sensorIndex = 1 : obj.p
+                    YY                                = obj.Y_tilde{sensorIndex};
+                    obj.Y_tilde{sensorIndex}          = [YY(2:end); measurments(sensorIndex)];
+                    obj.Y{sensorIndex}                = obj.Y_tilde{sensorIndex} - obj.F{sensorIndex}*obj.U;
+                end
+            else
+                for sensorIndex = 1 : obj.p
+                    YY                                = obj.Y{sensorIndex};
+                    obj.Y{sensorIndex}                = [YY(2:end); measurments(sensorIndex)];
+                end
             end
+            
             
             if(obj.bufferCounter <= obj.tau)
                 obj.bufferCounter                 =   obj.bufferCounter + 1;
             end
             % Is the buffers full ?
             if(obj.bufferCounter >= obj.tau)
-                [xhat, sensorsUnderAttack ]         = obj.solve();
+                [xhat, sensorsUnderAttack, status ]         = obj.solve();
+                if(isempty(xhat) == 1)
+                    return;
+                end
                 % run the estimate forward in time
-                for counter = 1 : obj.tau
-                    xhat = obj.sys.A*xhat + obj.sys.B*obj.U((counter-1)*obj.m + 1: (counter-1)*obj.m  +obj.m);
+                if(obj.isLinear == 1)
+                    for counter = 1 : obj.tau
+                        xhat = obj.sys.A*xhat + obj.sys.B*obj.U((counter-1)*obj.m + 1: (counter-1)*obj.m  +obj.m);
+                    end
+                else
+%                     for counter = 1 : obj.tau
+%                         xhat = obj.sys.f(xhat, obj.U((counter-1)*obj.m + 1: (counter-1)*obj.m  +obj.m));
+%                     end
                 end
             end
         end
@@ -408,24 +543,42 @@ classdef ImhotepSMT  < handle
             obj.agreeableClauses{end+1} = sensorIndex;
         end
         %------------------------
-        function  [xhat, sensorsUnderAttack ] = solve(obj)
+        function  [xhat, sensorsUnderAttack, status ] = solve(obj)
+            status = 1;
             xhat = [];
             sensorsUnderAttack = [];
             
+            obj.agreeableClauses = {};
+            obj.conflictClauses  = {};
+            
+            for counter = 1 : length(obj.safeSensors)
+                obj.markSensorAsSafe(obj.safeSensors(counter));
+            end
+            
             if(obj.initialized == -1)
-                disp('ERROR: System properties are not well defined. TERMINATE');
+                disp('ERROR: Solver is NOT initialized.');
+                status = -1;
+                obj.flushBuffers();
                 return;
             end
             
             solved = 0;
-            obj.mumberOfTheoryCalls = 1;
+            obj.mumberOfTheoryCalls = 0;
             while solved == 0 || obj.mumberOfTheoryCalls >= obj.maxIterations
-                obj.writeConstriantsToSAT();
+                try
+                    obj.writeConstriantsToSAT();
+                catch e
+                    disp('ERROR: Something went wrong .. Flush the buffers');
+                    status = -1;
+                    obj.flushBuffers();
+                    return;
+                end
                 obj.mumberOfTheoryCalls    = obj.mumberOfTheoryCalls + 1;
                 
                 % Get the boolean assignment
                 status = obj.SATsolver.isSatisfiable();
                 if(status == 0)
+                    status = -1;
                     disp('ERROR: System is UNSAT. Check the system parameters and measurements.');
                     return
                 end
@@ -439,16 +592,53 @@ classdef ImhotepSMT  < handle
                     Y_active = [Y_active; obj.Y{constraints(counter)}];
                     O_active = [O_active; obj.O{constraints(counter)}];
                 end
-                % Formalize the Convex optimization problem
-                %xhat = linsolve(O_active,Y_active);
-                xhat = O_active\Y_active;
+                
                 
                 % Calculate the individual slack vriables
                 slack = zeros(1,obj.p);
-                for counter = 1 : length(constraints)
-                    slack(constraints(counter)) = norm(obj.Y{constraints(counter)} - obj.O{constraints(counter)}*xhat);
-                end
+                if(obj.isLinear == 1)
+                    % Formalize the Convex optimization problem
+                    %xhat = linsolve(O_active,Y_active);
+                    xhat = O_active\Y_active;
+                    for counter = 1 : length(constraints)
+                        slack(constraints(counter)) = norm(obj.Y{constraints(counter)} - obj.O{constraints(counter)}*xhat);
+                    end
+                else
+                    % Use the specified observer
+                    [xhat, obsevStatus]     = obj.sys.observer(constraints, obj.Y, obj.U);
+                    % for nonlinear systems, we compare the last
+                    % output only not the whole vector
+                    Y_active= [];
+                    for sensorCounter = 1 : length(constraints)
+                        yy       = obj.Y{constraints(sensorCounter)};
+                        Y_active = [Y_active; yy(end)];
+                    end
 
+                    if(obsevStatus == 1)
+                        y_hat   = obj.sys.h(xhat);
+                        Y_hat   = y_hat(constraints);
+                    else
+                        Y_hat = Y_active; %hack to bypass the check below
+                    end
+                        
+                        
+                    for counter = 1 : length(constraints)
+%                         Y_hat   = [];
+%                         xx      = xhat;
+% %                        for timeCounter = 1 : obj.tau
+%                         y_hat   = obj.sys.h(xx);
+%                         Y_hat   = [Y_hat; y_hat(constraints(counter))];
+%                         Y_active= obj.Y{constraints(counter)};
+% %                            xx      = obj.sys.f(xx, obj.U(obj.m*(timeCounter-1)+1:obj.m*timeCounter));
+% %                        end
+                        slack(constraints(counter)) = norm(Y_active(counter) - Y_hat(counter));
+                    end
+                end
+                
+                % Uncomment for debugging
+                %constraints'
+                %slack
+                
                 % Check if the convex constraints are SAT
                 if sum(slack) <= obj.tolerance + sum(obj.noiseBound(constraints));
                     solved = 1;
@@ -487,13 +677,47 @@ classdef ImhotepSMT  < handle
                 % conflicts with the max slack.
                 Y_active = obj.Y{max_slack_index};
                 O_active = obj.O{max_slack_index};
+                Y_hat    = [];
+                sensorList  = [max_slack_index];
                 for counter = 1 : length(indexSortedLowSlackSensors)
                     sensor      = indexSortedLowSlackSensors(counter);
+                    sensorList  = [sensorList, sensor];
                     Y_active    = [Y_active;  obj.Y{sensor}];
                     O_active    = [O_active;  obj.O{sensor}];
-                    %xhat        = linsolve(O_active,Y_active);
-                    xhat        = O_active\Y_active;
-                    if(norm(Y_active - O_active * xhat) > obj.tolerance + sum(obj.noiseBound(indexSortedLowSlackSensors(1:counter))) )
+                    
+                    if(obj.isLinear == 1)
+                        % Formalize the Convex optimization problem
+                        %xhat = linsolve(O_active,Y_active);
+                        xhat  = O_active\Y_active;
+                        Y_hat = O_active * xhat;
+                    else
+                        % Use the specified observer
+                        [xhat, obsevStatus]    = obj.sys.observer(sensorList, obj.Y, obj.U);
+                        if(obsevStatus == 1)
+                            y_hat   = obj.sys.h(xhat);
+                            Y_hat   = y_hat(sensorList);
+                            % for nonlinear systems, we compare the last
+                            % output only not the whole vector
+                            Y_active= [];
+                            for sensorCounter = 1 : length(sensorList)
+                                yy       = obj.Y{sensorList(sensorCounter)};
+                                Y_active = [Y_active; yy(end)];
+                            end
+                            
+%                             xx      = xhat;
+%                             
+%                             for timeCounter = 1 : obj.tau
+%                                 y_hat   = obj.sys.h(xx);
+%                                 Y_hat   = [Y_hat y_hat(sensorList)];
+%                                 xx      = obj.sys.f(xx, obj.U(obj.m*(timeCounter-1)+1:obj.m*timeCounter));
+%                             end
+%                             Y_hat       = reshape(Y_hat', length(sensorList)*obj.tau, 1);
+                        else
+                            Y_hat = Y_active; %hack to bypass the check below
+                        end
+                    end
+                
+                    if(norm(Y_active - Y_hat) > obj.tolerance + sum(obj.noiseBound(indexSortedLowSlackSensors(1:counter))) )
                         % Conflict discovered
                         conflicts = [max_slack_index, indexSortedLowSlackSensors(1:counter)'];
                         foundConflict = 1;
@@ -513,14 +737,47 @@ classdef ImhotepSMT  < handle
                 % start by lowest slack and go linearly until you find the
                 % longest set of agreeable constraints
                 if(obj.p > 3 * obj.s)
-                    Y_active = []; O_active = [];
+                    Y_active = []; O_active = []; Y_hat = [];
                     for counter = 1 : length(constraints)
-                        sensor = slackIndex(counter);
+                        sensor      = slackIndex(counter);
                         Y_active    = [Y_active;  obj.Y{sensor}];
                         O_active    = [O_active;  obj.O{sensor}];
-                        %xhat        = linsolve(O_active,Y_active);
-                        xhat        = O_active\Y_active;
-                        if(norm(Y_active - O_active * xhat) > obj.tolerance + sum(obj.noiseBound(slackIndex(1:counter))) )
+                        obsevStatus = 1;
+                        if(obj.isLinear == 1)
+                            % Formalize the Convex optimization problem
+                            %xhat = linsolve(O_active,Y_active);
+                            xhat = O_active\Y_active;
+                            Y_hat = O_active * xhat;
+                        else
+                            % Use the specified observer
+                            if(obsevStatus == 1)
+                                y_hat   = obj.sys.h(xhat);
+                                Y_hat   = y_hat(sensorList);
+                                % for nonlinear systems, we compare the last
+                                % output only not the whole vector
+                                Y_active= [];
+                                for sensorCounter = 1 : length(sensorList)
+                                    yy       = obj.Y{sensorList(sensorCounter)};
+                                    Y_active = [Y_active; yy(end)];
+                                end
+
+    %                             xx      = xhat;
+    %                             
+    %                             for timeCounter = 1 : obj.tau
+    %                                 y_hat   = obj.sys.h(xx);
+    %                                 Y_hat   = [Y_hat y_hat(sensorList)];
+    %                                 xx      = obj.sys.f(xx, obj.U(obj.m*(timeCounter-1)+1:obj.m*timeCounter));
+    %                             end
+    %                             Y_hat       = reshape(Y_hat', length(sensorList)*obj.tau, 1);
+                            else
+                                foundAgreeable = 0;
+                                break;
+                                %Y_hat = Y_active; %hack to bypass the check below
+                            end
+                        end
+                        
+                        
+                        if(norm(Y_active - Y_hat) > obj.tolerance + sum(obj.noiseBound(slackIndex(1:counter))) )
                             % Conflict discovered
                             if(counter > obj.p - 2*obj.s)
                                 agreeable = slackIndex(1:counter-1);
@@ -549,7 +806,7 @@ classdef ImhotepSMT  < handle
             % minimize b1 + b2 + ... bp
             % TODO
 
-            
+            obj.SATsolver.reset();
             % Add the constraint on the number of attacks does not exceed s
             % i.e., b1 + b2 + ... + bp  <= s
             literals = []; coeffs = [];
